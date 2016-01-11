@@ -222,7 +222,7 @@ name.
 $lines = linesOf('somefile.txt')
         ->filter(/* callable which filters */)
         ->map(/* callable which maps the line to other content */);
-foreach ($lines as $line {
+foreach ($lines as $line) {
     processLine($line);
 }
 ```
