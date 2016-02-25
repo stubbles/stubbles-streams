@@ -11,6 +11,7 @@ namespace stubbles\streams;
 use org\bovigo\vfs\vfsStream;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Helper class for the test.
@@ -65,51 +66,61 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function invalidHandleThrowsIllegalArgumentException()
     {
-        new TestResourceOutputStream('invalid');
+        expect(function() {
+                new TestResourceOutputStream('invalid');
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function writeToClosedStreamThrowsIllegalStateException()
     {
-        $this->resourceOutputStream->close();
-        $this->resourceOutputStream->write('foobarbaz');
+        expect(function() {
+                $this->resourceOutputStream->close();
+                $this->resourceOutputStream->write('foobarbaz');
+        })
+        ->throws(\LogicException::class);
     }
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function writeLineToClosedStreamThrowsIllegalStateException()
     {
-        $this->resourceOutputStream->close();
-        $this->resourceOutputStream->writeLine('foobarbaz');
+        expect(function() {
+                $this->resourceOutputStream->close();
+                $this->resourceOutputStream->writeLine('foobarbaz');
+        })
+        ->throws(\LogicException::class);
     }
 
     /**
      * @test
-     * @expectedException  stubbles\streams\StreamException
      */
     public function writeToExternalClosedStreamThrowsIOException()
     {
-        fclose($this->handle);
-        $this->resourceOutputStream->write('foobarbaz');
+        expect(function() {
+                fclose($this->handle);
+                $this->resourceOutputStream->write('foobarbaz');
+        })
+        ->throws(StreamException::class);
     }
 
     /**
      * @test
-     * @expectedException  stubbles\streams\StreamException
      */
     public function writeLineToExternalClosedStreamThrowsIOException()
     {
-        fclose($this->handle);
-        $this->resourceOutputStream->writeLine('foobarbaz');
+        expect(function() {
+                fclose($this->handle);
+                $this->resourceOutputStream->writeLine('foobarbaz');
+        })
+        ->throws(StreamException::class);
     }
 
     /**

@@ -9,10 +9,12 @@
  */
 namespace stubbles\streams\file;
 use org\bovigo\vfs\vfsStream;
+use stubbles\streams\StreamException;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function stubbles\lang\reflect\annotationsOfConstructor;
 /**
@@ -127,24 +129,28 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\streams\StreamException
      */
     public function createOutputStreamWithDirectoryOptionNotSetThrowsExceptionIfDirectoryDoesNotExist()
     {
         assertFalse(file_exists($this->fileUrl2));
-        $this->fileStreamFactory->createOutputStream($this->fileUrl2);
+        expect(function() {
+                $this->fileStreamFactory->createOutputStream($this->fileUrl2);
+        })
+        ->throws(StreamException::class);
     }
 
     /**
      * @test
-     * @expectedException  stubbles\streams\StreamException
      */
     public function createOutputStreamWithDirectoryOptionSetToFalseThrowsExceptionIfDirectoryDoesNotExist()
     {
-        $this->fileStreamFactory->createOutputStream(
-                $this->fileUrl2,
-                ['createDirIfNotExists' => false]
-        );
+        expect(function() {
+                $this->fileStreamFactory->createOutputStream(
+                        $this->fileUrl2,
+                        ['createDirIfNotExists' => false]
+                );
+        })
+        ->throws(StreamException::class);
     }
 
     /**

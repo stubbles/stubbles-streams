@@ -8,10 +8,12 @@
  * @package  stubbles\streams
  */
 namespace stubbles\streams\file;
-use stubbles\streams\Seekable;
 use org\bovigo\vfs\vfsStream;
+use stubbles\streams\Seekable;
+use stubbles\streams\StreamException;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\file\FileInputStream.
@@ -40,12 +42,14 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\streams\StreamException
-     * @expectedExceptionMessage  Can not open file doesNotExist with mode r: failed to open stream: No such file or directory
      */
     public function constructWithStringFailsAndThrowsIOException()
     {
-        new FileInputStream('doesNotExist', 'r');
+        expect(function() {
+                new FileInputStream('doesNotExist', 'r');
+        })
+        ->throws(StreamException::class)
+        ->withMessage('Can not open file doesNotExist with mode r: failed to open stream: No such file or directory');
     }
 
     /**
@@ -59,7 +63,6 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function constructWithIllegalResource()
     {
@@ -67,16 +70,21 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('No known extension with other resource type available.');
         }
 
-        new FileInputStream(imagecreate(2, 2));
+        expect(function() {
+                new FileInputStream(imagecreate(2, 2));
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function constructWithIllegalArgument()
     {
-        new FileInputStream(0);
+        expect(function() {
+                new FileInputStream(0);
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 
     /**
@@ -118,23 +126,27 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function seekOnClosedStreamFailsThrowsIllegalStateException()
     {
-        $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
-        $fileInputStream->close();
-        $fileInputStream->seek(3);
+        expect(function() {
+                $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
+                $fileInputStream->close();
+                $fileInputStream->seek(3);
+        })
+        ->throws(\LogicException::class);
     }
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function tellOnClosedStreamThrowsIllegalStateException()
     {
-        $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
-        $fileInputStream->close();
-        $fileInputStream->tell();
+        expect(function() {
+                $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
+                $fileInputStream->close();
+                $fileInputStream->tell();
+        })
+        ->throws(\LogicException::class);
     }
 }

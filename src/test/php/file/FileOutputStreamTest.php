@@ -9,10 +9,12 @@
  */
 namespace stubbles\streams\file;
 use org\bovigo\vfs\vfsStream;
+use stubbles\streams\StreamException;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\file\FileOutputStream.
@@ -82,13 +84,15 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  stubbles\streams\StreamException
-     * @expectedExceptionMessage  Can not open file vfs://home/test.txt with mode r: failed to open stream: "org\bovigo\vfs\vfsStreamWrapper::stream_open" call failed
      */
     public function constructWithStringFailsAndThrowsIOException()
     {
-        vfsStream::newFile('test.txt', 0000)->at(vfsStream::setup());
-        new FileOutputStream($this->fileUrl, 'r');
+        expect(function() {
+                vfsStream::newFile('test.txt', 0000)->at(vfsStream::setup());
+                new FileOutputStream($this->fileUrl, 'r');
+        })
+        ->throws(StreamException::class)
+        ->withMessage('Can not open file vfs://home/test.txt with mode r: failed to open stream: "org\bovigo\vfs\vfsStreamWrapper::stream_open" call failed');
     }
 
     /**
@@ -103,7 +107,6 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function constructWithIllegalResource()
     {
@@ -111,15 +114,20 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('No known extension with other resource type available.');
         }
 
-        new FileOutputStream(imagecreate(2, 2));
+        expect(function() {
+                new FileOutputStream(imagecreate(2, 2));
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function constructWithIllegalArgument()
     {
-        new FileOutputStream(0);
+        expect(function() {
+                new FileOutputStream(0);
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 }

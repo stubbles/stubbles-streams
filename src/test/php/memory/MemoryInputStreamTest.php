@@ -14,6 +14,7 @@ use function bovigo\assert\assert;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertNull;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\memory\MemoryInputStream.
@@ -235,10 +236,12 @@ class MemoryInputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function seekThrowsIllegalArgumentExceptionForInvalidWhence()
     {
-        $this->memoryInputStream->seek(6, 66);
+        expect(function() {
+                $this->memoryInputStream->seek(6, 66);
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 }

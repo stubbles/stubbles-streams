@@ -8,6 +8,7 @@
  * @package  stubbles\streams
  */
 namespace stubbles\streams;
+use function bovigo\assert\expect;
 /**
  * Test for stubbles\streams\StandardInputStream.
  *
@@ -31,12 +32,14 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function seekAfterCloseThrowsLogicException()
     {
-        $this->standardInputStream->close();
-        $this->standardInputStream->seek(0);
+        expect(function() {
+                $this->standardInputStream->close();
+                $this->standardInputStream->seek(0);
+        })
+        ->throws(\LogicException::class);
     }
 
     /**
@@ -44,7 +47,10 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function canSeekToStartOfStream()
     {
-        $this->standardInputStream->seek(0);
+        expect(function() {
+                $this->standardInputStream->seek(0);
+        })
+        ->doesNotThrow();
     }
 
     /**
@@ -52,16 +58,21 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function canSeekToAnyPosition()
     {
-        $this->standardInputStream->seek(100);
+        expect(function() {
+                $this->standardInputStream->seek(100);
+        })
+        ->doesNotThrow();
     }
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function tellAfterCloseThrowsLogicException()
     {
-        $this->standardInputStream->close();
-        $this->standardInputStream->tell();
+        expect(function() {
+                $this->standardInputStream->close();
+                $this->standardInputStream->tell();
+        })
+        ->throws(\LogicException::class);
     }
 }

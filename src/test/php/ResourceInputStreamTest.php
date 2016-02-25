@@ -14,6 +14,7 @@ use function bovigo\assert\assert;
 use function bovigo\assert\assertEmptyString;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
  * Helper class for the test.
@@ -66,11 +67,13 @@ jjj')
 
     /**
      * @test
-     * @expectedException  InvalidArgumentException
      */
     public function invalidHandleThrowsIllegalArgumentException()
     {
-        new TestResourceInputStream('invalid');
+        expect(function() {
+                new TestResourceInputStream('invalid');
+        })
+        ->throws(\InvalidArgumentException::class);
     }
 
     /**
@@ -151,61 +154,73 @@ jjj')
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function readAfterCloseFails()
     {
-        $this->resourceInputStream->close();
-        $this->resourceInputStream->read();
+        expect(function() {
+                $this->resourceInputStream->close();
+                $this->resourceInputStream->read();
+        })
+        ->throws(\LogicException::class);
     }
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function readLineAfterCloseFails()
     {
-        $this->resourceInputStream->close();
-        $this->resourceInputStream->readLine();
+        expect(function() {
+                $this->resourceInputStream->close();
+                $this->resourceInputStream->readLine();
+        })
+        ->throws(\LogicException::class);
     }
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function bytesLeftAfterCloseFails()
     {
-        $this->resourceInputStream->close();
-        $this->resourceInputStream->bytesLeft();
+        expect(function() {
+                $this->resourceInputStream->close();
+                $this->resourceInputStream->bytesLeft();
+        })
+        ->throws(\LogicException::class);
     }
 
     /**
      * @test
-     * @expectedException  stubbles\streams\StreamException
      */
     public function readAfterCloseFromOutsite()
     {
-        fclose($this->handle);
-        $this->resourceInputStream->read();
+        expect(function() {
+                fclose($this->handle);
+                $this->resourceInputStream->read();
+        })
+        ->throws(StreamException::class);
     }
 
     /**
      * @test
-     * @expectedException  stubbles\streams\StreamException
      */
     public function readLineAfterCloseFromOutsite()
     {
-        fclose($this->handle);
-        $this->resourceInputStream->readLine();
+        expect(function() {
+                fclose($this->handle);
+                $this->resourceInputStream->readLine();
+        })
+        ->throws(StreamException::class);
     }
 
     /**
      * @test
-     * @expectedException  LogicException
      */
     public function bytesLeftAfterCloseFromOutsite()
     {
-        fclose($this->handle);
-        $this->resourceInputStream->bytesLeft();
+        expect(function() {
+                fclose($this->handle);
+                $this->resourceInputStream->bytesLeft();
+        })
+        ->throws(\LogicException::class);
     }
 }
