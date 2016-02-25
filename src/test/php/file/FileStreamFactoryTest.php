@@ -16,7 +16,7 @@ use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
-use function stubbles\lang\reflect\annotationsOfConstructor;
+use function stubbles\reflect\annotationsOfConstructor;
 /**
  * Test for stubbles\streams\file\FileStreamFactory.
  *
@@ -61,7 +61,6 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresent()
     {
-        $this->markTestSkipped('Requires annotation reading');
         $annotations = annotationsOfConstructor($this->fileStreamFactory);
         assertTrue($annotations->contain('Named'));
         assert(
@@ -80,9 +79,10 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createInputStreamWithOptions()
     {
-        $fileInputStream = $this->fileStreamFactory->createInputStream(vfsStream::url('home/in.txt'),
-                                                                       ['filemode' => 'rb']
-                           );
+        $fileInputStream = $this->fileStreamFactory->createInputStream(
+                vfsStream::url('home/in.txt'),
+                ['filemode' => 'rb']
+        );
         assert($fileInputStream->readLine(), equals('foo'));
     }
 

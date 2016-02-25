@@ -12,6 +12,7 @@
         "mikey179/vfsStream": "^1.6",
         "bovigo/assert": "^1.6",
         "bovigo/callmap": "2.0",
+        "stubbles/reflect": "^7.0",
         "stubbles/sequence": "^7.0",
         "ext-iconv": "*"
     },

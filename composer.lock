@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a761ab803927100d3686e4a457c755b7",
-    "content-hash": "281dd818b6f2088bd4448ed041f6901d",
+    "hash": "6797a2b07a96d1bb5eac285fd47e73fd",
+    "content-hash": "37c66d4827f985fcf53e0fe5e9309024",
     "packages": [],
     "packages-dev": [
         {
@@ -1191,6 +1191,52 @@
             "time": "2016-02-04 12:56:52"
         },
         {
+            "name": "stubbles/reflect",
+            "version": "v7.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stubbles/stubbles-reflect.git",
+                "reference": "1e5fe395856278a047e363cb70a872520457edcb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stubbles/stubbles-reflect/zipball/1e5fe395856278a047e363cb70a872520457edcb",
+                "reference": "1e5fe395856278a047e363cb70a872520457edcb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0",
+                "stubbles/sequence": "^7.0",
+                "stubbles/values": "^7.0"
+            },
+            "require-dev": {
+                "bovigo/assert": "^1.5",
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^5.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "stubbles\\reflect\\": "src/main/php"
+                },
+                "files": [
+                    "src/main/php/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Reflection helper functions and annotations.",
+            "homepage": "http://stubbles.net/",
+            "time": "2016-01-11 20:01:25"
+        },
+        {
             "name": "stubbles/sequence",
             "version": "v7.0.0",
             "source": {
@@ -1232,6 +1278,52 @@
             "description": "Stream your iterators.",
             "homepage": "http://stubbles.net/",
             "time": "2016-01-11 19:11:27"
+        },
+        {
+            "name": "stubbles/values",
+            "version": "v7.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stubbles/stubbles-values.git",
+                "reference": "e6951d0fff1208f4f917ae405aeafcd10c7e5130"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stubbles/stubbles-values/zipball/e6951d0fff1208f4f917ae405aeafcd10c7e5130",
+                "reference": "e6951d0fff1208f4f917ae405aeafcd10c7e5130",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "bovigo/assert": "^1.6",
+                "bovigo/callmap": "^2.0",
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^5.2",
+                "stubbles/reflect": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "stubbles\\values\\": "src/main/php"
+                },
+                "files": [
+                    "src/main/php/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Useful classes to ease the work with values.",
+            "homepage": "http://stubbles.net/",
+            "time": "2016-02-21 15:20:21"
         },
         {
             "name": "symfony/yaml",
