@@ -84,6 +84,5 @@ class FilteredOutputStream extends AbstractDecoratedOutputStream
         }
 
         return $bytesWritten;
-
     }
 }
