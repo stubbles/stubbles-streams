@@ -17,13 +17,6 @@ use function bovigo\assert\assertFalse;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
- * Helper class for the test to make abstract class instantiable.
- */
-class TestAbstractDecoratedInputStream extends AbstractDecoratedInputStream
-{
-    // intentionally empty
-}
-/**
  * Test for stubbles\streams\AbstractDecoratedInputStream.
  *
  * @group  streams
@@ -49,7 +42,12 @@ class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->memory = new MemoryInputStream("foo\n");
-        $this->abstractDecoratedInputStream = new TestAbstractDecoratedInputStream($this->memory);
+        $this->abstractDecoratedInputStream = $this->createDecoratedInputStream($this->memory);
+    }
+
+    private function createDecoratedInputStream(InputStream $inputStream): AbstractDecoratedInputStream
+    {
+        return new class($inputStream) extends AbstractDecoratedInputStream {};
     }
 
     /**
@@ -90,7 +88,7 @@ class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
     public function closeCallsDecoratedStream()
     {
         $inputStream = NewInstance::of(InputStream::class);
-        $abstractDecoratedInputStream = new TestAbstractDecoratedInputStream($inputStream);
+        $abstractDecoratedInputStream = $this->createDecoratedInputStream($inputStream);
         $abstractDecoratedInputStream->close();
         verify($inputStream, 'close')->wasCalledOnce();
     }

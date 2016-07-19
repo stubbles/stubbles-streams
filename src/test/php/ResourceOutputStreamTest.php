@@ -15,21 +15,6 @@ use function bovigo\assert\assert;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
- * Helper class for the test.
- */
-class TestResourceOutputStream extends ResourceOutputStream
-{
-    /**
-     * constructor
-     *
-     * @param   resource  $handle
-     */
-    public function __construct($handle)
-    {
-        $this->setHandle($handle);
-    }
-}
-/**
  * Test for stubbles\streams\ResourceOutputStream.
  *
  * @group  streams
@@ -62,7 +47,18 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
     {
         $this->root                 = vfsStream::setup();
         $this->handle               = fopen(vfsStream::url('root/test_write.txt'), 'w');
-        $this->resourceOutputStream = new TestResourceOutputStream($this->handle);
+        $this->resourceOutputStream = $this->createResourceOutputStream($this->handle);
+    }
+
+    private function createResourceOutputStream($resource): ResourceOutputStream
+    {
+        return new class($resource) extends ResourceOutputStream
+        {
+            public function __construct($handle)
+            {
+                $this->setHandle($handle);
+            }
+        };
     }
 
     /**
@@ -70,10 +66,8 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function invalidHandleThrowsIllegalArgumentException()
     {
-        expect(function() {
-                new TestResourceOutputStream('invalid');
-        })
-        ->throws(\InvalidArgumentException::class);
+        expect(function() { $this->createResourceOutputStream('invalid'); })
+                ->throws(\InvalidArgumentException::class);
     }
 
     /**
@@ -130,7 +124,9 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
     public function writePassesBytesIntoStream()
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);
-        $resourceOutputStream = new TestResourceOutputStream(fopen(vfsStream::url('root/test.txt'), 'w'));
+        $resourceOutputStream = $this->createResourceOutputStream(
+                fopen(vfsStream::url('root/test.txt'), 'w')
+        );
         assert($resourceOutputStream->write('foobarbaz'), equals(9));
         assert($file->getContent(), equals('foobarbaz'));
     }
@@ -141,7 +137,9 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
     public function writeLinePassesBytesWithLinebreakIntoStream()
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);
-        $resourceOutputStream = new TestResourceOutputStream(fopen(vfsStream::url('root/test.txt'), 'w'));
+        $resourceOutputStream = $this->createResourceOutputStream(
+                fopen(vfsStream::url('root/test.txt'), 'w')
+        );
         assert($resourceOutputStream->writeLine('foobarbaz'), equals(11));
         assert($file->getContent(), equals("foobarbaz\r\n"));
     }
@@ -153,7 +151,9 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
     public function writeLinesPassesBytesWithLinebreakIntoStream()
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);
-        $resourceOutputStream = new TestResourceOutputStream(fopen(vfsStream::url('root/test.txt'), 'w'));
+        $resourceOutputStream = $this->createResourceOutputStream(
+                fopen(vfsStream::url('root/test.txt'), 'w')
+        );
         assert(
                 $resourceOutputStream->writeLines(['foo', 'bar', 'baz']),
                 equals(15)

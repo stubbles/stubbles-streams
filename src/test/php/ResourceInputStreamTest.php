@@ -18,21 +18,6 @@ use function bovigo\assert\assertTrue;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
- * Helper class for the test.
- */
-class TestResourceInputStream extends ResourceInputStream
-{
-    /**
-     * constructor
-     *
-     * @param   resource  $handle
-     */
-    public function __construct($handle)
-    {
-        $this->setHandle($handle);
-    }
-}
-/**
  * Test for stubbles\streams\ResourceInputStream.
  *
  * @group  streams
@@ -63,7 +48,18 @@ class ResourceInputStreamTest extends \PHPUnit_Framework_TestCase
 jjj')
                  ->at($root);
         $this->handle              = fopen(vfsStream::url('root/test_read.txt'), 'r');
-        $this->resourceInputStream = new TestResourceInputStream($this->handle);
+        $this->resourceInputStream = $this->createResourceInputStream($this->handle);
+    }
+
+    private function createResourceInputStream($resource): ResourceInputStream
+    {
+        return new class($resource) extends ResourceInputStream
+        {
+            public function __construct($handle)
+            {
+                $this->setHandle($handle);
+            }
+        };
     }
 
     /**
@@ -71,10 +67,8 @@ jjj')
      */
     public function invalidHandleThrowsIllegalArgumentException()
     {
-        expect(function() {
-                new TestResourceInputStream('invalid');
-        })
-        ->throws(\InvalidArgumentException::class);
+        expect(function() { $this->createResourceInputStream('invalid'); })
+                ->throws(\InvalidArgumentException::class);
     }
 
     /**
