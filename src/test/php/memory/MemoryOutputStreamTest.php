@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -26,7 +27,7 @@ class MemoryOutputStreamTest extends \PHPUnit_Framework_TestCase
      *
      * @type  MemoryOutputStream
      */
-    protected $memoryOutputStream;
+    private $memoryOutputStream;
 
     /**
      * set up test environment

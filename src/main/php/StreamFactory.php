@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -20,7 +21,7 @@ interface StreamFactory
      * @param   array  $options  list of options for the input stream
      * @return  \stubbles\streams\InputStream
      */
-    public function createInputStream($source, array $options = []);
+    public function createInputStream($source, array $options = []): InputStream;
 
     /**
      * creates an output stream for given target
@@ -29,5 +30,5 @@ interface StreamFactory
      * @param   array  $options  list of options for the output stream
      * @return  \stubbles\streams\OutputStream
      */
-    public function createOutputStream($target, array $options = []);
+    public function createOutputStream($target, array $options = []): OutputStream;
 }

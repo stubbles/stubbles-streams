@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -30,19 +31,19 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
      *
      * @type  FileStreamFactory
      */
-    protected $fileStreamFactory;
+    private $fileStreamFactory;
     /**
      * a file url used in the tests
      *
      * @type  string
      */
-    protected $fileUrl;
+    private $fileUrl;
     /**
      * root directory
      *
      * @type  vfsStreamDirectory
      */
-    protected $root;
+    private $root;
 
     /**
      * set up test environment

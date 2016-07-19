@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -61,7 +62,7 @@ class InputStreamIteratorTest extends \PHPUnit_Framework_TestCase
     public function canIterateOverNonSeekableInputStream()
     {
         $inputStream = NewInstance::of(InputStream::class)->mapCalls([
-                'readLine' => onConsecutiveCalls('foo', 'bar', 'baz'),
+                'readLine' => onConsecutiveCalls('foo', 'bar', 'baz', ''),
                 'eof'      => onConsecutiveCalls(false, false, false, true)
         ]);
         $expectedLineNumber = 1;
@@ -79,7 +80,7 @@ class InputStreamIteratorTest extends \PHPUnit_Framework_TestCase
     public function canNotRewindNonSeekableInputStream()
     {
         $inputStream = NewInstance::of(InputStream::class)->mapCalls([
-                'readLine' => onConsecutiveCalls('foo', 'bar', 'baz'),
+                'readLine' => onConsecutiveCalls('foo', 'bar', 'baz', '', ''),
                 'eof'      => onConsecutiveCalls(false, false, false, true, true)
         ]);
         $lines = linesOf($inputStream);

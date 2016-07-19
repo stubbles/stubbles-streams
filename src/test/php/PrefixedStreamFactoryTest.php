@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -25,13 +26,13 @@ class PrefixedStreamFactoryTest extends \PHPUnit_Framework_TestCase
      *
      * @type  \stubbles\streams\PrefixedStreamFactorys
      */
-    protected $prefixedStreamFactory;
+    private $prefixedStreamFactory;
     /**
      * mocked stream factory
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $streamFactory;
+    private $streamFactory;
 
     /**
      * set up test environment
@@ -70,7 +71,7 @@ class PrefixedStreamFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function outputStreamGetsPrefix()
     {
-        $outputStream = NewInstance::of(InputStream::class);
+        $outputStream = NewInstance::of(OutputStream::class);
         $this->streamFactory->mapCalls(
                 ['createOutputStream' => $outputStream]
         );

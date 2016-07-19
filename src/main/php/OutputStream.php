@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -21,7 +22,7 @@ interface OutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function write($bytes);
+    public function write(string $bytes): int;
 
     /**
      * writes given bytes and appends a line break
@@ -29,7 +30,7 @@ interface OutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function writeLine($bytes);
+    public function writeLine(string $bytes): int;
 
     /**
      * writes given bytes and appends a line break after each one
@@ -38,7 +39,7 @@ interface OutputStream
      * @return  int       amount of written bytes
      * @since   3.2.0
      */
-    public function writeLines(array $bytes);
+    public function writeLines(array $bytes): int;
 
     /**
      * closes the stream

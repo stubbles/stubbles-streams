@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -44,7 +45,7 @@ class FileOutputStream extends ResourceOutputStream
      * @param   bool             $delayed
      * @throws  \InvalidArgumentException
      */
-    public function __construct($file, $mode = 'wb', $delayed = false)
+    public function __construct($file, string $mode = 'wb', bool $delayed = false)
     {
         if (is_string($file)) {
             if (false === $delayed) {
@@ -77,7 +78,7 @@ class FileOutputStream extends ResourceOutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function write($bytes)
+    public function write(string $bytes): int
     {
         if ($this->isFileCreationDelayed()) {
             $this->setHandle($this->openFile($this->file, $this->mode));
@@ -91,7 +92,7 @@ class FileOutputStream extends ResourceOutputStream
      *
      * @return  bool
      */
-    protected function isFileCreationDelayed()
+    protected function isFileCreationDelayed(): bool
     {
         return (null === $this->handle && null != $this->file);
     }
@@ -104,7 +105,7 @@ class FileOutputStream extends ResourceOutputStream
      * @return  resource
      * @throws  \stubbles\streams\StreamException
      */
-    protected function openFile($file, $mode)
+    protected function openFile(string $file, string $mode)
     {
         $fp = @fopen($file, $mode);
         if (false === $fp) {

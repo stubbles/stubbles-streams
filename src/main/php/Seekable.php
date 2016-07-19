@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -35,7 +36,7 @@ interface Seekable
      * @param   int  $whence  optional  one of Seekable::SET, Seekable::CURRENT or Seekable::END
      * @throws  \LogicException  in case the stream was already closed
      */
-    public function seek($offset, $whence = Seekable::SET);
+    public function seek(int $offset, int $whence = Seekable::SET);
 
     /**
      * return current position
@@ -43,5 +44,5 @@ interface Seekable
      * @return  int
      * @throws  \LogicException  in case the stream was already closed
      */
-    public function tell();
+    public function tell(): int;
 }

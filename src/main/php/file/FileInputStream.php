@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -36,7 +37,7 @@ class FileInputStream extends ResourceInputStream implements Seekable
      * @throws  \stubbles\streams\StreamException
      * @throws  \InvalidArgumentException
      */
-    public function __construct($file, $mode = 'rb')
+    public function __construct($file, string $mode = 'rb')
     {
         if (is_string($file)) {
             $fp = @fopen($file, $mode);
@@ -77,7 +78,7 @@ class FileInputStream extends ResourceInputStream implements Seekable
      * @throws  \InvalidArgumentException
      * @since   5.2.0
      */
-    public static function castFrom($value)
+    public static function castFrom($value): InputStream
     {
         if ($value instanceof InputStream) {
             return $value;
@@ -98,7 +99,7 @@ class FileInputStream extends ResourceInputStream implements Seekable
      *
      * @return  int
      */
-    protected function getResourceLength()
+    protected function getResourceLength(): int
     {
         if (null === $this->fileName) {
             return parent::getResourceLength();
@@ -118,7 +119,7 @@ class FileInputStream extends ResourceInputStream implements Seekable
      * @param   int  $whence  one of Seekable::SET, Seekable::CURRENT or Seekable::END
      * @throws  \LogicException
      */
-    public function seek($offset, $whence = Seekable::SET)
+    public function seek(int $offset, int $whence = Seekable::SET)
     {
         if (null === $this->handle) {
             throw new \LogicException('Can not read from closed input stream.');
@@ -134,7 +135,7 @@ class FileInputStream extends ResourceInputStream implements Seekable
      * @throws  \LogicException
      * @throws  \stubbles\streams\StreamException
      */
-    public function tell()
+    public function tell(): int
     {
         if (null === $this->handle) {
             throw new \LogicException('Can not read from closed input stream.');

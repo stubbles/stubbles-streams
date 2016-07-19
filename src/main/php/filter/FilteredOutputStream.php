@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -42,7 +43,7 @@ class FilteredOutputStream extends AbstractDecoratedOutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function write($bytes)
+    public function write(string $bytes): int
     {
         $isAcceptable = $this->predicate;
         if ($isAcceptable($bytes)) {
@@ -58,7 +59,7 @@ class FilteredOutputStream extends AbstractDecoratedOutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function writeLine($bytes)
+    public function writeLine(string $bytes): int
     {
         $isAcceptable = $this->predicate;
         if ($isAcceptable($bytes)) {
@@ -75,7 +76,7 @@ class FilteredOutputStream extends AbstractDecoratedOutputStream
      * @return  int       amount of written bytes
      * @since   3.2.0
      */
-    public function writeLines(array $bytes)
+    public function writeLines(array $bytes): int
     {
         $bytesWritten = 0;
         foreach ($bytes as $line) {

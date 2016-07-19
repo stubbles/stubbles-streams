@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -38,7 +39,7 @@ abstract class AbstractDecoratedOutputStream implements OutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function write($bytes)
+    public function write(string $bytes): int
     {
         return $this->outputStream->write($bytes);
     }
@@ -49,7 +50,7 @@ abstract class AbstractDecoratedOutputStream implements OutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes excluding line break
      */
-    public function writeLine($bytes)
+    public function writeLine(string $bytes): int
     {
         return $this->outputStream->writeLine($bytes);
     }
@@ -61,7 +62,7 @@ abstract class AbstractDecoratedOutputStream implements OutputStream
      * @return  int       amount of written bytes
      * @since   3.2.0
      */
-    public function writeLines(array $bytes)
+    public function writeLines(array $bytes): int
     {
         return $this->outputStream->writeLines($bytes);
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -47,7 +48,7 @@ abstract class ResourceInputStream implements InputStream
      * @throws  \LogicException
      * @throws  \stubbles\streams\StreamException
      */
-    public function read($length = 8192)
+    public function read(int $length = 8192): string
     {
         return $this->doRead('fread', $length);
     }
@@ -60,7 +61,7 @@ abstract class ResourceInputStream implements InputStream
      * @throws  \LogicException
      * @throws  \stubbles\streams\StreamException
      */
-    public function readLine($length = 8192)
+    public function readLine(int $length = 8192): string
     {
         return rtrim($this->doRead('fgets', $length), "\n\r");
     }
@@ -74,7 +75,7 @@ abstract class ResourceInputStream implements InputStream
      * @throws  \LogicException
      * @throws  \stubbles\streams\StreamException
      */
-    private function doRead($read, $length)
+    private function doRead(string $read, int $length): string
     {
         if (null === $this->handle) {
             throw new \LogicException('Can not read from closed input stream.');
@@ -101,7 +102,7 @@ abstract class ResourceInputStream implements InputStream
      * @return  int
      * @throws  \LogicException
      */
-    public function bytesLeft()
+    public function bytesLeft(): int
     {
         if (null === $this->handle || !is_resource($this->handle)) {
             throw new \LogicException('Can not read from closed input stream.');
@@ -120,7 +121,7 @@ abstract class ResourceInputStream implements InputStream
      *
      * @return  bool
      */
-    public function eof()
+    public function eof(): bool
     {
         return feof($this->handle);
     }
@@ -133,7 +134,7 @@ abstract class ResourceInputStream implements InputStream
      *
      * @return  int
      */
-    protected function getResourceLength()
+    protected function getResourceLength(): int
     {
         $fileData = fstat($this->handle);
         return $fileData['size'];

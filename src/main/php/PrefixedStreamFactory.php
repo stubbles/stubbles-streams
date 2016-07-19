@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -32,7 +33,7 @@ class PrefixedStreamFactory implements StreamFactory
      * @param  \stubbles\streams\StreamFactory  $streamFactory
      * @param  string                           $prefix
      */
-    public function __construct(StreamFactory $streamFactory, $prefix)
+    public function __construct(StreamFactory $streamFactory, string $prefix)
     {
         $this->streamFactory = $streamFactory;
         $this->prefix        = $prefix;
@@ -45,7 +46,7 @@ class PrefixedStreamFactory implements StreamFactory
      * @param   array  $options  list of options for the input stream
      * @return  \stubbles\streams\InputStream
      */
-    public function createInputStream($source, array $options = [])
+    public function createInputStream($source, array $options = []): InputStream
     {
         return $this->streamFactory->createInputStream($this->prefix . $source, $options);
     }
@@ -57,7 +58,7 @@ class PrefixedStreamFactory implements StreamFactory
      * @param   array  $options  list of options for the output stream
      * @return  \stubbles\streams\OutputStream
      */
-    public function createOutputStream($target, array $options = [])
+    public function createOutputStream($target, array $options = []): OutputStream
     {
         return $this->streamFactory->createOutputStream($this->prefix . $target, $options);
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -30,7 +31,7 @@ class StandardInputStream extends ResourceInputStream implements Seekable
      * @param   int  $whence  optional  one of Seekable::SET, Seekable::CURRENT or Seekable::END
      * @throws  \LogicException  in case the stream was already closed
      */
-    public function seek($offset, $whence = Seekable::SET)
+    public function seek(int $offset, int $whence = Seekable::SET)
     {
         if (null === $this->handle) {
             throw new \LogicException('Can not seek on closed input stream.');
@@ -46,7 +47,7 @@ class StandardInputStream extends ResourceInputStream implements Seekable
      * @throws  \LogicException  in case the stream was already closed
      * @throws  \stubbles\streams\StreamException
      */
-    public function tell()
+    public function tell(): int
     {
         if (null === $this->handle) {
             throw new \LogicException('No position available for closed input stream');

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -47,7 +48,7 @@ abstract class ResourceOutputStream implements OutputStream
      * @throws  \LogicException
      * @throws  \stubbles\streams\StreamException
      */
-    public function write($bytes)
+    public function write(string $bytes): int
     {
         if (null === $this->handle) {
             throw new \LogicException('Can not write to closed output stream.');
@@ -70,7 +71,7 @@ abstract class ResourceOutputStream implements OutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function writeLine($bytes)
+    public function writeLine(string $bytes): int
     {
         return $this->write($bytes . "\r\n");
     }
@@ -82,7 +83,7 @@ abstract class ResourceOutputStream implements OutputStream
      * @return  int       amount of written bytes
      * @since   3.2.0
      */
-    public function writeLines(array $bytes)
+    public function writeLines(array $bytes): int
     {
         $bytesWritten = 0;
         foreach ($bytes as $line) {

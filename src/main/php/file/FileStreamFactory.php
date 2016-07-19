@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -8,6 +9,8 @@
  * @package  stubbles\streams
  */
 namespace stubbles\streams\file;
+use stubbles\streams\InputStream;
+use stubbles\streams\OutputStream;
 use stubbles\streams\StreamFactory;
 /**
  * Factory for file streams.
@@ -28,7 +31,7 @@ class FileStreamFactory implements StreamFactory
      * @Named('stubbles.filemode')
      * @Property('stubbles.filemode')
      */
-    public function __construct($fileMode = 0700)
+    public function __construct(int $fileMode = 0700)
     {
         $this->fileMode = $fileMode;
     }
@@ -40,7 +43,7 @@ class FileStreamFactory implements StreamFactory
      * @param   array  $options  list of options for the input stream
      * @return  \stubbles\streams\file\FileInputStream
      */
-    public function createInputStream($source, array $options = [])
+    public function createInputStream($source, array $options = []): InputStream
     {
         if (isset($options['filemode'])) {
             return new FileInputStream($source, $options['filemode']);
@@ -56,7 +59,7 @@ class FileStreamFactory implements StreamFactory
      * @param   array  $options  list of options for the output stream
      * @return  \stubbles\streams\file\FileOutputStream
      */
-    public function createOutputStream($target, array $options = [])
+    public function createOutputStream($target, array $options = []): OutputStream
     {
         if (isset($options['createDirIfNotExists']) && true === $options['createDirIfNotExists']) {
             $dir = dirname($target);

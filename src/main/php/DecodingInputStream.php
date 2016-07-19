@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -28,7 +29,7 @@ class DecodingInputStream extends AbstractDecoratedInputStream
      * @param  \stubbles\streams\InputStream  $inputStream
      * @param  string                         $charset      charset of input stream
      */
-    public function __construct(InputStream $inputStream, $charset)
+    public function __construct(InputStream $inputStream, string $charset)
     {
         parent::__construct($inputStream);
         $this->charset     = $charset;
@@ -39,7 +40,7 @@ class DecodingInputStream extends AbstractDecoratedInputStream
      *
      * @return  string
      */
-    public function getCharset()
+    public function getCharset(): string
     {
         return $this->charset;
     }
@@ -50,7 +51,7 @@ class DecodingInputStream extends AbstractDecoratedInputStream
      * @param   int  $length  max amount of bytes to read
      * @return  string
      */
-    public function read($length = 8192)
+    public function read(int $length = 8192): string
     {
         return iconv($this->charset, 'UTF-8', $this->inputStream->read($length));
     }
@@ -61,7 +62,7 @@ class DecodingInputStream extends AbstractDecoratedInputStream
      * @param   int  $length  max amount of bytes to read
      * @return  string
      */
-    public function readLine($length = 8192)
+    public function readLine(int $length = 8192): string
     {
         return iconv($this->charset, 'UTF-8', $this->inputStream->readLine($length));
     }

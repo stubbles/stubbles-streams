@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -52,7 +53,7 @@ class InputStreamIterator implements \Iterator
      *
      * @return  string
      */
-    public function current()
+    public function current(): string
     {
         return $this->currentLine;
     }
@@ -62,7 +63,7 @@ class InputStreamIterator implements \Iterator
      *
      * @return  int
      */
-    public function key()
+    public function key(): int
     {
         return $this->lineNumber;
     }
@@ -94,9 +95,9 @@ class InputStreamIterator implements \Iterator
     /**
      * checks if current element is valid
      *
-     * @return  string
+     * @return  bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return !$this->inputStream->eof();
     }

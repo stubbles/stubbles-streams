@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -43,13 +44,13 @@ class ResourceInputStreamTest extends \PHPUnit_Framework_TestCase
      *
      * @type  TestResourceInputStream
      */
-    protected $resourceInputStream;
+    private $resourceInputStream;
     /**
      * the handle
      *
      * @type  resource
      */
-    protected $handle;
+    private $handle;
 
     /**
      * set up test environment

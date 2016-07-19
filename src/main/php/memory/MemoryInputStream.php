@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -46,7 +47,7 @@ class MemoryInputStream implements InputStream, Seekable
      * @param   int  $length  max amount of bytes to read
      * @return  string
      */
-    public function read($length = 8192)
+    public function read(int $length = 8192): string
     {
         $bytes           = substr($this->buffer, $this->position, $length);
         $this->position += strlen($bytes);
@@ -59,7 +60,7 @@ class MemoryInputStream implements InputStream, Seekable
      * @param   int  $length  max amount of bytes to read
      * @return  string
      */
-    public function readLine($length = 8192)
+    public function readLine(int $length = 8192): string
     {
         $bytes        = substr($this->buffer, $this->position, $length);
         $linebreakpos = strpos($bytes, "\n");
@@ -79,7 +80,7 @@ class MemoryInputStream implements InputStream, Seekable
      *
      * @return  int
      */
-    public function bytesLeft()
+    public function bytesLeft(): int
     {
         return strlen($this->buffer) - $this->position;
     }
@@ -89,7 +90,7 @@ class MemoryInputStream implements InputStream, Seekable
      *
      * @return  bool
      */
-    public function eof()
+    public function eof(): bool
     {
         return (strlen($this->buffer) === $this->position);
     }
@@ -109,7 +110,7 @@ class MemoryInputStream implements InputStream, Seekable
      * @param   int  $whence  one of Seekable::SET, Seekable::CURRENT or Seekable::END
      * @throws  \InvalidArgumentException
      */
-    public function seek($offset, $whence = Seekable::SET)
+    public function seek(int $offset, int $whence = Seekable::SET)
     {
         switch ($whence) {
             case Seekable::SET:
@@ -137,7 +138,7 @@ class MemoryInputStream implements InputStream, Seekable
      *
      * @return  int
      */
-    public function tell()
+    public function tell(): int
     {
         return $this->position;
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -19,7 +20,7 @@ namespace stubbles\streams {
      * @return  \stubbles\sequence\Sequence
      * @since   5.2.0
      */
-    function linesOf($input)
+    function linesOf($input): Sequence
     {
         return Sequence::of(new InputStreamIterator(FileInputStream::castFrom($input)));
     }
@@ -32,7 +33,7 @@ namespace stubbles\streams {
      * @return  \stubbles\sequence\Sequence
      * @since   6.2.0
      */
-    function nonEmptyLinesOf($input)
+    function nonEmptyLinesOf($input): Sequence
     {
         return linesOf($input)->filter(function($line) { return !empty($line); });
     }
@@ -44,7 +45,7 @@ namespace stubbles\streams {
      * @param   string  $default  optional  message to return in case no last error available
      * @return  string
      */
-    function lastErrorMessage($default = null)
+    function lastErrorMessage(string $default = null): string
     {
         $error = error_get_last();
         if (null === $error) {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -28,7 +29,7 @@ class EncodingOutputStream extends AbstractDecoratedOutputStream
      * @param  \stubbles\streams\OutputStream  $outputStream
      * @param  string                          $charset       charset of output stream
      */
-    public function __construct(OutputStream $outputStream, $charset)
+    public function __construct(OutputStream $outputStream, string $charset)
     {
         parent::__construct($outputStream);
         $this->charset      = $charset;
@@ -39,7 +40,7 @@ class EncodingOutputStream extends AbstractDecoratedOutputStream
      *
      * @return  string
      */
-    public function getCharset()
+    public function getCharset(): string
     {
         return $this->charset;
     }
@@ -50,7 +51,7 @@ class EncodingOutputStream extends AbstractDecoratedOutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function write($bytes)
+    public function write(string $bytes): int
     {
         return $this->outputStream->write(iconv('UTF-8', $this->charset, $bytes));
     }
@@ -62,7 +63,7 @@ class EncodingOutputStream extends AbstractDecoratedOutputStream
      * @return  int       amount of written bytes
      * @since   3.2.0
      */
-    public function writeLines(array $bytes)
+    public function writeLines(array $bytes): int
     {
         $bytesWritten = 0;
         foreach ($bytes as $line) {
@@ -79,7 +80,7 @@ class EncodingOutputStream extends AbstractDecoratedOutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes excluding line break
      */
-    public function writeLine($bytes)
+    public function writeLine(string $bytes): int
     {
         return $this->outputStream->writeLine(iconv('UTF-8', $this->charset, $bytes));
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -29,7 +30,7 @@ class MemoryOutputStream implements OutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function write($bytes)
+    public function write(string $bytes): int
     {
         $this->buffer .= $bytes;
         return strlen($bytes);
@@ -41,7 +42,7 @@ class MemoryOutputStream implements OutputStream
      * @param   string  $bytes
      * @return  int     amount of written bytes
      */
-    public function writeLine($bytes)
+    public function writeLine(string $bytes): int
     {
         return $this->write($bytes . "\n");
     }
@@ -53,7 +54,7 @@ class MemoryOutputStream implements OutputStream
      * @return  int       amount of written bytes
      * @since   3.2.0
      */
-    public function writeLines(array $bytes)
+    public function writeLines(array $bytes): int
     {
         $bytesWritten = 0;
         foreach ($bytes as $line) {
@@ -77,7 +78,7 @@ class MemoryOutputStream implements OutputStream
      *
      * @return  string
      */
-    public function buffer()
+    public function buffer(): string
     {
         return $this->buffer;
     }
@@ -88,7 +89,7 @@ class MemoryOutputStream implements OutputStream
      * @return  string
      * @since   4.0.0
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->buffer;
     }

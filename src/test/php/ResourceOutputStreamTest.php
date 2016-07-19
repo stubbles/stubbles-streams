@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -40,19 +41,19 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
      *
      * @type  TestResourceOutputStream
      */
-    protected $resourceOutputStream;
+    private $resourceOutputStream;
     /**
      * the handle
      *
      * @type  resource
      */
-    protected $handle;
+    private $handle;
     /**
      * root directory
      *
      * @type   org\bovigo\vfs\vfsDirectory
      */
-    protected $root;
+    private $root;
 
     /**
      * set up test environment

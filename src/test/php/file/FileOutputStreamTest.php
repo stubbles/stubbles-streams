@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -29,7 +30,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
      *
      * @type  string
      */
-    protected $fileUrl;
+    private $fileUrl;
 
     /**
      * set up test environment
@@ -41,8 +42,6 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * construct with string as argument
-     *
      * @test
      */
     public function constructWithStringCreatesFile()
@@ -61,8 +60,6 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * construct with string as argument
-     *
      * @test
      */
     public function constructWithString()

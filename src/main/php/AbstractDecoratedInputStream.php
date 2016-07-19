@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -38,7 +39,7 @@ abstract class AbstractDecoratedInputStream implements InputStream
      * @param   int  $length  max amount of bytes to read
      * @return  string
      */
-    public function read($length = 8192)
+    public function read(int $length = 8192): string
     {
         return $this->inputStream->read($length);
     }
@@ -49,7 +50,7 @@ abstract class AbstractDecoratedInputStream implements InputStream
      * @param   int  $length  max amount of bytes to read
      * @return  string
      */
-    public function readLine($length = 8192)
+    public function readLine(int $length = 8192): string
     {
         return $this->inputStream->readLine($length);
     }
@@ -59,7 +60,7 @@ abstract class AbstractDecoratedInputStream implements InputStream
      *
      * @return  int
      */
-    public function bytesLeft()
+    public function bytesLeft(): int
     {
         return $this->inputStream->bytesLeft();
     }
@@ -69,7 +70,7 @@ abstract class AbstractDecoratedInputStream implements InputStream
      *
      * @return  bool
      */
-    public function eof()
+    public function eof(): bool
     {
         return $this->inputStream->eof();
     }

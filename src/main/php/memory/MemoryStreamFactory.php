@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -8,6 +9,8 @@
  * @package  stubbles\streams
  */
 namespace stubbles\streams\memory;
+use stubbles\streams\InputStream;
+use stubbles\streams\OutputStream;
 use stubbles\streams\StreamFactory;
 /**
  * Factory for memory streams.
@@ -21,7 +24,7 @@ class MemoryStreamFactory implements StreamFactory
      * @param   array  $options  list of options for the input stream
      * @return  \stubbles\streams\memory\MemoryInputStream
      */
-    public function createInputStream($source, array $options = [])
+    public function createInputStream($source, array $options = []): InputStream
     {
         return new MemoryInputStream($source);
     }
@@ -33,7 +36,7 @@ class MemoryStreamFactory implements StreamFactory
      * @param   array  $options  list of options for the output stream
      * @return  \stubbles\streams\memory\MemoryOutputStream
      */
-    public function createOutputStream($target, array $options = [])
+    public function createOutputStream($target, array $options = []): OutputStream
     {
         return new MemoryOutputStream();
     }
