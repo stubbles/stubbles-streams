@@ -14,7 +14,7 @@ namespace stubbles\streams;
  *
  * @api
  */
-class EncodingOutputStream extends AbstractDecoratedOutputStream
+class EncodingOutputStream extends DecoratedOutputStream
 {
     /**
      * @type  string

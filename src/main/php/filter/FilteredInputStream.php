@@ -9,14 +9,14 @@ declare(strict_types=1);
  * @package  stubbles\streams
  */
 namespace stubbles\streams\filter;
-use stubbles\streams\AbstractDecoratedInputStream;
+use stubbles\streams\DecoratedInputStream;
 use stubbles\streams\InputStream;
 /**
  * Input stream applying a filter on data read before returning to requestor.
  *
  * @api
  */
-class FilteredInputStream extends AbstractDecoratedInputStream
+class FilteredInputStream extends DecoratedInputStream
 {
     /**
      * predicate which decides on whether a line is acceptable

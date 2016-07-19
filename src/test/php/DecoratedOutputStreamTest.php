@@ -16,18 +16,18 @@ use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
- * Test for stubbles\streams\AbstractDecoratedOutputStream.
+ * Test for stubbles\streams\DecoratedOutputStream.
  *
  * @group streams
  */
-class AbstractDecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
+class DecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\AbstractDecoratedOutputStream
+     * @type  \stubbles\streams\DecoratedOutputStream
      */
-    private $abstractDecoratedOutputStream;
+    private $decoratedOutputStream;
     /**
      * mocked input stream
      *
@@ -41,12 +41,12 @@ class AbstractDecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->memory = new MemoryOutputStream();
-        $this->abstractDecoratedOutputStream = $this->createDecoratedOutputStream($this->memory);
+        $this->decoratedOutputStream = $this->createDecoratedOutputStream($this->memory);
     }
 
-    private function createDecoratedOutputStream(OutputStream $outputStream): AbstractDecoratedOutputStream
+    private function createDecoratedOutputStream(OutputStream $outputStream): DecoratedOutputStream
     {
-        return new class($outputStream) extends AbstractDecoratedOutputStream {};
+        return new class($outputStream) extends DecoratedOutputStream {};
     }
 
     /**
@@ -55,7 +55,7 @@ class AbstractDecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
     public function writeCallsDecoratedStream()
     {
         assert(
-                $this->abstractDecoratedOutputStream->write('foo'),
+                $this->decoratedOutputStream->write('foo'),
                 equals(3)
         );
         assert($this->memory->buffer(), equals('foo'));
@@ -67,7 +67,7 @@ class AbstractDecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
     public function writeLineCallsDecoratedStream()
     {
         assert(
-                $this->abstractDecoratedOutputStream->writeLine('foo'),
+                $this->decoratedOutputStream->writeLine('foo'),
                 equals(4)
         );
         assert($this->memory->buffer(), equals("foo\n"));
@@ -80,7 +80,7 @@ class AbstractDecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
     public function writeLinesCallsDecoratedStream()
     {
         assert(
-                $this->abstractDecoratedOutputStream->writeLines(['foo', 'bar']),
+                $this->decoratedOutputStream->writeLines(['foo', 'bar']),
                 equals(8)
         );
         assert($this->memory->buffer(), equals("foo\nbar\n"));
@@ -92,10 +92,10 @@ class AbstractDecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
     public function closeClosesDecoratedStream()
     {
         $outputStream = NewInstance::of(OutputStream::class);
-        $abstractDecoratedOutputStream = $this->createDecoratedOutputStream(
+        $decoratedOutputStream = $this->createDecoratedOutputStream(
                 $outputStream
         );
-        $abstractDecoratedOutputStream->close();
+        $decoratedOutputStream->close();
         verify($outputStream, 'close')->wasCalledOnce();
     }
 }

@@ -17,18 +17,18 @@ use function bovigo\assert\assertFalse;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
- * Test for stubbles\streams\AbstractDecoratedInputStream.
+ * Test for stubbles\streams\DecoratedInputStream.
  *
  * @group  streams
  */
-class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
+class DecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\AbstractDecoratedInputStream
+     * @type  \stubbles\streams\DecoratedInputStream
      */
-    private $abstractDecoratedInputStream;
+    private $decoratedInputStream;
     /**
      * mocked input stream
      *
@@ -42,12 +42,12 @@ class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->memory = new MemoryInputStream("foo\n");
-        $this->abstractDecoratedInputStream = $this->createDecoratedInputStream($this->memory);
+        $this->decoratedInputStream = $this->createDecoratedInputStream($this->memory);
     }
 
-    private function createDecoratedInputStream(InputStream $inputStream): AbstractDecoratedInputStream
+    private function createDecoratedInputStream(InputStream $inputStream): DecoratedInputStream
     {
-        return new class($inputStream) extends AbstractDecoratedInputStream {};
+        return new class($inputStream) extends DecoratedInputStream {};
     }
 
     /**
@@ -55,7 +55,7 @@ class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function readCallsDecoratedStream()
     {
-        assert($this->abstractDecoratedInputStream->read(), equals("foo\n"));
+        assert($this->decoratedInputStream->read(), equals("foo\n"));
     }
 
     /**
@@ -63,7 +63,7 @@ class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function readLineCallsDecoratedStream()
     {
-        assert($this->abstractDecoratedInputStream->readLine(), equals('foo'));
+        assert($this->decoratedInputStream->readLine(), equals('foo'));
     }
 
     /**
@@ -71,7 +71,7 @@ class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function bytesLeftCallsDecoratedStream()
     {
-        assert($this->abstractDecoratedInputStream->bytesLeft(), equals(4));
+        assert($this->decoratedInputStream->bytesLeft(), equals(4));
     }
 
     /**
@@ -79,7 +79,7 @@ class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function eofCallsDecoratedStream()
     {
-        assertFalse($this->abstractDecoratedInputStream->eof());
+        assertFalse($this->decoratedInputStream->eof());
     }
 
     /**
@@ -88,8 +88,8 @@ class AbstractDecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
     public function closeCallsDecoratedStream()
     {
         $inputStream = NewInstance::of(InputStream::class);
-        $abstractDecoratedInputStream = $this->createDecoratedInputStream($inputStream);
-        $abstractDecoratedInputStream->close();
+        $decoratedInputStream = $this->createDecoratedInputStream($inputStream);
+        $decoratedInputStream->close();
         verify($inputStream, 'close')->wasCalledOnce();
     }
 }

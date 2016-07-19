@@ -13,73 +13,9 @@ namespace stubbles\streams;
  * Abstract base class for decorated input streams.
  *
  * @api
+ * @deprecated  since 8.0.0, use DecoratedInputStream instead, will be removed with 9.0.0
  */
-abstract class AbstractDecoratedInputStream implements InputStream
+abstract class AbstractDecoratedInputStream extends DecoratedInputStream
 {
-    /**
-     * input stream to encode into internal encoding
-     *
-     * @type  \stubbles\streams\InputStream
-     */
-    protected $inputStream;
-
-    /**
-     * constructor
-     *
-     * @param  \stubbles\streams\InputStream  $inputStream
-     */
-    public function __construct(InputStream $inputStream)
-    {
-        $this->inputStream = $inputStream;
-    }
-
-    /**
-     * reads given amount of bytes
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
-     */
-    public function read(int $length = 8192): string
-    {
-        return $this->inputStream->read($length);
-    }
-
-    /**
-     * reads given amount of bytes or until next line break
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
-     */
-    public function readLine(int $length = 8192): string
-    {
-        return $this->inputStream->readLine($length);
-    }
-
-    /**
-     * returns the amount of byted left to be read
-     *
-     * @return  int
-     */
-    public function bytesLeft(): int
-    {
-        return $this->inputStream->bytesLeft();
-    }
-
-    /**
-     * returns true if the stream pointer is at EOF
-     *
-     * @return  bool
-     */
-    public function eof(): bool
-    {
-        return $this->inputStream->eof();
-    }
-
-    /**
-     * closes the stream
-     */
-    public function close()
-    {
-        $this->inputStream->close();
-    }
+    // intentionally empty
 }
