@@ -17,11 +17,9 @@ namespace stubbles\streams;
 class DecodingInputStream extends AbstractDecoratedInputStream
 {
     /**
-     * charset of input stream
-     *
      * @type  string
      */
-    protected $charset;
+    private $charset;
 
     /**
      * constructor
@@ -32,7 +30,7 @@ class DecodingInputStream extends AbstractDecoratedInputStream
     public function __construct(InputStream $inputStream, string $charset)
     {
         parent::__construct($inputStream);
-        $this->charset     = $charset;
+        $this->charset = $charset;
     }
 
     /**
@@ -40,9 +38,20 @@ class DecodingInputStream extends AbstractDecoratedInputStream
      *
      * @return  string
      */
-    public function getCharset(): string
+    public function charset(): string
     {
         return $this->charset;
+    }
+
+    /**
+     * returns charset of input stream
+     *
+     * @return  string
+     * @deprecated  since 8.0.0, use charset() instead, will be removed with 9.0.0
+     */
+    public function getCharset(): string
+    {
+        return $this->charset();
     }
 
     /**

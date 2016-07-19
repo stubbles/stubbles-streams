@@ -5,6 +5,8 @@
 
   * raised minimum required PHP version to 7.0.0
   * introduced scalar type hints and strict type checking
+  * deprecated `stubbles\streams\DecodingInputStream::getCharset()`, use `stubbles\streams\DecodingInputStream::charset()` instead, will be removed with 9.0.0
+  * deprecated `stubbles\streams\EncodingOutputStream::getCharset()`, use `stubbles\streams\EncodingOutputStream::charset()` instead, will be removed with 9.0.0
 
 
 7.0.0 (2016-01-11)

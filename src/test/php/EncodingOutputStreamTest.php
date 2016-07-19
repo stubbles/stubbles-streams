@@ -53,7 +53,7 @@ class EncodingOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function knowsGivenCharset()
     {
-        assert($this->encodingOutputStream->getCharset(), equals('iso-8859-1'));
+        assert($this->encodingOutputStream->charset(), equals('iso-8859-1'));
     }
 
     /**
