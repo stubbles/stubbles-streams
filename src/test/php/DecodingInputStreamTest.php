@@ -95,10 +95,7 @@ class DecodingInputStreamTest extends \PHPUnit_Framework_TestCase
     public function closeClosesDecoratedStream()
     {
         $inputStream = NewInstance::of(InputStream::class);
-        $decodingInputStream = new DecodingInputStream(
-                $inputStream,
-                'iso-8859-1'
-        );
+        $decodingInputStream = new DecodingInputStream($inputStream, 'iso-8859-1');
         $decodingInputStream->close();
         verify($inputStream, 'close')->wasCalledOnce();
     }

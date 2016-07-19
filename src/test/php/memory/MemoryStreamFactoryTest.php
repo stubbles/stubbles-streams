@@ -43,6 +43,14 @@ class MemoryStreamFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $memoryInputStream = $this->memoryStreamFactory->createInputStream('buffer');
         assert($memoryInputStream, isInstanceOf(MemoryInputStream::class));
+    }
+
+    /**
+     * @test
+     */
+    public function createInputStreamUsesGivenStringAsStreamContent()
+    {
+        $memoryInputStream = $this->memoryStreamFactory->createInputStream('buffer');
         assert($memoryInputStream->readLine(), equals('buffer'));
     }
 

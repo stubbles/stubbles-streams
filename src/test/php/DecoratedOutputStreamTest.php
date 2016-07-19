@@ -54,23 +54,41 @@ class DecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeCallsDecoratedStream()
     {
-        assert(
-                $this->decoratedOutputStream->write('foo'),
-                equals(3)
-        );
+        $this->decoratedOutputStream->write('foo');
         assert($this->memory->buffer(), equals('foo'));
     }
 
     /**
      * @test
      */
+    public function writeReturnsAmountOfDataWrittenFromDecoratedStream()
+    {
+        assert(
+                $this->decoratedOutputStream->write('foo'),
+                equals(3)
+        );
+    }
+
+
+    /**
+     * @test
+     */
     public function writeLineCallsDecoratedStream()
+    {
+        $this->decoratedOutputStream->writeLine('foo');
+        assert($this->memory->buffer(), equals("foo\n"));
+    }
+
+
+    /**
+     * @test
+     */
+    public function writeLineReturnsAmountOfDataWrittenFromDecoratedStream()
     {
         assert(
                 $this->decoratedOutputStream->writeLine('foo'),
                 equals(4)
         );
-        assert($this->memory->buffer(), equals("foo\n"));
     }
 
     /**
@@ -79,11 +97,20 @@ class DecoratedOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeLinesCallsDecoratedStream()
     {
+        $this->decoratedOutputStream->writeLines(['foo', 'bar']);
+        assert($this->memory->buffer(), equals("foo\nbar\n"));
+    }
+
+    /**
+     * @test
+     * @since  3.2.0
+     */
+    public function writeLinesReturnsAmountOfDataWrittenFromDecoratedStream()
+    {
         assert(
                 $this->decoratedOutputStream->writeLines(['foo', 'bar']),
                 equals(8)
         );
-        assert($this->memory->buffer(), equals("foo\nbar\n"));
     }
 
     /**

@@ -13,8 +13,10 @@ use org\bovigo\vfs\vfsStream;
 use stubbles\sequence\Sequence;
 
 use function bovigo\assert\assert;
+use function bovigo\assert\predicate\each;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isInstanceOf;
+use function bovigo\assert\predicate\isNotEmpty;
 /**
  * Tests for stubbles\streams\*().
  *
@@ -50,8 +52,9 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function nonEmptyLinesOfReturnsNonEmptyLinesOnly()
     {
-        foreach (nonEmptyLinesOf($this->file->url()) as $line) {
-            assert($line, equals('foo'));
-        }
+        assert(
+                nonEmptyLinesOf($this->file->url()),
+                isNotEmpty()->and(each(equals('foo')))
+        );
     }
 }

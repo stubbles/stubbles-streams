@@ -11,12 +11,14 @@ declare(strict_types=1);
 namespace stubbles\streams;
 use org\bovigo\vfs\vfsStream;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\assertEmptyString;
-use function bovigo\assert\assertFalse;
-use function bovigo\assert\assertTrue;
-use function bovigo\assert\expect;
-use function bovigo\assert\predicate\equals;
+use function bovigo\assert\{
+    assert,
+    assertEmptyString,
+    assertFalse,
+    assertTrue,
+    expect,
+    predicate\equals
+};
 /**
  * Test for stubbles\streams\ResourceInputStream.
  *

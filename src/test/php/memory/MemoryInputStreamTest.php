@@ -11,12 +11,14 @@ declare(strict_types=1);
 namespace stubbles\streams\memory;
 use stubbles\streams\Seekable;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\assertFalse;
-use function bovigo\assert\assertNull;
-use function bovigo\assert\assertTrue;
-use function bovigo\assert\expect;
-use function bovigo\assert\predicate\equals;
+use function bovigo\assert\{
+    assert,
+    assertFalse,
+    assertNull,
+    assertTrue,
+    expect,
+    predicate\equals
+};
 /**
  * Test for stubbles\streams\memory\MemoryInputStream.
  *
@@ -240,9 +242,7 @@ class MemoryInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function seekThrowsIllegalArgumentExceptionForInvalidWhence()
     {
-        expect(function() {
-                $this->memoryInputStream->seek(6, 66);
-        })
-        ->throws(\InvalidArgumentException::class);
+        expect(function() { $this->memoryInputStream->seek(6, 66); })
+                ->throws(\InvalidArgumentException::class);
     }
 }

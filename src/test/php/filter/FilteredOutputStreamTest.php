@@ -50,12 +50,26 @@ class FilteredOutputStreamTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function writeData(): array
+    {
+        return [['foo', 3], ['bar', 0]];
+    }
+
+    /**
+     * @test
+     * @dataProvider writeData
+     */
+    public function returnsAmountOfDataBasedOnFilter($write, $expected)
+    {
+        assert($this->filteredOutputStream->write($write), equals($expected));
+    }
+
     /**
      * @test
      */
     public function dataPassingTheFilterShouldBeWritten()
     {
-        assert($this->filteredOutputStream->write('foo'), equals(3));
+        $this->filteredOutputStream->write('foo');
         assert($this->memory->buffer(), equals('foo'));
     }
 
@@ -64,8 +78,23 @@ class FilteredOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function dataNotPassingTheFilterShouldNotBeWritten()
     {
-        assert($this->filteredOutputStream->write('bar'), equals(0));
+        $this->filteredOutputStream->write('bar');
         assertEmptyString($this->memory->buffer());
+    }
+
+    /**
+     * @test
+     * @dataProvider writeData
+     */
+    public function returnsAmountOfDataBasedOnFilterPlusLineEnding($write, $expected)
+    {
+        if (0 < $expected) {
+            $expected++;
+        }
+        assert(
+                $this->filteredOutputStream->writeLine($write),
+                equals($expected)
+        );
     }
 
     /**
@@ -73,7 +102,7 @@ class FilteredOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function dataPassingTheFilterShouldBeWrittenAsLine()
     {
-        assert($this->filteredOutputStream->writeLine('foo'), equals(4));
+        $this->filteredOutputStream->writeLine('foo');
         assert($this->memory->buffer(), equals("foo\n"));
     }
 
@@ -82,7 +111,7 @@ class FilteredOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function dataNotPassingTheFilterShouldNotBeWrittenAsLine()
     {
-        assert($this->filteredOutputStream->writeLine('bar'), equals(0));
+        $this->filteredOutputStream->writeLine('bar');
         assertEmptyString($this->memory->buffer());
     }
 
@@ -92,7 +121,19 @@ class FilteredOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeLinesProcessesOnlyLinesSatisfyingFilter()
     {
-        assert($this->filteredOutputStream->writeLines(['foo', 'bar']), equals(4));
+        $this->filteredOutputStream->writeLines(['foo', 'bar']);
         assert($this->memory->buffer(), equals("foo\n"));
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function writeLinesReturnsOnlyAmountOfUnfilteredBytedWritten()
+    {
+        assert(
+                $this->filteredOutputStream->writeLines(['foo', 'bar']),
+                equals(4)
+        );
     }
 }

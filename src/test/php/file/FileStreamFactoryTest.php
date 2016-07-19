@@ -12,11 +12,13 @@ namespace stubbles\streams\file;
 use org\bovigo\vfs\vfsStream;
 use stubbles\streams\StreamException;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\assertFalse;
-use function bovigo\assert\assertTrue;
-use function bovigo\assert\expect;
-use function bovigo\assert\predicate\equals;
+use function bovigo\assert\{
+    assert,
+    assertFalse,
+    assertTrue,
+    expect,
+    predicate\equals
+};
 use function stubbles\reflect\annotationsOfConstructor;
 /**
  * Test for stubbles\streams\file\FileStreamFactory.
@@ -63,11 +65,6 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
     public function annotationsPresent()
     {
         $annotations = annotationsOfConstructor($this->fileStreamFactory);
-        assertTrue($annotations->contain('Named'));
-        assert(
-                $annotations->named('Named')[0]->getName(),
-                equals('stubbles.filemode')
-        );
         assertTrue($annotations->contain('Property'));
         assert(
                 $annotations->named('Property')[0]->getName(),
@@ -107,7 +104,6 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                 $this->fileUrl,
                 ['filemode' => 'wb']
         );
-        assertTrue(file_exists($this->fileUrl));
         $fileOutputStream->write('foo');
         assert(file_get_contents($this->fileUrl), equals('foo'));
     }
@@ -118,14 +114,13 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
     public function createOutputStreamWithFilemodeOptionAndDirectoryOptionSetToTrue()
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
-                $this->fileUrl,
+                $this->fileUrl2,
                 ['filemode'             => 'wb',
                  'createDirIfNotExists' => true
                 ]
         );
-        assertTrue(file_exists($this->fileUrl));
         $fileOutputStream->write('foo');
-        assert(file_get_contents($this->fileUrl), equals('foo'));
+        assert(file_get_contents($this->fileUrl2), equals('foo'));
     }
 
     /**
@@ -163,9 +158,6 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                 $this->fileUrl2,
                 ['createDirIfNotExists' => true]
         );
-        assertTrue(file_exists($this->fileUrl2));
-        $fileOutputStream->write('foo');
-        assert(file_get_contents($this->fileUrl2), equals('foo'));
         assert($this->root->getChild('test')->getPermissions(), equals(0700));
     }
 
@@ -180,9 +172,6 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                  'dirPermissions'       => 0666
                 ]
         );
-        assertTrue(file_exists($this->fileUrl2));
-        $fileOutputStream->write('foo');
-        assert(file_get_contents($this->fileUrl2), equals('foo'));
         assert($this->root->getChild('test')->getPermissions(), equals(0666));
     }
 
@@ -196,9 +185,6 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                 ['delayed' => true]
         );
         assertFalse(file_exists($this->fileUrl));
-        $fileOutputStream->write('foo');
-        assertTrue(file_exists($this->fileUrl));
-        assert(file_get_contents($this->fileUrl), equals('foo'));
     }
 
     /**
@@ -210,7 +196,5 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                 $this->fileUrl
         );
         assertTrue(file_exists($this->fileUrl));
-        $fileOutputStream->write('foo');
-        assert(file_get_contents($this->fileUrl), equals('foo'));
     }
 }

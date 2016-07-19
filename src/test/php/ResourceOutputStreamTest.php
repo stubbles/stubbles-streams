@@ -75,8 +75,8 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeToClosedStreamThrowsIllegalStateException()
     {
+        $this->resourceOutputStream->close();
         expect(function() {
-                $this->resourceOutputStream->close();
                 $this->resourceOutputStream->write('foobarbaz');
         })
         ->throws(\LogicException::class);
@@ -87,8 +87,8 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeLineToClosedStreamThrowsIllegalStateException()
     {
+        $this->resourceOutputStream->close();
         expect(function() {
-                $this->resourceOutputStream->close();
                 $this->resourceOutputStream->writeLine('foobarbaz');
         })
         ->throws(\LogicException::class);
@@ -99,8 +99,8 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeToExternalClosedStreamThrowsIOException()
     {
+        fclose($this->handle);
         expect(function() {
-                fclose($this->handle);
                 $this->resourceOutputStream->write('foobarbaz');
         })
         ->throws(StreamException::class);
@@ -111,8 +111,8 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeLineToExternalClosedStreamThrowsIOException()
     {
+        fclose($this->handle);
         expect(function() {
-                fclose($this->handle);
                 $this->resourceOutputStream->writeLine('foobarbaz');
         })
         ->throws(StreamException::class);

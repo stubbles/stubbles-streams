@@ -12,11 +12,13 @@ namespace stubbles\streams\file;
 use org\bovigo\vfs\vfsStream;
 use stubbles\streams\StreamException;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\assertFalse;
-use function bovigo\assert\assertTrue;
-use function bovigo\assert\expect;
-use function bovigo\assert\predicate\equals;
+use function bovigo\assert\{
+    assert,
+    assertFalse,
+    assertTrue,
+    expect,
+    predicate\equals
+};
 /**
  * Test for stubbles\streams\file\FileOutputStream.
  *
@@ -84,12 +86,14 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function constructWithStringFailsAndThrowsIOException()
     {
-        expect(function() {
-                vfsStream::newFile('test.txt', 0000)->at(vfsStream::setup());
-                new FileOutputStream($this->fileUrl, 'r');
-        })
-        ->throws(StreamException::class)
-        ->withMessage('Can not open file vfs://home/test.txt with mode r: failed to open stream: "org\bovigo\vfs\vfsStreamWrapper::stream_open" call failed');
+        vfsStream::newFile('test.txt', 0000)->at(vfsStream::setup());
+        expect(function() { new FileOutputStream($this->fileUrl, 'r'); })
+                ->throws(StreamException::class)
+                ->withMessage(
+                        'Can not open file vfs://home/test.txt with mode r:'
+                        . ' failed to open stream: "org\bovigo\vfs\vfsStreamWrapper::stream_open"'
+                        . ' call failed'
+                );
     }
 
     /**
@@ -104,17 +108,12 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @requires  extension  gd
      */
     public function constructWithIllegalResource()
     {
-        if (extension_loaded('gd') === false) {
-            $this->markTestSkipped('No known extension with other resource type available.');
-        }
-
-        expect(function() {
-                new FileOutputStream(imagecreate(2, 2));
-        })
-        ->throws(\InvalidArgumentException::class);
+        expect(function() { new FileOutputStream(imagecreate(2, 2)); })
+                ->throws(\InvalidArgumentException::class);
     }
 
     /**
@@ -122,9 +121,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function constructWithIllegalArgument()
     {
-        expect(function() {
-                new FileOutputStream(0);
-        })
-        ->throws(\InvalidArgumentException::class);
+        expect(function() { new FileOutputStream(0); })
+                ->throws(\InvalidArgumentException::class);
     }
 }

@@ -89,8 +89,8 @@ class FileInputStream extends ResourceInputStream implements Seekable
         }
 
         throw new \InvalidArgumentException(
-                'Given value is neither an instance of'
-                . ' stubbles\streams\InputStream nor a string denoting a file'
+                'Given value is neither an instance of' . InputStream::class
+                . ' nor a string denoting a file'
         );
     }
 

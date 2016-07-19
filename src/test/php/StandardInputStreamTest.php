@@ -36,11 +36,9 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function seekAfterCloseThrowsLogicException()
     {
-        expect(function() {
-                $this->standardInputStream->close();
-                $this->standardInputStream->seek(0);
-        })
-        ->throws(\LogicException::class);
+        $this->standardInputStream->close();
+        expect(function() { $this->standardInputStream->seek(0); })
+                ->throws(\LogicException::class);
     }
 
     /**
@@ -48,10 +46,8 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function canSeekToStartOfStream()
     {
-        expect(function() {
-                $this->standardInputStream->seek(0);
-        })
-        ->doesNotThrow();
+        expect(function() { $this->standardInputStream->seek(0); })
+                ->doesNotThrow();
     }
 
     /**
@@ -59,10 +55,8 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function canSeekToAnyPosition()
     {
-        expect(function() {
-                $this->standardInputStream->seek(100);
-        })
-        ->doesNotThrow();
+        expect(function() { $this->standardInputStream->seek(100); })
+                ->doesNotThrow();
     }
 
     /**
@@ -70,10 +64,8 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function tellAfterCloseThrowsLogicException()
     {
-        expect(function() {
-                $this->standardInputStream->close();
-                $this->standardInputStream->tell();
-        })
-        ->throws(\LogicException::class);
+        $this->standardInputStream->close();
+        expect(function() { $this->standardInputStream->tell(); })
+                ->throws(\LogicException::class);
     }
 }
