@@ -53,9 +53,12 @@ class StandardInputStream extends ResourceInputStream implements Seekable
             throw new \LogicException('No position available for closed input stream');
         }
 
-        $position = ftell($this->handle);
+        $position = @ftell($this->handle);
         if (false === $position) {
-            throw new StreamException('Can not read current position in php://input');
+            throw new StreamException(
+                    'Can not read current position in php://input: '
+                    . lastErrorMessage('unknown error')
+            );
         }
 
         return $position;

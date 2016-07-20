@@ -9,7 +9,9 @@ declare(strict_types=1);
  * @package  stubbles\streams
  */
 namespace stubbles\streams;
+use function bovigo\assert\assert;
 use function bovigo\assert\expect;
+use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\StandardInputStream.
  *
@@ -29,6 +31,15 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->standardInputStream = new StandardInputStream();
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function startsAtPositionZero()
+    {
+        assert($this->standardInputStream->tell(), equals(0));
     }
 
     /**
@@ -67,5 +78,23 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
         $this->standardInputStream->close();
         expect(function() { $this->standardInputStream->tell(); })
                 ->throws(\LogicException::class);
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function tellAfterExternalCloseThrowsStreamException()
+    {
+        $stdInputStream = new class() extends StandardInputStream
+        {
+            public function __construct()
+            {
+                parent::__construct();
+                fclose($this->handle);
+            }
+        };
+        expect(function() use ($stdInputStream) { $stdInputStream->tell(); })
+                ->throws(StreamException::class);
     }
 }
