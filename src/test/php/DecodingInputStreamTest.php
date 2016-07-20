@@ -54,7 +54,7 @@ class DecodingInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function knowsGivenCharset()
     {
-        assert($this->decodingInputStream->charset(), equals('iso-8859-1'));
+        assert($this->decodingInputStream->getCharset(), equals('iso-8859-1'));
     }
 
     /**
