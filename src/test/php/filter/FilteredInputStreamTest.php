@@ -60,6 +60,15 @@ class FilteredInputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  8.0.0
+     */
+    public function readReturnsChunkIfChunkWithSpecifiedSizeSatisfiesFilter()
+    {
+        assert($this->filteredInputStream->read(4), equals('bar'));
+    }
+
+    /**
+     * @test
      */
     public function readLineReturnsUnfilteredLinesOnly()
     {
