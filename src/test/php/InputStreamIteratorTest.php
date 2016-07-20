@@ -26,7 +26,6 @@ class InputStreamIteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @group  foo
      */
     public function canIterateOverSeekableInputStream()
     {
