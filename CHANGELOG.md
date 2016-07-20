@@ -11,6 +11,11 @@
   * deprecated `stubbles\streams\AbstractDecoratedOutputStream`, use `stubbles\streams\DecoratedOutputStream` instead, will be removed with 9.0.0
 
 
+  ### Other changes
+
+    * fixed `stubbles\streams\InputStreamIterator` swalling the last line
+
+
 7.0.0 (2016-01-11)
 ------------------
 

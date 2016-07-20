@@ -35,6 +35,10 @@ class InputStreamIterator implements \Iterator
      * @type  int
      */
     private $lineNumber = 0;
+    /**
+     * @type  bool
+     */
+    private $valid      = true;
 
     /**
      * constructor
@@ -73,6 +77,7 @@ class InputStreamIterator implements \Iterator
      */
     public function next()
     {
+        $this->valid       = !$this->inputStream->eof();
         $this->currentLine = $this->inputStream->readLine();
         $this->lineNumber++;
     }
@@ -99,6 +104,6 @@ class InputStreamIterator implements \Iterator
      */
     public function valid(): bool
     {
-        return !$this->inputStream->eof();
+        return $this->valid;
     }
 }
