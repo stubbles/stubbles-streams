@@ -9,13 +9,17 @@ declare(strict_types=1);
  * @package  stubbles\streams
  */
 namespace stubbles\streams\file;
+use bovigo\callmap\NewInstance;
 use org\bovigo\vfs\vfsStream;
+use stubbles\streams\InputStream;
 use stubbles\streams\Seekable;
 use stubbles\streams\StreamException;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isInstanceOf;
+use function bovigo\assert\predicate\isSameAs;
 /**
  * Test for stubbles\streams\file\FileInputStream.
  *
@@ -84,6 +88,38 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  8.0.0
+     */
+    public function castFromInputStreamReturnsInputStream()
+    {
+        $inputStream = NewInstance::of(InputStream::class);
+        assert(FileInputStream::castFrom($inputStream), isSameAs($inputStream));
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function castFromStringCreatesFileInputStream()
+    {
+        assert(
+                FileInputStream::castFrom(vfsStream::url('home/test.txt')),
+                isInstanceOf(FileInputStream::class)
+        );
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function castFromAnythingElseThrowsInvalidArgumentException()
+    {
+        expect(function() { FileInputStream::castFrom(404); })
+                ->throws(\InvalidArgumentException::class);
+    }
+
+    /**
+     * @test
      */
     public function seek_SET()
     {
@@ -139,5 +175,28 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
         $fileInputStream->close();
         expect(function() use ($fileInputStream) { $fileInputStream->tell(); })
                 ->throws(\LogicException::class);
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function tellAfterExternalCloseThrowsStreamException()
+    {
+        $fileInputStream = new class() extends FileInputStream
+        {
+            public function __construct()
+            {
+                parent::__construct(vfsStream::url('home/test.txt'));
+                fclose($this->handle);
+            }
+
+            public function __destruct()
+            {
+                // intentionally empty, overwrite call to close()
+            }
+        };
+        expect(function() use ($fileInputStream) { $fileInputStream->tell(); })
+                ->throws(StreamException::class);
     }
 }

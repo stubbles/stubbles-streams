@@ -141,9 +141,12 @@ class FileInputStream extends ResourceInputStream implements Seekable
             throw new \LogicException('Can not read from closed input stream.');
         }
 
-        $position = ftell($this->handle);
+        $position = @ftell($this->handle);
         if (false === $position) {
-            throw new StreamException('Can not read current position in file.');
+            throw new StreamException(
+                    'Can not read current position in file: '
+                    . lastErrorMessage('unknown error')
+            );
         }
 
         return $position;
