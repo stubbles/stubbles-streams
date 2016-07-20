@@ -110,6 +110,8 @@ class FileInputStream extends ResourceInputStream implements Seekable
         } elseif (substr($this->fileName, 0, 17) === 'compress.bzip2://') {
             return filesize(substr($this->fileName, 17));
         }
+
+        return parent::getResourceLength();
     }
 
     /**

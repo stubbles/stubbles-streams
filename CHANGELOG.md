@@ -13,7 +13,8 @@
 
   ### Other changes
 
-    * fixed `stubbles\streams\InputStreamIterator` swalling the last line
+ * fixed `stubbles\streams\InputStreamIterator` swalling the last line
+ * fixed `stubbles\streams\file\FileInputStream::bytesLeft()` returning void when created with filename but not prefixed with _compress.*://_
 
 
 7.0.0 (2016-01-11)

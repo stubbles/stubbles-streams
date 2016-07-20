@@ -120,6 +120,46 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @since  8.0.0
+     */
+    public function reportsBytesLeft()
+    {
+        $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
+        assert($fileInputStream->bytesLeft(), equals(3));
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function reportsBytesLeftWhenConstructedWithResource()
+    {
+        $fileInputStream = new FileInputStream(fopen(vfsStream::url('home/test.txt'), 'rb'));
+        assert($fileInputStream->bytesLeft(), equals(3));
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function reportsBytesLeftForGzCompressedFilesBasedOnFilesize()
+    {
+        $fileInputStream = new FileInputStream('compress.zlib://' . __DIR__ . '/../../resources/file.gz');
+        assert($fileInputStream->bytesLeft(), equals(37));
+    }
+
+    /**
+     * @test
+     * @since  8.0.0
+     */
+    public function reportsBytesLeftForBzCompressedFilesBasedOnFilesize()
+    {
+        $fileInputStream = new FileInputStream('compress.bzip2://' . __DIR__ . '/../../resources/file.bz2');
+        assert($fileInputStream->bytesLeft(), equals(46));
+    }
+
+    /**
+     * @test
      */
     public function seek_SET()
     {
