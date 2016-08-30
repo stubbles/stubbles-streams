@@ -28,9 +28,7 @@ class PrefixedStreamFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private $prefixedStreamFactory;
     /**
-     * mocked stream factory
-     *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  StreamFactory
      */
     private $streamFactory;
 
