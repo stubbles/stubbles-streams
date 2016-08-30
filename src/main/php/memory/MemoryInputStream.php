@@ -36,7 +36,7 @@ class MemoryInputStream implements InputStream, Seekable
      *
      * @param  string  $buffer
      */
-    public function __construct($buffer)
+    public function __construct(string $buffer)
     {
         $this->buffer = $buffer;
     }
