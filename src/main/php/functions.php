@@ -58,6 +58,11 @@ namespace stubbles\streams {
     /**
      * creates a copier which allows to copy all lines from given input stream to an output stream
      *
+     * Please note that copying starts at the offset where the input stream
+     * currently is located, and changes the offset of the input stream to the
+     * end of the stream. In case a non-seekable input stream is copied it can
+     * not return to its initial offset.
+     *
      * @param   InputStream   $from
      * @return  Copier
      * @since   8.1.0

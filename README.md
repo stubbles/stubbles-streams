@@ -75,6 +75,23 @@ to another. Input streams which are seekable implement the
    given position
  * `tell()` - returns the current position of the internal stream pointer
 
+
+#### Copy from input to output stream
+_Available since release 8.1.0_
+
+The shortcut function `stubbles\streams\copy()` provides a simple way to copy everything what's
+in an input stream to an output stream:
+
+```php
+copy($in)->to($out);
+```
+
+Please note that copying starts at the offset where the input stream currently
+is located, and changes the offset of the input stream to the end of the stream.
+In case a non-seekable input stream is copied it can not return to its initial
+offset.
+
+
 ### Decorating streams
 
 #### Encoding-related streams
