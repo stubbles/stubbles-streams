@@ -1,3 +1,9 @@
+8.1.0 (2016-08-30)
+------------------
+
+  * implemented #1 new function to copy a complete input stream to an output stream: added `stubbles\streams\copy()`
+
+
 8.0.0 (2016-07-20)
 ------------------
 

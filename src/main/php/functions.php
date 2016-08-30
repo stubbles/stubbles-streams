@@ -54,4 +54,46 @@ namespace stubbles\streams {
 
         return $error['message'];
     }
+
+    /**
+     * creates a copier which allows to copy all lines from given input stream to an output stream
+     *
+     * @param   InputStream   $from
+     * @return  Copier
+     * @since   8.1.0
+     */
+    function copy(InputStream $from): Copier
+    {
+        return new class($from) extends Copier { };
+    }
+
+    /**
+     * @internal
+     * @since   8.1.0
+     */
+    abstract class Copier
+    {
+        private $source;
+
+        public function __construct(InputStream $source)
+        {
+            $this->source = $source;
+        }
+
+        /**
+         * copies into given output stream
+         *
+         * @param   OutputStream  $target
+         * @return  int  amount of bytes copied
+         */
+         public function to(OutputStream $target): int
+         {
+             $copiedBytes = 0;
+             while (!$this->source->eof()) {
+                 $copiedBytes += $target->write($this->source->read());
+             }
+
+             return $copiedBytes;
+         }
+    }
 }
