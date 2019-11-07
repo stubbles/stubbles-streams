@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 
-use function stubbles\values\lastErrorMessage;
+use function stubbles\streams\lastErrorMessage;
 /**
  * Decodes input stream into internal charset.
  *
@@ -60,7 +60,7 @@ class DecodingInputStream extends DecoratedInputStream
     {
         $decoded = @iconv($this->charsetFrom, $this->charsetTo, $this->inputStream->read($length));
         if (false === $decoded) {
-            throw new StreamException(lastErrorMessage()->value());
+            throw new StreamException(lastErrorMessage());
         }
 
         return $decoded;
@@ -77,7 +77,7 @@ class DecodingInputStream extends DecoratedInputStream
     {
         $decoded = @iconv($this->charsetFrom, $this->charsetTo, $this->inputStream->readLine($length));
         if (false === $decoded) {
-            throw new StreamException(lastErrorMessage()->value());
+            throw new StreamException(lastErrorMessage());
         }
 
         return $decoded;
