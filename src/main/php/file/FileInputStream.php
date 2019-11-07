@@ -104,9 +104,19 @@ class FileInputStream extends ResourceInputStream implements Seekable
         }
 
         if (substr($this->fileName, 0, 16) === 'compress.zlib://') {
-            return filesize(substr($this->fileName, 16));
+            $size = filesize(substr($this->fileName, 16));
+            if (false === $size) {
+                throw new StreamException('Can not determine resource length of ' . $this->fileName);
+            }
+
+            return $size;
         } elseif (substr($this->fileName, 0, 17) === 'compress.bzip2://') {
-            return filesize(substr($this->fileName, 17));
+          $size = filesize(substr($this->fileName, 17));
+          if (false === $size) {
+              throw new StreamException('Can not determine resource length of ' . $this->fileName);
+          }
+
+          return $size;
         }
 
         return parent::getResourceLength();
