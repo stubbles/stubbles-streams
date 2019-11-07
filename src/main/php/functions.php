@@ -43,14 +43,14 @@ namespace stubbles\streams {
      * @param   string  $default  optional  message to return in case no last error available
      * @return  string
      */
-    function lastErrorMessage(string $default = null): string
+    function lastErrorMessage(string $default = ''): string
     {
         $error = error_get_last();
         if (null === $error) {
             return $default;
         }
 
-        return $error['message'];
+        return $error['message'] ?? '';
     }
 
     /**
