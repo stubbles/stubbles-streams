@@ -42,17 +42,6 @@ class EncodingOutputStream extends DecoratedOutputStream
     }
 
     /**
-     * returns charset of output stream
-     *
-     * @return  string
-     * @deprecated  since 8.0.0, use charset() instead, will be removed with 9.0.0
-     */
-    public function getCharset(): string
-    {
-        return $this->charset();
-    }
-
-    /**
      * writes given bytes
      *
      * @param   string  $bytes

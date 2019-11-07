@@ -5,6 +5,11 @@
 ### BC breaks
 
 * raised minimum required PHP version to 7.3
+* removed methods and classes deprecated with 8.0.0
+  * `stubbles\streams\DecodingInputStream::getCharset()`, use `stubbles\streams\DecodingInputStream::charset()` instead
+  * `stubbles\streams\EncodingOutputStream::getCharset()`, use `stubbles\streams\EncodingOutputStream::charset()` instead
+  * `stubbles\streams\AbstractDecoratedInputStream`, use `stubbles\streams\DecoratedInputStream` instead
+  * `stubbles\streams\AbstractDecoratedOutputStream`, use `stubbles\streams\DecoratedOutputStream` instead
 
 ## 8.1.0 (2016-08-30)
 

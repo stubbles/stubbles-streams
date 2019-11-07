@@ -50,7 +50,7 @@ class EncodingOutputStreamTest extends TestCase
      */
     public function knowsGivenCharset()
     {
-        assertThat($this->encodingOutputStream->getCharset(), equals('iso-8859-1'));
+        assertThat($this->encodingOutputStream->charset(), equals('iso-8859-1'));
     }
 
     /**

@@ -42,17 +42,6 @@ class DecodingInputStream extends DecoratedInputStream
     }
 
     /**
-     * returns charset of input stream
-     *
-     * @return  string
-     * @deprecated  since 8.0.0, use charset() instead, will be removed with 9.0.0
-     */
-    public function getCharset(): string
-    {
-        return $this->charset();
-    }
-
-    /**
      * reads given amount of bytes
      *
      * @param   int  $length  max amount of bytes to read
