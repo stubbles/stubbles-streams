@@ -5,3 +5,4 @@ parameters:
   ignoreErrors:
     # False positive
     - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
+    - '#bovigo\\callmap\\ClassProxy given#'
