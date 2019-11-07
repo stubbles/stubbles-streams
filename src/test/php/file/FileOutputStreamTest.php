@@ -111,13 +111,4 @@ class FileOutputStreamTest extends TestCase
         expect(function() { new FileOutputStream(imagecreate(2, 2)); })
                 ->throws(\InvalidArgumentException::class);
     }
-
-    /**
-     * @test
-     */
-    public function constructWithIllegalArgument()
-    {
-        expect(function() { new FileOutputStream(0); })
-                ->throws(\InvalidArgumentException::class);
-    }
 }

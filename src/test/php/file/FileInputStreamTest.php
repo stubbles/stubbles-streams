@@ -75,15 +75,6 @@ class FileInputStreamTest extends TestCase
 
     /**
      * @test
-     */
-    public function constructWithIllegalArgument()
-    {
-        expect(function() { new FileInputStream(0); })
-                ->throws(\InvalidArgumentException::class);
-    }
-
-    /**
-     * @test
      * @since  8.0.0
      */
     public function castFromInputStreamReturnsInputStream()
