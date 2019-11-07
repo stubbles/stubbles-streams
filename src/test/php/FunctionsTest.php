@@ -5,16 +5,15 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams;
 use org\bovigo\vfs\vfsStream;
 use stubbles\sequence\Sequence;
+use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\{MemoryInputStream, MemoryOutputStream};
 
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertEmptyString,
     predicate\each,
     predicate\equals,
@@ -27,14 +26,11 @@ use function bovigo\assert\{
  * @since  5.2.0
  * @group  streams
  */
-class FunctionsTest extends \PHPUnit_Framework_TestCase
+class FunctionsTest extends TestCase
 {
     private $file;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $root       = vfsStream::setup();
         $this->file = vfsStream::newFile('test.txt')
@@ -47,7 +43,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function linesOfReturnsSequence()
     {
-        assert(linesOf($this->file->url()), isInstanceOf(Sequence::class));
+        assertThat(linesOf($this->file->url()), isInstanceOf(Sequence::class));
     }
 
     /**
@@ -56,7 +52,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function nonEmptyLinesOfReturnsNonEmptyLinesOnly()
     {
-        assert(
+        assertThat(
                 nonEmptyLinesOf($this->file->url()),
                 isNotEmpty()->and(each(equals('foo')))
         );
@@ -71,7 +67,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     {
         $in  = new MemoryInputStream('');
         $out = new MemoryOutputStream();
-        assert(copy($in)->to($out), equals(0));
+        assertThat(copy($in)->to($out), equals(0));
     }
 
     /**
@@ -96,7 +92,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     {
         $in  = new MemoryInputStream("foo\nbar\nbaz");
         $out = new MemoryOutputStream();
-        assert(copy($in)->to($out), equals(11));
+        assertThat(copy($in)->to($out), equals(11));
     }
 
     /**
@@ -109,6 +105,6 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
         $in  = new MemoryInputStream("foo\nbar\nbaz");
         $out = new MemoryOutputStream();
         copy($in)->to($out);
-        assert($out->buffer(), equals("foo\nbar\nbaz"));
+        assertThat($out->buffer(), equals("foo\nbar\nbaz"));
     }
 }

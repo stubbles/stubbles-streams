@@ -5,14 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryInputStream;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
@@ -22,7 +21,7 @@ use function bovigo\callmap\verify;
  * @group  streams
  * @requires  extension iconv
  */
-class DecodingInputStreamTest extends \PHPUnit_Framework_TestCase
+class DecodingInputStreamTest extends TestCase
 {
     /**
      * instance to test
@@ -37,10 +36,7 @@ class DecodingInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     private $memory;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->memory = new MemoryInputStream(utf8_decode("hällö\n"));
         $this->decodingInputStream = new DecodingInputStream(
@@ -54,7 +50,7 @@ class DecodingInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function knowsGivenCharset()
     {
-        assert($this->decodingInputStream->getCharset(), equals('iso-8859-1'));
+        assertThat($this->decodingInputStream->getCharset(), equals('iso-8859-1'));
     }
 
     /**
@@ -62,7 +58,7 @@ class DecodingInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function readReturnsDecodedDataFromDecoratedStream()
     {
-        assert($this->decodingInputStream->read(), equals("hällö\n"));
+        assertThat($this->decodingInputStream->read(), equals("hällö\n"));
     }
 
     /**
@@ -70,7 +66,7 @@ class DecodingInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function readLineReturnsDecodedLineFromDecoratedStream()
     {
-        assert($this->decodingInputStream->readLine(), equals('hällö'));
+        assertThat($this->decodingInputStream->readLine(), equals('hällö'));
     }
 
     /**
@@ -78,7 +74,7 @@ class DecodingInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function bytesLeftReturnsBytesLeftFromDecoratedStream()
     {
-        assert($this->decodingInputStream->bytesLeft(), equals(6));
+        assertThat($this->decodingInputStream->bytesLeft(), equals(6));
     }
 
     /**

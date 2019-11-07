@@ -5,12 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams\memory;
+use PHPUnit\Framework\TestCase;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isInstanceOf;
 /**
@@ -19,7 +18,7 @@ use function bovigo\assert\predicate\isInstanceOf;
  * @group  streams
  * @group  streams_memory
  */
-class MemoryStreamFactoryTest extends \PHPUnit_Framework_TestCase
+class MemoryStreamFactoryTest extends TestCase
 {
     /**
      * instance to test
@@ -28,10 +27,7 @@ class MemoryStreamFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private $memoryStreamFactory;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->memoryStreamFactory = new MemoryStreamFactory();
     }
@@ -42,7 +38,7 @@ class MemoryStreamFactoryTest extends \PHPUnit_Framework_TestCase
     public function createInputStream()
     {
         $memoryInputStream = $this->memoryStreamFactory->createInputStream('buffer');
-        assert($memoryInputStream, isInstanceOf(MemoryInputStream::class));
+        assertThat($memoryInputStream, isInstanceOf(MemoryInputStream::class));
     }
 
     /**
@@ -51,7 +47,7 @@ class MemoryStreamFactoryTest extends \PHPUnit_Framework_TestCase
     public function createInputStreamUsesGivenStringAsStreamContent()
     {
         $memoryInputStream = $this->memoryStreamFactory->createInputStream('buffer');
-        assert($memoryInputStream->readLine(), equals('buffer'));
+        assertThat($memoryInputStream->readLine(), equals('buffer'));
     }
 
     /**
@@ -59,7 +55,7 @@ class MemoryStreamFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createOutputStream()
     {
-        assert(
+        assertThat(
                 $this->memoryStreamFactory->createOutputStream('buffer'),
                 isInstanceOf(MemoryOutputStream::class)
         );

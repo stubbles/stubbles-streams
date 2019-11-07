@@ -5,14 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertEmptyString,
     assertFalse,
     assertTrue,
@@ -24,7 +23,7 @@ use function bovigo\assert\{
  *
  * @group  streams
  */
-class ResourceInputStreamTest extends \PHPUnit_Framework_TestCase
+class ResourceInputStreamTest extends TestCase
 {
     /**
      * instance to test
@@ -39,10 +38,7 @@ class ResourceInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     private $handle;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $root = vfsStream::setup();
         vfsStream::newFile('test_read.txt')
@@ -78,7 +74,7 @@ jjj')
      */
     public function hasBytesLeftWhenOpenedAtStart()
     {
-        assert($this->resourceInputStream->bytesLeft(), equals(13));
+        assertThat($this->resourceInputStream->bytesLeft(), equals(13));
     }
 
     /**
@@ -95,7 +91,7 @@ jjj')
     public function hasNoBytesLeftWhenEverythingRead()
     {
         $this->resourceInputStream->read();
-        assert($this->resourceInputStream->bytesLeft(), equals(0));
+        assertThat($this->resourceInputStream->bytesLeft(), equals(0));
     }
 
     /**
@@ -103,7 +99,7 @@ jjj')
      */
     public function read()
     {
-        assert($this->resourceInputStream->read(), equals("foobarbaz\njjj"));
+        assertThat($this->resourceInputStream->read(), equals("foobarbaz\njjj"));
     }
 
     /**
@@ -111,7 +107,7 @@ jjj')
      */
     public function readBytes()
     {
-        assert($this->resourceInputStream->read(6), equals('foobar'));
+        assertThat($this->resourceInputStream->read(6), equals('foobar'));
     }
 
     /**
@@ -120,7 +116,7 @@ jjj')
     public function hasBytesLeftWhenNotEverythingRead()
     {
         $this->resourceInputStream->read(6);
-        assert($this->resourceInputStream->bytesLeft(), equals(7));
+        assertThat($this->resourceInputStream->bytesLeft(), equals(7));
     }
 
     /**
@@ -128,7 +124,7 @@ jjj')
      */
     public function readLine()
     {
-        assert($this->resourceInputStream->readLine(), equals('foobarbaz'));
+        assertThat($this->resourceInputStream->readLine(), equals('foobarbaz'));
     }
 
     /**

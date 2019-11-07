@@ -5,13 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams\filter;
+use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryInputStream;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertEmptyString;
 use function bovigo\assert\predicate\equals;
 /**
@@ -20,7 +19,7 @@ use function bovigo\assert\predicate\equals;
  * @group  streams
  * @group  streams_filter
  */
-class FilteredInputStreamTest extends \PHPUnit_Framework_TestCase
+class FilteredInputStreamTest extends TestCase
 {
     /**
      * instance to test
@@ -35,10 +34,7 @@ class FilteredInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     private $inputStream;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->inputStream = new MemoryInputStream("foo\nbar");
         $this->filteredInputStream = new FilteredInputStream(
@@ -64,7 +60,7 @@ class FilteredInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function readReturnsChunkIfChunkWithSpecifiedSizeSatisfiesFilter()
     {
-        assert($this->filteredInputStream->read(4), equals('bar'));
+        assertThat($this->filteredInputStream->read(4), equals('bar'));
     }
 
     /**
@@ -72,6 +68,6 @@ class FilteredInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function readLineReturnsUnfilteredLinesOnly()
     {
-        assert($this->filteredInputStream->readLine(), equals('bar'));
+        assertThat($this->filteredInputStream->readLine(), equals('bar'));
     }
 }

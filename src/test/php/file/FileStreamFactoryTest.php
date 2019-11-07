@@ -5,15 +5,14 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams\file;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 use stubbles\streams\StreamException;
 
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertFalse,
     assertTrue,
     expect,
@@ -26,7 +25,7 @@ use function stubbles\reflect\annotationsOfConstructor;
  * @group  streams
  * @group  streams_file
  */
-class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
+class FileStreamFactoryTest extends TestCase
 {
     /**
      * instance to test
@@ -47,10 +46,7 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private $root;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->root = vfsStream::setup('home');
         vfsStream::newFile('in.txt')->at($this->root)->withContent('foo');
@@ -66,7 +62,7 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $annotations = annotationsOfConstructor($this->fileStreamFactory);
         assertTrue($annotations->contain('Property'));
-        assert(
+        assertThat(
                 $annotations->named('Property')[0]->getName(),
                 equals('stubbles.filemode')
         );
@@ -81,7 +77,7 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                 vfsStream::url('home/in.txt'),
                 ['filemode' => 'rb']
         );
-        assert($fileInputStream->readLine(), equals('foo'));
+        assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
     /**
@@ -92,7 +88,7 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
         $fileInputStream = $this->fileStreamFactory->createInputStream(
                 vfsStream::url('home/in.txt')
         );
-        assert($fileInputStream->readLine(), equals('foo'));
+        assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
     /**
@@ -105,7 +101,7 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                 ['filemode' => 'wb']
         );
         $fileOutputStream->write('foo');
-        assert(file_get_contents($this->fileUrl), equals('foo'));
+        assertThat(file_get_contents($this->fileUrl), equals('foo'));
     }
 
     /**
@@ -120,7 +116,7 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                 ]
         );
         $fileOutputStream->write('foo');
-        assert(file_get_contents($this->fileUrl2), equals('foo'));
+        assertThat(file_get_contents($this->fileUrl2), equals('foo'));
     }
 
     /**
@@ -158,7 +154,7 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                 $this->fileUrl2,
                 ['createDirIfNotExists' => true]
         );
-        assert($this->root->getChild('test')->getPermissions(), equals(0700));
+        assertThat($this->root->getChild('test')->getPermissions(), equals(0700));
     }
 
     /**
@@ -172,7 +168,7 @@ class FileStreamFactoryTest extends \PHPUnit_Framework_TestCase
                  'dirPermissions'       => 0666
                 ]
         );
-        assert($this->root->getChild('test')->getPermissions(), equals(0666));
+        assertThat($this->root->getChild('test')->getPermissions(), equals(0666));
     }
 
     /**

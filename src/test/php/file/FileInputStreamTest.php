@@ -5,17 +5,16 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams\file;
 use bovigo\callmap\NewInstance;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 use stubbles\streams\InputStream;
 use stubbles\streams\Seekable;
 use stubbles\streams\StreamException;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isInstanceOf;
@@ -25,12 +24,9 @@ use function bovigo\assert\predicate\isSameAs;
  *
  * @group  streams
  */
-class FileInputStreamTest extends \PHPUnit_Framework_TestCase
+class FileInputStreamTest extends TestCase
 {
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $root = vfsStream::setup('home');
         vfsStream::newFile('test.txt')->at($root)->withContent('foo');
@@ -42,7 +38,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     public function constructWithString()
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
-        assert($fileInputStream->readLine(), equals('foo'));
+        assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
     /**
@@ -64,7 +60,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     public function constructWithResource()
     {
         $fileInputStream = new FileInputStream(fopen(vfsStream::url('home/test.txt'), 'rb'));
-        assert($fileInputStream->readLine(), equals('foo'));
+        assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
     /**
@@ -93,7 +89,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     public function castFromInputStreamReturnsInputStream()
     {
         $inputStream = NewInstance::of(InputStream::class);
-        assert(FileInputStream::castFrom($inputStream), isSameAs($inputStream));
+        assertThat(FileInputStream::castFrom($inputStream), isSameAs($inputStream));
     }
 
     /**
@@ -102,7 +98,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function castFromStringCreatesFileInputStream()
     {
-        assert(
+        assertThat(
                 FileInputStream::castFrom(vfsStream::url('home/test.txt')),
                 isInstanceOf(FileInputStream::class)
         );
@@ -125,7 +121,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     public function reportsBytesLeft()
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
-        assert($fileInputStream->bytesLeft(), equals(3));
+        assertThat($fileInputStream->bytesLeft(), equals(3));
     }
 
     /**
@@ -135,7 +131,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     public function reportsBytesLeftWhenConstructedWithResource()
     {
         $fileInputStream = new FileInputStream(fopen(vfsStream::url('home/test.txt'), 'rb'));
-        assert($fileInputStream->bytesLeft(), equals(3));
+        assertThat($fileInputStream->bytesLeft(), equals(3));
     }
 
     /**
@@ -145,7 +141,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     public function reportsBytesLeftForGzCompressedFilesBasedOnFilesize()
     {
         $fileInputStream = new FileInputStream('compress.zlib://' . __DIR__ . '/../../resources/file.gz');
-        assert($fileInputStream->bytesLeft(), equals(37));
+        assertThat($fileInputStream->bytesLeft(), equals(37));
     }
 
     /**
@@ -155,7 +151,7 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     public function reportsBytesLeftForBzCompressedFilesBasedOnFilesize()
     {
         $fileInputStream = new FileInputStream('compress.bzip2://' . __DIR__ . '/../../resources/file.bz2');
-        assert($fileInputStream->bytesLeft(), equals(46));
+        assertThat($fileInputStream->bytesLeft(), equals(46));
     }
 
     /**
@@ -164,13 +160,13 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     public function seek_SET()
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
-        assert($fileInputStream->tell(), equals(0));
+        assertThat($fileInputStream->tell(), equals(0));
         $fileInputStream->seek(2);
-        assert($fileInputStream->tell(), equals(2));
-        assert($fileInputStream->readLine(), equals('o'));
+        assertThat($fileInputStream->tell(), equals(2));
+        assertThat($fileInputStream->readLine(), equals('o'));
         $fileInputStream->seek(0, Seekable::SET);
-        assert($fileInputStream->tell(), equals(0));
-        assert($fileInputStream->readLine(), equals('foo'));
+        assertThat($fileInputStream->tell(), equals(0));
+        assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
     /**
@@ -180,8 +176,8 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->seek(1, Seekable::CURRENT);
-        assert($fileInputStream->tell(), equals(1));
-        assert($fileInputStream->readLine(), equals('oo'));
+        assertThat($fileInputStream->tell(), equals(1));
+        assertThat($fileInputStream->readLine(), equals('oo'));
     }
 
     /**
@@ -191,8 +187,8 @@ class FileInputStreamTest extends \PHPUnit_Framework_TestCase
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->seek(-2, Seekable::END);
-        assert($fileInputStream->tell(), equals(1));
-        assert($fileInputStream->readLine(), equals('oo'));
+        assertThat($fileInputStream->tell(), equals(1));
+        assertThat($fileInputStream->readLine(), equals('oo'));
     }
 
     /**

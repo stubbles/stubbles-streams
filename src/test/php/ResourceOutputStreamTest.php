@@ -5,13 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
@@ -19,7 +18,7 @@ use function bovigo\assert\predicate\equals;
  *
  * @group  streams
  */
-class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
+class ResourceOutputStreamTest extends TestCase
 {
     /**
      * instance to test
@@ -40,10 +39,7 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     private $root;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->root                 = vfsStream::setup();
         $this->handle               = fopen(vfsStream::url('root/test_write.txt'), 'w');
@@ -127,8 +123,8 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
         $resourceOutputStream = $this->createResourceOutputStream(
                 fopen(vfsStream::url('root/test.txt'), 'w')
         );
-        assert($resourceOutputStream->write('foobarbaz'), equals(9));
-        assert($file->getContent(), equals('foobarbaz'));
+        assertThat($resourceOutputStream->write('foobarbaz'), equals(9));
+        assertThat($file->getContent(), equals('foobarbaz'));
     }
 
     /**
@@ -140,8 +136,8 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
         $resourceOutputStream = $this->createResourceOutputStream(
                 fopen(vfsStream::url('root/test.txt'), 'w')
         );
-        assert($resourceOutputStream->writeLine('foobarbaz'), equals(11));
-        assert($file->getContent(), equals("foobarbaz\r\n"));
+        assertThat($resourceOutputStream->writeLine('foobarbaz'), equals(11));
+        assertThat($file->getContent(), equals("foobarbaz\r\n"));
     }
 
     /**
@@ -154,10 +150,10 @@ class ResourceOutputStreamTest extends \PHPUnit_Framework_TestCase
         $resourceOutputStream = $this->createResourceOutputStream(
                 fopen(vfsStream::url('root/test.txt'), 'w')
         );
-        assert(
+        assertThat(
                 $resourceOutputStream->writeLines(['foo', 'bar', 'baz']),
                 equals(15)
         );
-        assert($file->getContent(), equals("foo\r\nbar\r\nbaz\r\n"));
+        assertThat($file->getContent(), equals("foo\r\nbar\r\nbaz\r\n"));
     }
 }

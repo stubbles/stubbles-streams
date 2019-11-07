@@ -5,11 +5,11 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams;
-use function bovigo\assert\assert;
+use PHPUnit\Framework\TestCase;
+
+use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 /**
@@ -18,17 +18,14 @@ use function bovigo\assert\predicate\equals;
  * @group  streams
  * @since  5.4.0
  */
-class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
+class StandardInputStreamTest extends TestCase
 {
     /**
      * @type  \stubbles\streams\StandardInputStream
      */
     private $standardInputStream;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->standardInputStream = new StandardInputStream();
     }
@@ -39,7 +36,7 @@ class StandardInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function startsAtPositionZero()
     {
-        assert($this->standardInputStream->tell(), equals(0));
+        assertThat($this->standardInputStream->tell(), equals(0));
     }
 
     /**

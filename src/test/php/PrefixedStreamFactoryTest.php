@@ -5,13 +5,12 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\isSameAs;
 use function bovigo\callmap\verify;
 /**
@@ -19,7 +18,7 @@ use function bovigo\callmap\verify;
  *
  * @group  streams
  */
-class PrefixedStreamFactoryTest extends \PHPUnit_Framework_TestCase
+class PrefixedStreamFactoryTest extends TestCase
 {
     /**
      * instance to test
@@ -32,10 +31,7 @@ class PrefixedStreamFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private $streamFactory;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->streamFactory = NewInstance::of(StreamFactory::class);
         $this->prefixedStreamFactory = new PrefixedStreamFactory(
@@ -50,10 +46,10 @@ class PrefixedStreamFactoryTest extends \PHPUnit_Framework_TestCase
     public function inputStreamGetsPrefix()
     {
         $inputStream = NewInstance::of(InputStream::class);
-        $this->streamFactory->mapCalls(
+        $this->streamFactory->returns(
                 ['createInputStream' => $inputStream]
         );
-        assert(
+        assertThat(
                 $this->prefixedStreamFactory->createInputStream(
                         'foo',
                         ['bar' => 'baz']
@@ -70,10 +66,10 @@ class PrefixedStreamFactoryTest extends \PHPUnit_Framework_TestCase
     public function outputStreamGetsPrefix()
     {
         $outputStream = NewInstance::of(OutputStream::class);
-        $this->streamFactory->mapCalls(
+        $this->streamFactory->returns(
                 ['createOutputStream' => $outputStream]
         );
-        assert(
+        assertThat(
                 $this->prefixedStreamFactory->createOutputStream(
                         'foo',
                         ['bar' => 'baz']

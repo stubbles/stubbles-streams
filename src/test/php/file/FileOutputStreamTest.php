@@ -5,15 +5,14 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams\file;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 use stubbles\streams\StreamException;
 
 use function bovigo\assert\{
-    assert,
+    assertThat,
     assertFalse,
     assertTrue,
     expect,
@@ -25,7 +24,7 @@ use function bovigo\assert\{
  * @group  streams
  * @group  streams_file
  */
-class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
+class FileOutputStreamTest extends TestCase
 {
     /**
      * the file url used in the tests
@@ -34,10 +33,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     private $fileUrl;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         vfsStream::setup('home');
         $this->fileUrl = vfsStream::url('home/test.txt');
@@ -68,7 +64,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
     {
         $fileOutputStream = new FileOutputStream($this->fileUrl);
         $fileOutputStream->write('foo');
-        assert(file_get_contents($this->fileUrl), equals('foo'));
+        assertThat(file_get_contents($this->fileUrl), equals('foo'));
     }
 
     /**
@@ -103,7 +99,7 @@ class FileOutputStreamTest extends \PHPUnit_Framework_TestCase
     {
         $fileOutputStream = new FileOutputStream(fopen($this->fileUrl, 'wb'));
         $fileOutputStream->write('foo');
-        assert(file_get_contents($this->fileUrl), equals('foo'));
+        assertThat(file_get_contents($this->fileUrl), equals('foo'));
     }
 
     /**

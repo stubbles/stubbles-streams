@@ -5,14 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryOutputStream;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
@@ -21,7 +20,7 @@ use function bovigo\callmap\verify;
  * @group  streams
  * @requires  extension iconv
  */
-class EncodingOutputStreamTest extends \PHPUnit_Framework_TestCase
+class EncodingOutputStreamTest extends TestCase
 {
     /**
      * instance to test
@@ -36,10 +35,7 @@ class EncodingOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     private $memory;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->memory = new MemoryOutputStream();
         $this->encodingOutputStream = new EncodingOutputStream(
@@ -53,7 +49,7 @@ class EncodingOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function knowsGivenCharset()
     {
-        assert($this->encodingOutputStream->getCharset(), equals('iso-8859-1'));
+        assertThat($this->encodingOutputStream->getCharset(), equals('iso-8859-1'));
     }
 
     /**
@@ -61,8 +57,8 @@ class EncodingOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeEncodesBytesBeforePassedToDecoratedStream()
     {
-        assert($this->encodingOutputStream->write('hällö'), equals(5));
-        assert($this->memory->buffer(), equals(utf8_decode('hällö')));
+        assertThat($this->encodingOutputStream->write('hällö'), equals(5));
+        assertThat($this->memory->buffer(), equals(utf8_decode('hällö')));
     }
 
     /**
@@ -70,8 +66,8 @@ class EncodingOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeLineEncodesBytesBeforePassedToDecoratedStream()
     {
-        assert($this->encodingOutputStream->writeLine('hällö'), equals(6));
-        assert($this->memory->buffer(), equals(utf8_decode("hällö\n")));
+        assertThat($this->encodingOutputStream->writeLine('hällö'), equals(6));
+        assertThat($this->memory->buffer(), equals(utf8_decode("hällö\n")));
     }
 
     /**
@@ -80,11 +76,11 @@ class EncodingOutputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function writeLinesEncodesBytesBeforePassedToDecoratedStream()
     {
-        assert(
+        assertThat(
                 $this->encodingOutputStream->writeLines(['hällö', 'wörld']),
                 equals(12)
         );
-        assert($this->memory->buffer(), equals(utf8_decode("hällö\nwörld\n")));
+        assertThat($this->memory->buffer(), equals(utf8_decode("hällö\nwörld\n")));
     }
 
     /**

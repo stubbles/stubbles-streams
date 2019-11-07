@@ -5,14 +5,13 @@ declare(strict_types=1);
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @package  stubbles\streams
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryInputStream;
 
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
@@ -21,7 +20,7 @@ use function bovigo\callmap\verify;
  *
  * @group  streams
  */
-class DecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
+class DecoratedInputStreamTest extends TestCase
 {
     /**
      * instance to test
@@ -36,10 +35,7 @@ class DecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     private $memory;
 
-    /**
-     * set up test environment
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->memory = new MemoryInputStream("foo\n");
         $this->decoratedInputStream = $this->createDecoratedInputStream($this->memory);
@@ -55,7 +51,7 @@ class DecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function readCallsDecoratedStream()
     {
-        assert($this->decoratedInputStream->read(), equals("foo\n"));
+        assertThat($this->decoratedInputStream->read(), equals("foo\n"));
     }
 
     /**
@@ -63,7 +59,7 @@ class DecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function readLineCallsDecoratedStream()
     {
-        assert($this->decoratedInputStream->readLine(), equals('foo'));
+        assertThat($this->decoratedInputStream->readLine(), equals('foo'));
     }
 
     /**
@@ -71,7 +67,7 @@ class DecoratedInputStreamTest extends \PHPUnit_Framework_TestCase
      */
     public function bytesLeftCallsDecoratedStream()
     {
-        assert($this->decoratedInputStream->bytesLeft(), equals(4));
+        assertThat($this->decoratedInputStream->bytesLeft(), equals(4));
     }
 
     /**
