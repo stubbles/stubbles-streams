@@ -26,6 +26,11 @@
         },
         "files": ["src/main/php/functions.php"]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "stubbles\\streams\\": "src/test/php"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "9.0.x-dev"
