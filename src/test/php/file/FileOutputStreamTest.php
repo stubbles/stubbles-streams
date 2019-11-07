@@ -16,6 +16,7 @@ use function bovigo\assert\{
     assertFalse,
     assertTrue,
     expect,
+    fail,
     predicate\equals
 };
 /**
@@ -97,7 +98,13 @@ class FileOutputStreamTest extends TestCase
      */
     public function constructWithResource()
     {
-        $fileOutputStream = new FileOutputStream(fopen($this->fileUrl, 'wb'));
+        $file = fopen($this->fileUrl, 'wb');
+        if (false === $file) {
+            fail('Could not open vfsStream file');
+            return;
+        }
+
+        $fileOutputStream = new FileOutputStream($file);
         $fileOutputStream->write('foo');
         assertThat(file_get_contents($this->fileUrl), equals('foo'));
     }
@@ -108,7 +115,13 @@ class FileOutputStreamTest extends TestCase
      */
     public function constructWithIllegalResource()
     {
-        expect(function() { new FileOutputStream(imagecreate(2, 2)); })
+        $illegalResource = imagecreate(2, 2);
+        if (false === $illegalResource) {
+            fail('Could not create illegal resource');
+            return;
+        }
+
+        expect(function() use($illegalResource) { new FileOutputStream($illegalResource); })
                 ->throws(\InvalidArgumentException::class);
     }
 }

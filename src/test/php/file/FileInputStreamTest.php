@@ -16,6 +16,7 @@ use stubbles\streams\StreamException;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
+use function bovigo\assert\fail;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isInstanceOf;
 use function bovigo\assert\predicate\isSameAs;
@@ -59,7 +60,13 @@ class FileInputStreamTest extends TestCase
      */
     public function constructWithResource()
     {
-        $fileInputStream = new FileInputStream(fopen(vfsStream::url('home/test.txt'), 'rb'));
+        $file = fopen(vfsStream::url('home/test.txt'), 'rb');
+        if (false === $file) {
+            fail('Could not open vfsStream file');
+            return;
+        }
+
+        $fileInputStream = new FileInputStream($file);
         assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
@@ -69,7 +76,13 @@ class FileInputStreamTest extends TestCase
      */
     public function constructWithIllegalResource()
     {
-        expect(function() { new FileInputStream(imagecreate(2, 2)); })
+        $illegalResource = imagecreate(2, 2);
+        if (false === $illegalResource) {
+            fail('Could not create illegal resource');
+            return;
+        }
+
+        expect(function() use($illegalResource) { new FileInputStream($illegalResource); })
                 ->throws(\InvalidArgumentException::class);
     }
 
@@ -121,7 +134,13 @@ class FileInputStreamTest extends TestCase
      */
     public function reportsBytesLeftWhenConstructedWithResource()
     {
-        $fileInputStream = new FileInputStream(fopen(vfsStream::url('home/test.txt'), 'rb'));
+        $file = fopen(vfsStream::url('home/test.txt'), 'rb');
+        if (false === $file) {
+            fail('Could not open vfsStream file');
+            return;
+        }
+
+        $fileInputStream = new FileInputStream($file);
         assertThat($fileInputStream->bytesLeft(), equals(3));
     }
 
