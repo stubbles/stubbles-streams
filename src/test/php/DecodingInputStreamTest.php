@@ -13,6 +13,7 @@ use stubbles\streams\memory\MemoryInputStream;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
@@ -93,6 +94,6 @@ class DecodingInputStreamTest extends TestCase
         $inputStream = NewInstance::of(InputStream::class);
         $decodingInputStream = new DecodingInputStream($inputStream, 'iso-8859-1');
         $decodingInputStream->close();
-        verify($inputStream, 'close')->wasCalledOnce();
+        assertTrue(verify($inputStream, 'close')->wasCalledOnce());
     }
 }

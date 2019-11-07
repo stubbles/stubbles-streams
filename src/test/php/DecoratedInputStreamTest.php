@@ -13,6 +13,7 @@ use stubbles\streams\memory\MemoryInputStream;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
@@ -86,6 +87,6 @@ class DecoratedInputStreamTest extends TestCase
         $inputStream = NewInstance::of(InputStream::class);
         $decoratedInputStream = $this->createDecoratedInputStream($inputStream);
         $decoratedInputStream->close();
-        verify($inputStream, 'close')->wasCalledOnce();
+        assertTrue(verify($inputStream, 'close')->wasCalledOnce());
     }
 }

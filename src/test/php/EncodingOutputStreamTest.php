@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryOutputStream;
 
 use function bovigo\assert\assertThat;
+use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
@@ -94,6 +95,6 @@ class EncodingOutputStreamTest extends TestCase
                 'iso-8859-1'
         );
         $encodingOutputStream->close();
-        verify($outputStream, 'close')->wasCalledOnce();
+        assertTrue(verify($outputStream, 'close')->wasCalledOnce());
     }
 }

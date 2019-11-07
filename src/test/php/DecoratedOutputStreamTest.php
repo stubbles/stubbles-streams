@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryOutputStream;
 
 use function bovigo\assert\assertThat;
+use function bovigo\assert\assertTrue;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
@@ -119,6 +120,6 @@ class DecoratedOutputStreamTest extends TestCase
                 $outputStream
         );
         $decoratedOutputStream->close();
-        verify($outputStream, 'close')->wasCalledOnce();
+        assertTrue(verify($outputStream, 'close')->wasCalledOnce());
     }
 }
