@@ -40,6 +40,12 @@ class FileStreamFactoryTest extends TestCase
      */
     private $fileUrl;
     /**
+     * a file url used in the tests
+     *
+     * @type  string
+     */
+    private $fileUrl2;
+    /**
      * root directory
      *
      * @type  vfsStreamDirectory
