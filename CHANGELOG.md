@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.0.0 (2019-11-07)
+
+### BC breaks
+
+* raised minimum required PHP version to 7.3
+
 ## 8.1.0 (2016-08-30)
 
 * implemented #1 new function to copy a complete input stream to an output stream: added `stubbles\streams\copy()`
