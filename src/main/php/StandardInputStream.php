@@ -19,7 +19,12 @@ class StandardInputStream extends ResourceInputStream implements Seekable
      */
     public function __construct()
     {
-        $this->setHandle(fopen('php://input', 'rb'));
+        $fp = fopen('php://input', 'rb');
+        if (false === $fp) {
+            throw new \RuntimeException('Could not open input stream');
+        }
+
+        $this->setHandle($fp);
     }
 
     /**

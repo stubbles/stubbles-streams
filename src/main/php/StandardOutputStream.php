@@ -19,7 +19,12 @@ class StandardOutputStream extends ResourceOutputStream
      */
     public function __construct()
     {
-        $this->setHandle(fopen('php://output', 'wb'));
+        $fp = fopen('php://output', 'wb');
+        if (false === $fp) {
+            throw new \RuntimeException('Could not open input stream');
+        }
+
+        $this->setHandle($fp);
     }
 
     /**
