@@ -14,6 +14,7 @@ use stubbles\streams\memory\MemoryInputStream;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertFalse;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
@@ -95,5 +96,37 @@ class DecodingInputStreamTest extends TestCase
         $decodingInputStream = new DecodingInputStream($inputStream, 'iso-8859-1');
         $decodingInputStream->close();
         assertTrue(verify($inputStream, 'close')->wasCalledOnce());
+    }
+
+    /**
+     * @test
+     * @since 9.0.0
+     */
+    public function readThrowsExceptionInIllegalCharacter(): void
+    {
+      $decodingInputStream = new DecodingInputStream(
+          new MemoryInputStream("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"),
+          'CP850',
+          'ISO-8859-1'
+      );
+      expect(function() use($decodingInputStream) {
+          $decodingInputStream->read();
+      })->throws(StreamException::class);
+    }
+
+    /**
+     * @test
+     * @since 9.0.0
+     */
+    public function readLineThrowsExceptionInIllegalCharacter(): void
+    {
+      $decodingInputStream = new DecodingInputStream(
+          new MemoryInputStream("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"),
+          'CP850',
+          'ISO-8859-1'
+      );
+      expect(function() use($decodingInputStream) {
+         $decodingInputStream->readLine();
+      })->throws(StreamException::class);
     }
 }

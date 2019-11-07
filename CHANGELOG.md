@@ -11,6 +11,10 @@
   * `stubbles\streams\AbstractDecoratedInputStream`, use `stubbles\streams\DecoratedInputStream` instead
   * `stubbles\streams\AbstractDecoratedOutputStream`, use `stubbles\streams\DecoratedOutputStream` instead
 
+### Other changes
+
+* `stubbles\streams\DecodingInputStream` now accepts a third parameter so decoding charset can be set to something else than UTF-8
+
 ## 8.1.0 (2016-08-30)
 
 * implemented #1 new function to copy a complete input stream to an output stream: added `stubbles\streams\copy()`

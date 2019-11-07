@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use function stubbles\values\lastErrorMessage;
 /**
  * Decodes input stream into internal charset.
  *
@@ -17,28 +19,34 @@ class DecodingInputStream extends DecoratedInputStream
     /**
      * @type  string
      */
-    private $charset;
+    private $charsetFrom;
+    /**
+     * @type  string
+     */
+    private $charsetTo;
 
     /**
      * constructor
      *
      * @param  \stubbles\streams\InputStream  $inputStream
-     * @param  string                         $charset      charset of input stream
+     * @param  string                         $charsetFrom  charset of input stream
+     * @param  string                         $charsetTo    charset to decode to, defaults to UTF-8
      */
-    public function __construct(InputStream $inputStream, string $charset)
+    public function __construct(InputStream $inputStream, string $charsetFrom, string $charsetTo = 'UTF-8')
     {
         parent::__construct($inputStream);
-        $this->charset = $charset;
+        $this->charsetFrom = $charsetFrom;
+        $this->charsetTo   = $charsetTo;
     }
 
     /**
-     * returns charset of input stream
+     * returns charset of underlaying input stream
      *
      * @return  string
      */
     public function charset(): string
     {
-        return $this->charset;
+        return $this->charsetFrom;
     }
 
     /**
@@ -46,10 +54,16 @@ class DecodingInputStream extends DecoratedInputStream
      *
      * @param   int  $length  max amount of bytes to read
      * @return  string
+     * @throws  StreamException  when decoding fails due to illegal character in input stream
      */
     public function read(int $length = 8192): string
     {
-        return iconv($this->charset, 'UTF-8', $this->inputStream->read($length));
+        $decoded = @iconv($this->charsetFrom, $this->charsetTo, $this->inputStream->read($length));
+        if (false === $decoded) {
+            throw new StreamException(lastErrorMessage()->value());
+        }
+
+        return $decoded;
     }
 
     /**
@@ -57,9 +71,15 @@ class DecodingInputStream extends DecoratedInputStream
      *
      * @param   int  $length  max amount of bytes to read
      * @return  string
+     * @throws  StreamException  when decoding fails due to illegal character in input stream
      */
     public function readLine(int $length = 8192): string
     {
-        return iconv($this->charset, 'UTF-8', $this->inputStream->readLine($length));
+        $decoded = @iconv($this->charsetFrom, $this->charsetTo, $this->inputStream->readLine($length));
+        if (false === $decoded) {
+            throw new StreamException(lastErrorMessage()->value());
+        }
+
+        return $decoded;
     }
 }
