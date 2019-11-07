@@ -135,7 +135,7 @@ abstract class ResourceInputStream implements InputStream
     protected function getResourceLength(): int
     {
         $fileData = fstat($this->handle);
-        return $fileData['size'];
+        return (int) $fileData['size'];
     }
 
     /**
