@@ -1,9 +1,12 @@
 parameters:
   level: 7
   paths:
-    - ./src
+      - ./src
   ignoreErrors:
-    # False positive
-    - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
-    - '#bovigo\\callmap\\ClassProxy given#'
-    - '#expects string\|stubbles\\streams\\InputStream, int given#'
+      # False positive
+      - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
+      - '#bovigo\\callmap\\ClassProxy given#'
+      - '#expects string\|stubbles\\streams\\InputStream, int given#'
+      -
+          message: '#Trying to invoke string but it might not be a callable.#'
+          path: src/main/php/ResourceInputStream.php
