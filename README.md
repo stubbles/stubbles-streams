@@ -110,6 +110,8 @@ parameter to the constructor:
 $decodingInputStream = new DecodingInputStream($encodedInputStream, 'iso-8859-1');
 ```
 
+*Note: since release 9.0.0 a third parameter can be used to influence what the data is being encoded to. The default is still UTF-8.*
+
 Of course there must be a possibility to write back into the correct encoding.
 For this, the `stubbles\streams\EncodingOutputStream` class can be used. It
 tries to convert from internal UTF-8 into the encoding of the decorated output
@@ -118,6 +120,8 @@ stream using `iconv()`.
 ```php
 $encodingOutputStream = new EncodingOutputStream($encodedOutputStream, 'iso-8859-1');
 ```
+
+*Note: since release 9.0.0 a third parameter can be used to influence what the data is being encoded from. The default is still UTF-8.*
 
 
 File related streams
