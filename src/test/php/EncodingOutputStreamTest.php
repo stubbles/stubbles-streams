@@ -13,6 +13,7 @@ use stubbles\streams\memory\MemoryOutputStream;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\assertTrue;
+use function bovigo\assert\expect;
 use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
@@ -96,5 +97,33 @@ class EncodingOutputStreamTest extends TestCase
         );
         $encodingOutputStream->close();
         assertTrue(verify($outputStream, 'close')->wasCalledOnce());
+    }
+
+    /**
+     * @test
+     * @since 9.0.0
+     */
+    public function writeThrowsExceptionInIllegalCharacter(): void
+    {
+        $out = new MemoryOutputStream();
+        $encodingOutputStream = new EncodingOutputStream($out, 'ISO-8859-1', 'CP850');
+        expect(function() use($encodingOutputStream) {
+            $encodingOutputStream->write("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL");
+        })->throws(StreamException::class)
+          ->after($out->buffer(), equals(''));
+    }
+
+    /**
+     * @test
+     * @since 9.0.0
+     */
+    public function writeLineThrowsExceptionInIllegalCharacter(): void
+    {
+        $out = new MemoryOutputStream();
+        $encodingOutputStream = new EncodingOutputStream($out, 'ISO-8859-1', 'CP850');
+        expect(function() use($encodingOutputStream) {
+          $encodingOutputStream->writeLine("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL");
+        })->throws(StreamException::class)
+          ->after($out->buffer(), equals(''));
     }
 }

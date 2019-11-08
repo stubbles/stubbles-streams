@@ -14,6 +14,7 @@
 ### Other changes
 
 * `stubbles\streams\DecodingInputStream` now accepts a third parameter so decoding charset can be set to something else than UTF-8
+* `stubbles\streams\EncodingOutputStream` now accepts a third parameter so charset to encode from can be set to something else than UTF-8
 
 ## 8.1.0 (2016-08-30)
 

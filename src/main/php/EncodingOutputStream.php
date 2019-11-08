@@ -17,18 +17,24 @@ class EncodingOutputStream extends DecoratedOutputStream
     /**
      * @type  string
      */
-    private $charset;
+    private $charsetTo;
+    /**
+     * @type  string
+     */
+    private $charsetFrom;
 
     /**
      * constructor
      *
      * @param  \stubbles\streams\OutputStream  $outputStream
-     * @param  string                          $charset       charset of output stream
+     * @param  string                          $charsetTo     charset of output stream
+     * @param  string                          $charsetFrom   charset of given data to write, defaults to UTF-8
      */
-    public function __construct(OutputStream $outputStream, string $charset)
+    public function __construct(OutputStream $outputStream, string $charsetTo, string $charsetFrom = 'UTF-8')
     {
         parent::__construct($outputStream);
-        $this->charset = $charset;
+        $this->charsetTo   = $charsetTo;
+        $this->charsetFrom = $charsetFrom;
     }
 
     /**
@@ -38,7 +44,7 @@ class EncodingOutputStream extends DecoratedOutputStream
      */
     public function charset(): string
     {
-        return $this->charset;
+        return $this->charsetTo;
     }
 
     /**
@@ -46,10 +52,16 @@ class EncodingOutputStream extends DecoratedOutputStream
      *
      * @param   string  $bytes
      * @return  int     amount of written bytes
+     * @throws  StreamException  in case encoding of given bytes failed
      */
     public function write(string $bytes): int
     {
-        return $this->outputStream->write(iconv('UTF-8', $this->charset, $bytes));
+        $encoded = @iconv($this->charsetFrom, $this->charsetTo, $bytes);
+        if (false === $encoded) {
+            throw new StreamException(lastErrorMessage());
+        }
+
+        return $this->outputStream->write($encoded);
     }
 
     /**
@@ -67,7 +79,6 @@ class EncodingOutputStream extends DecoratedOutputStream
         }
 
         return $bytesWritten;
-
     }
 
     /**
@@ -75,9 +86,15 @@ class EncodingOutputStream extends DecoratedOutputStream
      *
      * @param   string  $bytes
      * @return  int     amount of written bytes excluding line break
+     * @throws  StreamException  in case encoding of given bytes failed
      */
     public function writeLine(string $bytes): int
     {
-        return $this->outputStream->writeLine(iconv('UTF-8', $this->charset, $bytes));
+      $encoded = @iconv($this->charsetFrom, $this->charsetTo, $bytes);
+      if (false === $encoded) {
+          throw new StreamException(lastErrorMessage());
+      }
+
+      return $this->outputStream->writeLine($encoded);
     }
 }
