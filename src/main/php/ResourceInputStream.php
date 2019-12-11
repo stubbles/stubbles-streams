@@ -67,13 +67,13 @@ abstract class ResourceInputStream implements InputStream
     /**
      * do actual read
      *
-     * @param   string  $read    function to use for reading from handle
-     * @param   int     $length  max amount of bytes to read
+     * @param   callable  $read    function to use for reading from handle
+     * @param   int       $length  max amount of bytes to read
      * @return  string
      * @throws  \LogicException
      * @throws  \stubbles\streams\StreamException
      */
-    private function doRead(string $read, int $length): string
+    private function doRead(callable $read, int $length): string
     {
         if (null === $this->handle) {
             throw new \LogicException('Can not read from closed input stream.');
