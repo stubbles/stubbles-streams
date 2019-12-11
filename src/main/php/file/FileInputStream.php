@@ -127,7 +127,8 @@ class FileInputStream extends ResourceInputStream implements Seekable
      *
      * @param   int  $offset
      * @param   int  $whence  one of Seekable::SET, Seekable::CURRENT or Seekable::END
-     * @throws  \LogicException
+     * @throws  \LogicException  when trying to seek on an already closed stream
+     * @throws  StreamException  when seeking fails
      */
     public function seek(int $offset, int $whence = Seekable::SET)
     {
@@ -135,7 +136,9 @@ class FileInputStream extends ResourceInputStream implements Seekable
             throw new \LogicException('Can not read from closed input stream.');
         }
 
-        fseek($this->handle, $offset, $whence);
+        if (-1 === fseek($this->handle, $offset, $whence)) {
+            throw new StreamException('Could not seek');
+        }
     }
 
     /**

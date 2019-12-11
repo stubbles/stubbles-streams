@@ -61,10 +61,10 @@ class StandardInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function canSeekToAnyPosition(): void
+    public function seekingToPositionAfterEndThrowsStreamException(): void
     {
         expect(function() { $this->standardInputStream->seek(100); })
-                ->doesNotThrow();
+            ->throws(StreamException::class);
     }
 
     /**

@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.1.0 (2019-12-11)
+
+* both `stubbles\streams\StandardInputStream` and `stubbles\streams\file\FileInputStream` will now throw a `stubbles\streams\StreamException` when seeking fails
+
 ## 9.0.0 (2019-11-08)
 
 ### BC breaks
