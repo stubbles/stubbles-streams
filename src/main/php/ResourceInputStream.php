@@ -131,10 +131,20 @@ abstract class ResourceInputStream implements InputStream
      * needs to take care to deliver the correct resource length then.
      *
      * @return  int
+     * @throws  \LogicException  when trying to get resource length of already closed stream
+     * @throws  StreamException  when retrieving stat data fails
      */
     protected function getResourceLength(): int
     {
+        if (null === $this->handle || !is_resource($this->handle)) {
+            throw new \LogicException('Can not read from closed input stream.');
+        }
+
         $fileData = fstat($this->handle);
+        if (false === $fileData) {
+            throw new StreamException('Could not retrieve stat data');
+        }
+
         return (int) $fileData['size'];
     }
 
