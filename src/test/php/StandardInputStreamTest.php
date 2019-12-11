@@ -21,7 +21,7 @@ use function bovigo\assert\predicate\equals;
 class StandardInputStreamTest extends TestCase
 {
     /**
-     * @type  \stubbles\streams\StandardInputStream
+     * @var  \stubbles\streams\StandardInputStream
      */
     private $standardInputStream;
 
@@ -34,7 +34,7 @@ class StandardInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function startsAtPositionZero()
+    public function startsAtPositionZero(): void
     {
         assertThat($this->standardInputStream->tell(), equals(0));
     }
@@ -42,7 +42,7 @@ class StandardInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function seekAfterCloseThrowsLogicException()
+    public function seekAfterCloseThrowsLogicException(): void
     {
         $this->standardInputStream->close();
         expect(function() { $this->standardInputStream->seek(0); })
@@ -52,7 +52,7 @@ class StandardInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function canSeekToStartOfStream()
+    public function canSeekToStartOfStream(): void
     {
         expect(function() { $this->standardInputStream->seek(0); })
                 ->doesNotThrow();
@@ -61,7 +61,7 @@ class StandardInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function canSeekToAnyPosition()
+    public function canSeekToAnyPosition(): void
     {
         expect(function() { $this->standardInputStream->seek(100); })
                 ->doesNotThrow();
@@ -70,7 +70,7 @@ class StandardInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function tellAfterCloseThrowsLogicException()
+    public function tellAfterCloseThrowsLogicException(): void
     {
         $this->standardInputStream->close();
         expect(function() { $this->standardInputStream->tell(); })
@@ -81,7 +81,7 @@ class StandardInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function tellAfterExternalCloseThrowsStreamException()
+    public function tellAfterExternalCloseThrowsStreamException(): void
     {
         $stdInputStream = new class() extends StandardInputStream
         {

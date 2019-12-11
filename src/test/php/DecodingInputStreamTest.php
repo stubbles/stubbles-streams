@@ -28,13 +28,13 @@ class DecodingInputStreamTest extends TestCase
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\DecodingInputStream
+     * @var  \stubbles\streams\DecodingInputStream
      */
     private $decodingInputStream;
     /**
      * mocked input stream
      *
-     * @type  \stubbles\streams\memory\MemoryInputStream
+     * @var  \stubbles\streams\memory\MemoryInputStream
      */
     private $memory;
 
@@ -50,7 +50,7 @@ class DecodingInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function knowsGivenCharset()
+    public function knowsGivenCharset(): void
     {
         assertThat($this->decodingInputStream->charset(), equals('iso-8859-1'));
     }
@@ -58,7 +58,7 @@ class DecodingInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readReturnsDecodedDataFromDecoratedStream()
+    public function readReturnsDecodedDataFromDecoratedStream(): void
     {
         assertThat($this->decodingInputStream->read(), equals("hällö\n"));
     }
@@ -66,7 +66,7 @@ class DecodingInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readLineReturnsDecodedLineFromDecoratedStream()
+    public function readLineReturnsDecodedLineFromDecoratedStream(): void
     {
         assertThat($this->decodingInputStream->readLine(), equals('hällö'));
     }
@@ -74,7 +74,7 @@ class DecodingInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function bytesLeftReturnsBytesLeftFromDecoratedStream()
+    public function bytesLeftReturnsBytesLeftFromDecoratedStream(): void
     {
         assertThat($this->decodingInputStream->bytesLeft(), equals(6));
     }
@@ -82,7 +82,7 @@ class DecodingInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function eofReturnsEofFromDecoratedStream()
+    public function eofReturnsEofFromDecoratedStream(): void
     {
         assertFalse($this->decodingInputStream->eof());
     }
@@ -90,7 +90,7 @@ class DecodingInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function closeClosesDecoratedStream()
+    public function closeClosesDecoratedStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class);
         $decodingInputStream = new DecodingInputStream($inputStream, 'iso-8859-1');

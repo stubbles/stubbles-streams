@@ -29,7 +29,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * the file url used in the tests
      *
-     * @type  MemoryInputStream
+     * @var  MemoryInputStream
      */
     private $memoryInputStream;
 
@@ -41,7 +41,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function isNotAtEofWhenBytesLeft()
+    public function isNotAtEofWhenBytesLeft(): void
     {
         assertFalse($this->memoryInputStream->eof());
     }
@@ -49,7 +49,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function returnsAmountOfBytesLeft()
+    public function returnsAmountOfBytesLeft(): void
     {
         assertThat($this->memoryInputStream->bytesLeft(), equals(11));
     }
@@ -57,7 +57,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function pointerIsAtBeginningAfterConstruction()
+    public function pointerIsAtBeginningAfterConstruction(): void
     {
         assertThat($this->memoryInputStream->tell(), equals(0));
     }
@@ -65,7 +65,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readReturnsBytes()
+    public function readReturnsBytes(): void
     {
         assertThat($this->memoryInputStream->read(), equals("hello\nworld"));
     }
@@ -73,7 +73,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function hasReachedEofWhenEverythingWasRead()
+    public function hasReachedEofWhenEverythingWasRead(): void
     {
         $this->memoryInputStream->read();
         assertTrue($this->memoryInputStream->eof());
@@ -82,7 +82,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function hasNoBytesLeftWhenEverythingWasRead()
+    public function hasNoBytesLeftWhenEverythingWasRead(): void
     {
         $this->memoryInputStream->read();
         assertThat($this->memoryInputStream->bytesLeft(), equals(0));
@@ -91,7 +91,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function pointerIsAtLastPositionWhenEverythingWasRead()
+    public function pointerIsAtLastPositionWhenEverythingWasRead(): void
     {
         $this->memoryInputStream->read();
         assertThat($this->memoryInputStream->tell(), equals(11));
@@ -100,7 +100,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readLineSplitsOnLineBreak()
+    public function readLineSplitsOnLineBreak(): void
     {
         assertThat($this->memoryInputStream->readLine(), equals('hello'));
     }
@@ -108,7 +108,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function isNotAtEndWhenOneLineOfSeveralRead()
+    public function isNotAtEndWhenOneLineOfSeveralRead(): void
     {
         $this->memoryInputStream->readLine();
         assertFalse($this->memoryInputStream->eof());
@@ -117,7 +117,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function hasBytesLeftWhenOneLineOfServeralRead()
+    public function hasBytesLeftWhenOneLineOfServeralRead(): void
     {
         $this->memoryInputStream->readLine();
         assertThat($this->memoryInputStream->bytesLeft(), equals(5));
@@ -126,7 +126,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function pointerIsAtOffsetOfNextLineWhenOneLineOfServeralRead()
+    public function pointerIsAtOffsetOfNextLineWhenOneLineOfServeralRead(): void
     {
         $this->memoryInputStream->readLine();
         assertThat($this->memoryInputStream->tell(), equals(6));
@@ -135,7 +135,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readLineSplitsOnLineBreakForLastLine()
+    public function readLineSplitsOnLineBreakForLastLine(): void
     {
         $this->memoryInputStream->readLine();
         assertThat($this->memoryInputStream->readLine(), equals('world'));
@@ -144,7 +144,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function hasReachedEofAfterReadingLastLine()
+    public function hasReachedEofAfterReadingLastLine(): void
     {
         $this->memoryInputStream->readLine();
         $this->memoryInputStream->readLine();
@@ -154,7 +154,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function noyBytesLeftAfterReadingLastLine()
+    public function noyBytesLeftAfterReadingLastLine(): void
     {
         $this->memoryInputStream->readLine();
         $this->memoryInputStream->readLine();
@@ -164,7 +164,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function pointerIsAtEndAfterReadingLastLine()
+    public function pointerIsAtEndAfterReadingLastLine(): void
     {
         $this->memoryInputStream->readLine();
         $this->memoryInputStream->readLine();
@@ -175,7 +175,7 @@ class MemoryInputStreamTest extends TestCase
      * @since  2.1.2
      * @test
      */
-    public function readLineWithBothLineBreaks()
+    public function readLineWithBothLineBreaks(): void
     {
         $this->memoryInputStream = new MemoryInputStream("hello\r\nworld");
         assertThat($this->memoryInputStream->readLine(), equals('hello'));
@@ -185,7 +185,7 @@ class MemoryInputStreamTest extends TestCase
      * @since  2.1.2
      * @test
      */
-    public function readLineWithBothLineBreaksNextLine()
+    public function readLineWithBothLineBreaksNextLine(): void
     {
         $this->memoryInputStream = new MemoryInputStream("hello\r\nworld");
         $this->memoryInputStream->readLine();
@@ -195,7 +195,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function closeDoesNothing()
+    public function closeDoesNothing(): void
     {
         assertNull($this->memoryInputStream->close());
     }
@@ -203,7 +203,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function seekCanSetAbsolutePosition()
+    public function seekCanSetAbsolutePosition(): void
     {
         $this->memoryInputStream->seek(6);
         assertThat($this->memoryInputStream->tell(), equals(6));
@@ -215,7 +215,7 @@ class MemoryInputStreamTest extends TestCase
      *
      * @test
      */
-    public function seekCanSetPositionFromCurrentPosition()
+    public function seekCanSetPositionFromCurrentPosition(): void
     {
         $this->memoryInputStream->read(4);
         $this->memoryInputStream->seek(2, Seekable::CURRENT);
@@ -226,7 +226,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function seekCanSetPositionFromEnd()
+    public function seekCanSetPositionFromEnd(): void
     {
         $this->memoryInputStream->seek(-5, Seekable::END);
         assertThat($this->memoryInputStream->tell(), equals(6));
@@ -236,7 +236,7 @@ class MemoryInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function seekThrowsIllegalArgumentExceptionForInvalidWhence()
+    public function seekThrowsIllegalArgumentExceptionForInvalidWhence(): void
     {
         expect(function() { $this->memoryInputStream->seek(6, 66); })
                 ->throws(\InvalidArgumentException::class);

@@ -24,13 +24,13 @@ class FilteredInputStreamTest extends TestCase
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\filter\FilteredInputStream
+     * @var  \stubbles\streams\filter\FilteredInputStream
      */
     private $filteredInputStream;
     /**
      * mocked input stream
      *
-     * @type  \stubbles\streams\memory\MemoryInputStream
+     * @var  \stubbles\streams\memory\MemoryInputStream
      */
     private $inputStream;
 
@@ -49,7 +49,7 @@ class FilteredInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readReturnsEmptyStringIfChunkIsFiltered()
+    public function readReturnsEmptyStringIfChunkIsFiltered(): void
     {
         assertEmptyString($this->filteredInputStream->read());
     }
@@ -58,7 +58,7 @@ class FilteredInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function readReturnsChunkIfChunkWithSpecifiedSizeSatisfiesFilter()
+    public function readReturnsChunkIfChunkWithSpecifiedSizeSatisfiesFilter(): void
     {
         assertThat($this->filteredInputStream->read(4), equals('bar'));
     }
@@ -66,7 +66,7 @@ class FilteredInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readLineReturnsUnfilteredLinesOnly()
+    public function readLineReturnsUnfilteredLinesOnly(): void
     {
         assertThat($this->filteredInputStream->readLine(), equals('bar'));
     }

@@ -23,11 +23,11 @@ class PrefixedStreamFactoryTest extends TestCase
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\PrefixedStreamFactorys
+     * @var  PrefixedStreamFactory
      */
     private $prefixedStreamFactory;
     /**
-     * @type  StreamFactory
+     * @var  StreamFactory&\bovigo\callmap\ClassProxy
      */
     private $streamFactory;
 
@@ -43,7 +43,7 @@ class PrefixedStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function inputStreamGetsPrefix()
+    public function inputStreamGetsPrefix(): void
     {
         $inputStream = NewInstance::of(InputStream::class);
         $this->streamFactory->returns(
@@ -63,7 +63,7 @@ class PrefixedStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function outputStreamGetsPrefix()
+    public function outputStreamGetsPrefix(): void
     {
         $outputStream = NewInstance::of(OutputStream::class);
         $this->streamFactory->returns(

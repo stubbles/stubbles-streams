@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
+use function bovigo\assert\fail;
 use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\ResourceOutputStream.
@@ -23,33 +24,45 @@ class ResourceOutputStreamTest extends TestCase
     /**
      * instance to test
      *
-     * @type  TestResourceOutputStream
+     * @var  ResourceOutputStream
      */
     private $resourceOutputStream;
     /**
      * the handle
      *
-     * @type  resource
+     * @var  resource
      */
     private $handle;
     /**
      * root directory
      *
-     * @type   org\bovigo\vfs\vfsDirectory
+     * @var  \org\bovigo\vfs\vfsStreamDirectory
      */
     private $root;
 
     protected function setUp(): void
     {
         $this->root                 = vfsStream::setup();
-        $this->handle               = fopen(vfsStream::url('root/test_write.txt'), 'w');
+        $handle = fopen(vfsStream::url('root/test_write.txt'), 'w');
+        if (false === $handle) {
+            fail('Could not open vfsStream url');
+        }
+
+        $this->handle               = $handle;
         $this->resourceOutputStream = $this->createResourceOutputStream($this->handle);
     }
 
+    /**
+     * @param   resource  $resource
+     * @return  ResourceOutputStream
+     */
     private function createResourceOutputStream($resource): ResourceOutputStream
     {
         return new class($resource) extends ResourceOutputStream
         {
+            /**
+             * @param  resource  $handle
+             */
             public function __construct($handle)
             {
                 $this->setHandle($handle);
@@ -60,7 +73,7 @@ class ResourceOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function invalidHandleThrowsIllegalArgumentException()
+    public function invalidHandleThrowsIllegalArgumentException(): void
     {
         expect(function() { $this->createResourceOutputStream('invalid'); })
                 ->throws(\InvalidArgumentException::class);
@@ -69,7 +82,7 @@ class ResourceOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeToClosedStreamThrowsIllegalStateException()
+    public function writeToClosedStreamThrowsIllegalStateException(): void
     {
         $this->resourceOutputStream->close();
         expect(function() {
@@ -81,7 +94,7 @@ class ResourceOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeLineToClosedStreamThrowsIllegalStateException()
+    public function writeLineToClosedStreamThrowsIllegalStateException(): void
     {
         $this->resourceOutputStream->close();
         expect(function() {
@@ -93,7 +106,7 @@ class ResourceOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeToExternalClosedStreamThrowsIOException()
+    public function writeToExternalClosedStreamThrowsIOException(): void
     {
         fclose($this->handle);
         expect(function() {
@@ -105,7 +118,7 @@ class ResourceOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeLineToExternalClosedStreamThrowsIOException()
+    public function writeLineToExternalClosedStreamThrowsIOException(): void
     {
         fclose($this->handle);
         expect(function() {
@@ -117,12 +130,15 @@ class ResourceOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writePassesBytesIntoStream()
+    public function writePassesBytesIntoStream(): void
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);
-        $resourceOutputStream = $this->createResourceOutputStream(
-                fopen(vfsStream::url('root/test.txt'), 'w')
-        );
+        $res  = fopen(vfsStream::url('root/test.txt'), 'w');
+        if (false === $res) {
+            fail('Could not open vfsStream url');
+        }
+
+        $resourceOutputStream = $this->createResourceOutputStream($res);
         assertThat($resourceOutputStream->write('foobarbaz'), equals(9));
         assertThat($file->getContent(), equals('foobarbaz'));
     }
@@ -130,12 +146,15 @@ class ResourceOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeLinePassesBytesWithLinebreakIntoStream()
+    public function writeLinePassesBytesWithLinebreakIntoStream(): void
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);
-        $resourceOutputStream = $this->createResourceOutputStream(
-                fopen(vfsStream::url('root/test.txt'), 'w')
-        );
+        $res  = fopen(vfsStream::url('root/test.txt'), 'w');
+        if (false === $res) {
+            fail('Could not open vfsStream url');
+        }
+
+        $resourceOutputStream = $this->createResourceOutputStream($res);
         assertThat($resourceOutputStream->writeLine('foobarbaz'), equals(11));
         assertThat($file->getContent(), equals("foobarbaz\r\n"));
     }
@@ -144,12 +163,15 @@ class ResourceOutputStreamTest extends TestCase
      * @test
      * @since  3.2.0
      */
-    public function writeLinesPassesBytesWithLinebreakIntoStream()
+    public function writeLinesPassesBytesWithLinebreakIntoStream(): void
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);
-        $resourceOutputStream = $this->createResourceOutputStream(
-                fopen(vfsStream::url('root/test.txt'), 'w')
-        );
+        $res  = fopen(vfsStream::url('root/test.txt'), 'w');
+        if (false === $res) {
+            fail('Could not open vfsStream url');
+        }
+
+        $resourceOutputStream = $this->createResourceOutputStream($res);
         assertThat(
                 $resourceOutputStream->writeLines(['foo', 'bar', 'baz']),
                 equals(15)

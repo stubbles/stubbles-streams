@@ -23,7 +23,7 @@ class MemoryStreamFactoryTest extends TestCase
     /**
      * instance to test
      *
-     * @type  MemoryStreamFactory
+     * @var  MemoryStreamFactory
      */
     private $memoryStreamFactory;
 
@@ -35,7 +35,7 @@ class MemoryStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createInputStream()
+    public function createInputStream(): void
     {
         $memoryInputStream = $this->memoryStreamFactory->createInputStream('buffer');
         assertThat($memoryInputStream, isInstanceOf(MemoryInputStream::class));
@@ -44,7 +44,7 @@ class MemoryStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createInputStreamUsesGivenStringAsStreamContent()
+    public function createInputStreamUsesGivenStringAsStreamContent(): void
     {
         $memoryInputStream = $this->memoryStreamFactory->createInputStream('buffer');
         assertThat($memoryInputStream->readLine(), equals('buffer'));
@@ -53,7 +53,7 @@ class MemoryStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStream()
+    public function createOutputStream(): void
     {
         assertThat(
                 $this->memoryStreamFactory->createOutputStream('buffer'),

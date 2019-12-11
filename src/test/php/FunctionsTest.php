@@ -28,6 +28,9 @@ use function bovigo\assert\{
  */
 class FunctionsTest extends TestCase
 {
+    /**
+     * @var  \org\bovigo\vfs\vfsStreamFile
+     */
     private $file;
 
     protected function setUp(): void
@@ -41,7 +44,7 @@ class FunctionsTest extends TestCase
     /**
      * @test
      */
-    public function linesOfReturnsSequence()
+    public function linesOfReturnsSequence(): void
     {
         assertThat(linesOf($this->file->url()), isInstanceOf(Sequence::class));
     }
@@ -50,7 +53,7 @@ class FunctionsTest extends TestCase
      * @test
      * @since  6.2.0
      */
-    public function nonEmptyLinesOfReturnsNonEmptyLinesOnly()
+    public function nonEmptyLinesOfReturnsNonEmptyLinesOnly(): void
     {
         assertThat(
                 nonEmptyLinesOf($this->file->url()),
@@ -63,7 +66,7 @@ class FunctionsTest extends TestCase
      * @group  issue_1
      * @since  8.1.0
      */
-    public function copyFromEmptyInputStreamResultsInNoBytesCopied()
+    public function copyFromEmptyInputStreamResultsInNoBytesCopied(): void
     {
         $in  = new MemoryInputStream('');
         $out = new MemoryOutputStream();
@@ -75,7 +78,7 @@ class FunctionsTest extends TestCase
      * @group  issue_1
      * @since  8.1.0
      */
-    public function copyFromEmptyInputStreamResultsInNothingReceivedOnOutputStream()
+    public function copyFromEmptyInputStreamResultsInNothingReceivedOnOutputStream(): void
     {
         $in  = new MemoryInputStream('');
         $out = new MemoryOutputStream();
@@ -88,7 +91,7 @@ class FunctionsTest extends TestCase
      * @group  issue_1
      * @since  8.1.0
      */
-    public function copyFromInputStreamResultsInAllBytesCopied()
+    public function copyFromInputStreamResultsInAllBytesCopied(): void
     {
         $in  = new MemoryInputStream("foo\nbar\nbaz");
         $out = new MemoryOutputStream();
@@ -100,7 +103,7 @@ class FunctionsTest extends TestCase
      * @group  issue_1
      * @since  8.1.0
      */
-    public function copyFromInputStreamWritesExactCopyToOutputStream()
+    public function copyFromInputStreamWritesExactCopyToOutputStream(): void
     {
         $in  = new MemoryInputStream("foo\nbar\nbaz");
         $out = new MemoryOutputStream();

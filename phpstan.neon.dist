@@ -1,12 +1,20 @@
+includes:
+  - vendor/bovigo/assert/src/main/resources/phpstan/bovigo-assert.neon
 parameters:
+  inferPrivatePropertyTypeFromConstructor: true
   level: 7
   paths:
       - ./src
   ignoreErrors:
       # False positive
       - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
-      - '#bovigo\\callmap\\ClassProxy given#'
       - '#expects string\|stubbles\\streams\\InputStream, int given#'
       -
           message: '#Trying to invoke string but it might not be a callable.#'
           path: src/main/php/ResourceInputStream.php
+      -
+          message: '#method stubbles\\streams\\ResourceInputStreamTest::createResourceInputStream\(\) expects resource, string given#'
+          path: src/test/php/ResourceInputStreamTest.php
+      -
+          message: '#method stubbles\\streams\\ResourceOutputStreamTest::createResourceOutputStream\(\) expects resource, string given#'
+          path: src/test/php/ResourceOutputStreamTest.php

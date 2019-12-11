@@ -22,7 +22,7 @@ class StandardOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writesToStandardOutputBuffer()
+    public function writesToStandardOutputBuffer(): void
     {
         $out = new StandardOutputStream();
         ob_start();

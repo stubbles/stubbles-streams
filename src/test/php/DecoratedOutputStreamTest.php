@@ -25,13 +25,13 @@ class DecoratedOutputStreamTest extends TestCase
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\DecoratedOutputStream
+     * @var  \stubbles\streams\DecoratedOutputStream
      */
     private $decoratedOutputStream;
     /**
      * mocked input stream
      *
-     * @type  \stubbles\streams\memory\MemoryOutputStream
+     * @var  \stubbles\streams\memory\MemoryOutputStream
      */
     private $memory;
 
@@ -49,7 +49,7 @@ class DecoratedOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeCallsDecoratedStream()
+    public function writeCallsDecoratedStream(): void
     {
         $this->decoratedOutputStream->write('foo');
         assertThat($this->memory->buffer(), equals('foo'));
@@ -58,7 +58,7 @@ class DecoratedOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeReturnsAmountOfDataWrittenFromDecoratedStream()
+    public function writeReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
                 $this->decoratedOutputStream->write('foo'),
@@ -70,7 +70,7 @@ class DecoratedOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeLineCallsDecoratedStream()
+    public function writeLineCallsDecoratedStream(): void
     {
         $this->decoratedOutputStream->writeLine('foo');
         assertThat($this->memory->buffer(), equals("foo\n"));
@@ -80,7 +80,7 @@ class DecoratedOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeLineReturnsAmountOfDataWrittenFromDecoratedStream()
+    public function writeLineReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
                 $this->decoratedOutputStream->writeLine('foo'),
@@ -92,7 +92,7 @@ class DecoratedOutputStreamTest extends TestCase
      * @test
      * @since  3.2.0
      */
-    public function writeLinesCallsDecoratedStream()
+    public function writeLinesCallsDecoratedStream(): void
     {
         $this->decoratedOutputStream->writeLines(['foo', 'bar']);
         assertThat($this->memory->buffer(), equals("foo\nbar\n"));
@@ -102,7 +102,7 @@ class DecoratedOutputStreamTest extends TestCase
      * @test
      * @since  3.2.0
      */
-    public function writeLinesReturnsAmountOfDataWrittenFromDecoratedStream()
+    public function writeLinesReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
                 $this->decoratedOutputStream->writeLines(['foo', 'bar']),
@@ -113,7 +113,7 @@ class DecoratedOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function closeClosesDecoratedStream()
+    public function closeClosesDecoratedStream(): void
     {
         $outputStream = NewInstance::of(OutputStream::class);
         $decoratedOutputStream = $this->createDecoratedOutputStream(

@@ -30,25 +30,25 @@ class FileStreamFactoryTest extends TestCase
     /**
      * instance to test
      *
-     * @type  FileStreamFactory
+     * @var  FileStreamFactory
      */
     private $fileStreamFactory;
     /**
      * a file url used in the tests
      *
-     * @type  string
+     * @var  string
      */
     private $fileUrl;
     /**
      * a file url used in the tests
      *
-     * @type  string
+     * @var  string
      */
     private $fileUrl2;
     /**
      * root directory
      *
-     * @type  vfsStreamDirectory
+     * @var  \org\bovigo\vfs\vfsStreamDirectory
      */
     private $root;
 
@@ -64,7 +64,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function annotationsPresent()
+    public function annotationsPresent(): void
     {
         $annotations = annotationsOfConstructor($this->fileStreamFactory);
         assertTrue($annotations->contain('Property'));
@@ -77,7 +77,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createInputStreamWithOptions()
+    public function createInputStreamWithOptions(): void
     {
         $fileInputStream = $this->fileStreamFactory->createInputStream(
                 vfsStream::url('home/in.txt'),
@@ -89,7 +89,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createInputStreamWithoutOptions()
+    public function createInputStreamWithoutOptions(): void
     {
         $fileInputStream = $this->fileStreamFactory->createInputStream(
                 vfsStream::url('home/in.txt')
@@ -100,7 +100,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStreamWithFilemodeOption()
+    public function createOutputStreamWithFilemodeOption(): void
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
                 $this->fileUrl,
@@ -113,7 +113,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStreamWithFilemodeOptionAndDirectoryOptionSetToTrue()
+    public function createOutputStreamWithFilemodeOptionAndDirectoryOptionSetToTrue(): void
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
                 $this->fileUrl2,
@@ -128,7 +128,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStreamWithDirectoryOptionNotSetThrowsExceptionIfDirectoryDoesNotExist()
+    public function createOutputStreamWithDirectoryOptionNotSetThrowsExceptionIfDirectoryDoesNotExist(): void
     {
         assertFalse(file_exists($this->fileUrl2));
         expect(function() {
@@ -140,7 +140,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStreamWithDirectoryOptionSetToFalseThrowsExceptionIfDirectoryDoesNotExist()
+    public function createOutputStreamWithDirectoryOptionSetToFalseThrowsExceptionIfDirectoryDoesNotExist(): void
     {
         expect(function() {
                 $this->fileStreamFactory->createOutputStream(
@@ -154,7 +154,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStreamWithDirectoryOptionSetToTrueCreatesDirectoryWithDefaultPermissions()
+    public function createOutputStreamWithDirectoryOptionSetToTrueCreatesDirectoryWithDefaultPermissions(): void
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
                 $this->fileUrl2,
@@ -166,7 +166,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStreamWithDirectoryOptionSetToTrueCreatesDirectoryWithOptionsPermissions()
+    public function createOutputStreamWithDirectoryOptionSetToTrueCreatesDirectoryWithOptionsPermissions(): void
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
                 $this->fileUrl2,
@@ -180,7 +180,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStreamWithDelayedOption()
+    public function createOutputStreamWithDelayedOption(): void
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
                 $this->fileUrl,
@@ -192,7 +192,7 @@ class FileStreamFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createOutputStreamWithoutOptions()
+    public function createOutputStreamWithoutOptions(): void
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
                 $this->fileUrl

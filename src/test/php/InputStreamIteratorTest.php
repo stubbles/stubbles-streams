@@ -26,7 +26,7 @@ class InputStreamIteratorTest extends TestCase
     /**
      * @test
      */
-    public function canIterateOverSeekableInputStream()
+    public function canIterateOverSeekableInputStream(): void
     {
         $content = [];
         foreach (linesOf(new MemoryInputStream("foo\nbar\nbaz\n")) as $lineNumber => $line) {
@@ -39,7 +39,7 @@ class InputStreamIteratorTest extends TestCase
     /**
      * @test
      */
-    public function canRewindSeekableInputStream()
+    public function canRewindSeekableInputStream(): void
     {
         $lines = linesOf(new MemoryInputStream("foo\nbar\nbaz\n"));
         foreach ($lines as $lineNumber => $line) {
@@ -57,7 +57,7 @@ class InputStreamIteratorTest extends TestCase
     /**
      * @test
      */
-    public function canIterateOverNonSeekableInputStream()
+    public function canIterateOverNonSeekableInputStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class)->returns([
                 'readLine' => onConsecutiveCalls('foo', 'bar', 'baz', ''),
@@ -74,7 +74,7 @@ class InputStreamIteratorTest extends TestCase
     /**
      * @test
      */
-    public function canNotRewindNonSeekableInputStream()
+    public function canNotRewindNonSeekableInputStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class)->returns([
                 'readLine' => onConsecutiveCalls('foo', 'bar', 'baz', ''),

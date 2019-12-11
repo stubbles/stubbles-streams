@@ -30,7 +30,7 @@ class FileOutputStreamTest extends TestCase
     /**
      * the file url used in the tests
      *
-     * @type  string
+     * @var  string
      */
     private $fileUrl;
 
@@ -43,7 +43,7 @@ class FileOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithStringCreatesFile()
+    public function constructWithStringCreatesFile(): void
     {
         new FileOutputStream($this->fileUrl);
         assertTrue(file_exists($this->fileUrl));
@@ -52,7 +52,7 @@ class FileOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithStringDelayedDoesNotCreateFile()
+    public function constructWithStringDelayedDoesNotCreateFile(): void
     {
         new FileOutputStream($this->fileUrl, 'wb', true);
         assertFalse(file_exists($this->fileUrl));
@@ -61,7 +61,7 @@ class FileOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithString()
+    public function constructWithString(): void
     {
         $fileOutputStream = new FileOutputStream($this->fileUrl);
         $fileOutputStream->write('foo');
@@ -71,7 +71,7 @@ class FileOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithStringDelayedCreatesFileOnWrite()
+    public function constructWithStringDelayedCreatesFileOnWrite(): void
     {
         $fileOutputStream = new FileOutputStream($this->fileUrl, 'wb', true);
         $fileOutputStream->write('foo');
@@ -81,7 +81,7 @@ class FileOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithStringFailsAndThrowsIOException()
+    public function constructWithStringFailsAndThrowsIOException(): void
     {
         vfsStream::newFile('test.txt', 0000)->at(vfsStream::setup());
         expect(function() { new FileOutputStream($this->fileUrl, 'r'); })
@@ -96,12 +96,11 @@ class FileOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithResource()
+    public function constructWithResource(): void
     {
         $file = fopen($this->fileUrl, 'wb');
         if (false === $file) {
             fail('Could not open vfsStream file');
-            return;
         }
 
         $fileOutputStream = new FileOutputStream($file);
@@ -113,12 +112,11 @@ class FileOutputStreamTest extends TestCase
      * @test
      * @requires  extension  gd
      */
-    public function constructWithIllegalResource()
+    public function constructWithIllegalResource(): void
     {
         $illegalResource = imagecreate(2, 2);
         if (false === $illegalResource) {
             fail('Could not create illegal resource');
-            return;
         }
 
         expect(function() use($illegalResource) { new FileOutputStream($illegalResource); })

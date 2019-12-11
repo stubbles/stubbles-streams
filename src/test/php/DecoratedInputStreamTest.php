@@ -26,13 +26,13 @@ class DecoratedInputStreamTest extends TestCase
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\DecoratedInputStream
+     * @var  \stubbles\streams\DecoratedInputStream
      */
     private $decoratedInputStream;
     /**
      * mocked input stream
      *
-     * @type  \stubbles\streams\memory\MemoryInputStream
+     * @var  \stubbles\streams\memory\MemoryInputStream
      */
     private $memory;
 
@@ -50,7 +50,7 @@ class DecoratedInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readCallsDecoratedStream()
+    public function readCallsDecoratedStream(): void
     {
         assertThat($this->decoratedInputStream->read(), equals("foo\n"));
     }
@@ -58,7 +58,7 @@ class DecoratedInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function readLineCallsDecoratedStream()
+    public function readLineCallsDecoratedStream(): void
     {
         assertThat($this->decoratedInputStream->readLine(), equals('foo'));
     }
@@ -66,7 +66,7 @@ class DecoratedInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function bytesLeftCallsDecoratedStream()
+    public function bytesLeftCallsDecoratedStream(): void
     {
         assertThat($this->decoratedInputStream->bytesLeft(), equals(4));
     }
@@ -74,7 +74,7 @@ class DecoratedInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function eofCallsDecoratedStream()
+    public function eofCallsDecoratedStream(): void
     {
         assertFalse($this->decoratedInputStream->eof());
     }
@@ -82,7 +82,7 @@ class DecoratedInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function closeCallsDecoratedStream()
+    public function closeCallsDecoratedStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class);
         $decoratedInputStream = $this->createDecoratedInputStream($inputStream);

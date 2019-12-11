@@ -24,13 +24,13 @@ class FilteredOutputStreamTest extends TestCase
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\filter\FilteredOutputStream
+     * @var  \stubbles\streams\filter\FilteredOutputStream
      */
     private $filteredOutputStream;
     /**
      * decorated input stream
      *
-     * @type  \stubbles\streams\memory\MemoryOutputStream
+     * @var  \stubbles\streams\memory\MemoryOutputStream
      */
     private $memory;
 
@@ -46,6 +46,9 @@ class FilteredOutputStreamTest extends TestCase
         );
     }
 
+    /**
+     * @return  array<scalar[]>
+     */
     public function writeData(): array
     {
         return [['foo', 3], ['bar', 0]];
@@ -55,7 +58,7 @@ class FilteredOutputStreamTest extends TestCase
      * @test
      * @dataProvider writeData
      */
-    public function returnsAmountOfDataBasedOnFilter($write, $expected)
+    public function returnsAmountOfDataBasedOnFilter(string $write, int $expected): void
     {
         assertThat($this->filteredOutputStream->write($write), equals($expected));
     }
@@ -63,7 +66,7 @@ class FilteredOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function dataPassingTheFilterShouldBeWritten()
+    public function dataPassingTheFilterShouldBeWritten(): void
     {
         $this->filteredOutputStream->write('foo');
         assertThat($this->memory->buffer(), equals('foo'));
@@ -72,7 +75,7 @@ class FilteredOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function dataNotPassingTheFilterShouldNotBeWritten()
+    public function dataNotPassingTheFilterShouldNotBeWritten(): void
     {
         $this->filteredOutputStream->write('bar');
         assertEmptyString($this->memory->buffer());
@@ -82,7 +85,7 @@ class FilteredOutputStreamTest extends TestCase
      * @test
      * @dataProvider writeData
      */
-    public function returnsAmountOfDataBasedOnFilterPlusLineEnding($write, $expected)
+    public function returnsAmountOfDataBasedOnFilterPlusLineEnding(string $write, int $expected): void
     {
         if (0 < $expected) {
             $expected++;
@@ -96,7 +99,7 @@ class FilteredOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function dataPassingTheFilterShouldBeWrittenAsLine()
+    public function dataPassingTheFilterShouldBeWrittenAsLine(): void
     {
         $this->filteredOutputStream->writeLine('foo');
         assertThat($this->memory->buffer(), equals("foo\n"));
@@ -105,7 +108,7 @@ class FilteredOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function dataNotPassingTheFilterShouldNotBeWrittenAsLine()
+    public function dataNotPassingTheFilterShouldNotBeWrittenAsLine(): void
     {
         $this->filteredOutputStream->writeLine('bar');
         assertEmptyString($this->memory->buffer());
@@ -115,7 +118,7 @@ class FilteredOutputStreamTest extends TestCase
      * @test
      * @since  3.2.0
      */
-    public function writeLinesProcessesOnlyLinesSatisfyingFilter()
+    public function writeLinesProcessesOnlyLinesSatisfyingFilter(): void
     {
         $this->filteredOutputStream->writeLines(['foo', 'bar']);
         assertThat($this->memory->buffer(), equals("foo\n"));
@@ -125,7 +128,7 @@ class FilteredOutputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function writeLinesReturnsOnlyAmountOfUnfilteredBytedWritten()
+    public function writeLinesReturnsOnlyAmountOfUnfilteredBytedWritten(): void
     {
         assertThat(
                 $this->filteredOutputStream->writeLines(['foo', 'bar']),

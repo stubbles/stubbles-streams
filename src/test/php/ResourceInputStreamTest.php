@@ -16,6 +16,7 @@ use function bovigo\assert\{
     assertFalse,
     assertTrue,
     expect,
+    fail,
     predicate\equals
 };
 /**
@@ -28,13 +29,13 @@ class ResourceInputStreamTest extends TestCase
     /**
      * instance to test
      *
-     * @type  TestResourceInputStream
+     * @var  ResourceInputStream
      */
     private $resourceInputStream;
     /**
      * the handle
      *
-     * @type  resource
+     * @var  resource
      */
     private $handle;
 
@@ -45,14 +46,26 @@ class ResourceInputStreamTest extends TestCase
                  ->withContent('foobarbaz
 jjj')
                  ->at($root);
-        $this->handle              = fopen(vfsStream::url('root/test_read.txt'), 'r');
+        $handle = fopen(vfsStream::url('root/test_read.txt'), 'r');
+        if (false === $handle) {
+            fail('Could not open vfsStream url');
+        }
+
+        $this->handle              = $handle;
         $this->resourceInputStream = $this->createResourceInputStream($this->handle);
     }
 
+    /**
+     * @param   resource  $resource
+     * @return  ResourceInputStream
+     */
     private function createResourceInputStream($resource): ResourceInputStream
     {
         return new class($resource) extends ResourceInputStream
         {
+            /**
+             * @param   resource  $handle
+             */
             public function __construct($handle)
             {
                 $this->setHandle($handle);
@@ -63,7 +76,7 @@ jjj')
     /**
      * @test
      */
-    public function invalidHandleThrowsIllegalArgumentException()
+    public function invalidHandleThrowsIllegalArgumentException(): void
     {
         expect(function() { $this->createResourceInputStream('invalid'); })
                 ->throws(\InvalidArgumentException::class);
@@ -72,7 +85,7 @@ jjj')
     /**
      * @test
      */
-    public function hasBytesLeftWhenOpenedAtStart()
+    public function hasBytesLeftWhenOpenedAtStart(): void
     {
         assertThat($this->resourceInputStream->bytesLeft(), equals(13));
     }
@@ -80,7 +93,7 @@ jjj')
     /**
      * @test
      */
-    public function isNotAtEofWhenOpenedAtStart()
+    public function isNotAtEofWhenOpenedAtStart(): void
     {
         assertFalse($this->resourceInputStream->eof());
     }
@@ -88,7 +101,7 @@ jjj')
     /**
      * @test
      */
-    public function hasNoBytesLeftWhenEverythingRead()
+    public function hasNoBytesLeftWhenEverythingRead(): void
     {
         $this->resourceInputStream->read();
         assertThat($this->resourceInputStream->bytesLeft(), equals(0));
@@ -97,7 +110,7 @@ jjj')
     /**
      * @test
      */
-    public function read()
+    public function read(): void
     {
         assertThat($this->resourceInputStream->read(), equals("foobarbaz\njjj"));
     }
@@ -105,7 +118,7 @@ jjj')
     /**
      * @test
      */
-    public function readBytes()
+    public function readBytes(): void
     {
         assertThat($this->resourceInputStream->read(6), equals('foobar'));
     }
@@ -113,7 +126,7 @@ jjj')
     /**
      * @test
      */
-    public function hasBytesLeftWhenNotEverythingRead()
+    public function hasBytesLeftWhenNotEverythingRead(): void
     {
         $this->resourceInputStream->read(6);
         assertThat($this->resourceInputStream->bytesLeft(), equals(7));
@@ -122,7 +135,7 @@ jjj')
     /**
      * @test
      */
-    public function readLine()
+    public function readLine(): void
     {
         assertThat($this->resourceInputStream->readLine(), equals('foobarbaz'));
     }
@@ -130,7 +143,7 @@ jjj')
     /**
      * @test
      */
-    public function hasReachedEofWhenEverythingRead()
+    public function hasReachedEofWhenEverythingRead(): void
     {
         $this->resourceInputStream->read();
         assertTrue($this->resourceInputStream->eof());
@@ -139,7 +152,7 @@ jjj')
     /**
      * @test
      */
-    public function readAfterEofReturnsEmptyString()
+    public function readAfterEofReturnsEmptyString(): void
     {
         $this->resourceInputStream->read();
         assertEmptyString($this->resourceInputStream->read());
@@ -148,7 +161,7 @@ jjj')
     /**
      * @test
      */
-    public function readAfterCloseFails()
+    public function readAfterCloseFails(): void
     {
         expect(function() {
                 $this->resourceInputStream->close();
@@ -160,7 +173,7 @@ jjj')
     /**
      * @test
      */
-    public function readLineAfterCloseFails()
+    public function readLineAfterCloseFails(): void
     {
         expect(function() {
                 $this->resourceInputStream->close();
@@ -172,7 +185,7 @@ jjj')
     /**
      * @test
      */
-    public function bytesLeftAfterCloseFails()
+    public function bytesLeftAfterCloseFails(): void
     {
         expect(function() {
                 $this->resourceInputStream->close();
@@ -184,7 +197,7 @@ jjj')
     /**
      * @test
      */
-    public function readAfterCloseFromOutsite()
+    public function readAfterCloseFromOutsite(): void
     {
         expect(function() {
                 fclose($this->handle);
@@ -196,7 +209,7 @@ jjj')
     /**
      * @test
      */
-    public function readLineAfterCloseFromOutsite()
+    public function readLineAfterCloseFromOutsite(): void
     {
         expect(function() {
                 fclose($this->handle);
@@ -208,7 +221,7 @@ jjj')
     /**
      * @test
      */
-    public function bytesLeftAfterCloseFromOutsite()
+    public function bytesLeftAfterCloseFromOutsite(): void
     {
         expect(function() {
                 fclose($this->handle);

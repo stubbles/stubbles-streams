@@ -27,13 +27,13 @@ class EncodingOutputStreamTest extends TestCase
     /**
      * instance to test
      *
-     * @type  \stubbles\streams\EncodingOutputStream
+     * @var  \stubbles\streams\EncodingOutputStream
      */
     private $encodingOutputStream;
     /**
      * mocked input stream
      *
-     * @type  \stubbles\streams\memory\MemoryOutputStream
+     * @var  \stubbles\streams\memory\MemoryOutputStream
      */
     private $memory;
 
@@ -49,7 +49,7 @@ class EncodingOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function knowsGivenCharset()
+    public function knowsGivenCharset(): void
     {
         assertThat($this->encodingOutputStream->charset(), equals('iso-8859-1'));
     }
@@ -57,7 +57,7 @@ class EncodingOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeEncodesBytesBeforePassedToDecoratedStream()
+    public function writeEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat($this->encodingOutputStream->write('hällö'), equals(5));
         assertThat($this->memory->buffer(), equals(utf8_decode('hällö')));
@@ -66,7 +66,7 @@ class EncodingOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeLineEncodesBytesBeforePassedToDecoratedStream()
+    public function writeLineEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat($this->encodingOutputStream->writeLine('hällö'), equals(6));
         assertThat($this->memory->buffer(), equals(utf8_decode("hällö\n")));
@@ -76,7 +76,7 @@ class EncodingOutputStreamTest extends TestCase
      * @test
      * @since  3.2.0
      */
-    public function writeLinesEncodesBytesBeforePassedToDecoratedStream()
+    public function writeLinesEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat(
                 $this->encodingOutputStream->writeLines(['hällö', 'wörld']),
@@ -88,7 +88,7 @@ class EncodingOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function closeClosesDecoratedOutputStream()
+    public function closeClosesDecoratedOutputStream(): void
     {
         $outputStream = NewInstance::of(OutputStream::class);
         $encodingOutputStream = new EncodingOutputStream(

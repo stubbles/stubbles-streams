@@ -24,7 +24,7 @@ class MemoryOutputStreamTest extends TestCase
     /**
      * the file url used in the tests
      *
-     * @type  MemoryOutputStream
+     * @var  MemoryOutputStream
      */
     private $memoryOutputStream;
 
@@ -36,7 +36,7 @@ class MemoryOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function bufferIsInitiallyEmpty()
+    public function bufferIsInitiallyEmpty(): void
     {
         assertEmptyString($this->memoryOutputStream->buffer());
     }
@@ -45,7 +45,7 @@ class MemoryOutputStreamTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function conversionToStringOnEmptyBufferReturnsEmptyString()
+    public function conversionToStringOnEmptyBufferReturnsEmptyString(): void
     {
         assertEmptyString((string) $this->memoryOutputStream);
     }
@@ -54,7 +54,7 @@ class MemoryOutputStreamTest extends TestCase
      * @test
      * @since  4.0.0
      */
-    public function conversionToStringOnWrittenBufferReturnsBufferContents()
+    public function conversionToStringOnWrittenBufferReturnsBufferContents(): void
     {
         $this->memoryOutputStream->write('hello');
         assertThat((string) $this->memoryOutputStream, equals('hello'));
@@ -63,7 +63,7 @@ class MemoryOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeReturnsAmountOfBytesWritten()
+    public function writeReturnsAmountOfBytesWritten(): void
     {
         assertThat($this->memoryOutputStream->write('hello'), equals(5));
     }
@@ -71,7 +71,7 @@ class MemoryOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeWritesBytesIntoBuffer()
+    public function writeWritesBytesIntoBuffer(): void
     {
         $this->memoryOutputStream->write('hello');
         assertThat($this->memoryOutputStream->buffer(), equals('hello'));
@@ -80,7 +80,7 @@ class MemoryOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeLineReturnsAmountOfBytesWritten()
+    public function writeLineReturnsAmountOfBytesWritten(): void
     {
         assertThat($this->memoryOutputStream->writeLine('hello'), equals(6));
     }
@@ -88,7 +88,7 @@ class MemoryOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function writeLineWritesBytesIntoBuffer()
+    public function writeLineWritesBytesIntoBuffer(): void
     {
         $this->memoryOutputStream->writeLine('hello');
         assertThat($this->memoryOutputStream->buffer(), equals("hello\n"));
@@ -98,7 +98,7 @@ class MemoryOutputStreamTest extends TestCase
      * @test
      * @since  3.2.0
      */
-    public function writeLinesReturnsAmountOfBytesWritten()
+    public function writeLinesReturnsAmountOfBytesWritten(): void
     {
         assertThat(
                 $this->memoryOutputStream->writeLines(['hello', 'world']),
@@ -110,7 +110,7 @@ class MemoryOutputStreamTest extends TestCase
      * @test
      * @since  3.2.0
      */
-    public function writeLinesWritesBytesIntoBuffer()
+    public function writeLinesWritesBytesIntoBuffer(): void
     {
         $this->memoryOutputStream->writeLines(['hello', 'world']);
         assertThat($this->memoryOutputStream->buffer(), equals("hello\nworld\n"));
@@ -119,7 +119,7 @@ class MemoryOutputStreamTest extends TestCase
     /**
      * @test
      */
-    public function closeDoesNothing()
+    public function closeDoesNothing(): void
     {
         assertNull($this->memoryOutputStream->close());
     }

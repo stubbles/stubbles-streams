@@ -36,7 +36,7 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithString()
+    public function constructWithString(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         assertThat($fileInputStream->readLine(), equals('foo'));
@@ -45,7 +45,7 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithStringFailsAndThrowsIOException()
+    public function constructWithStringFailsAndThrowsIOException(): void
     {
         expect(function() { new FileInputStream('doesNotExist', 'r'); })
                 ->throws(StreamException::class)
@@ -58,12 +58,11 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function constructWithResource()
+    public function constructWithResource(): void
     {
         $file = fopen(vfsStream::url('home/test.txt'), 'rb');
         if (false === $file) {
             fail('Could not open vfsStream file');
-            return;
         }
 
         $fileInputStream = new FileInputStream($file);
@@ -74,12 +73,11 @@ class FileInputStreamTest extends TestCase
      * @test
      * @requires  extension  gd
      */
-    public function constructWithIllegalResource()
+    public function constructWithIllegalResource(): void
     {
         $illegalResource = imagecreate(2, 2);
         if (false === $illegalResource) {
             fail('Could not create illegal resource');
-            return;
         }
 
         expect(function() use($illegalResource) { new FileInputStream($illegalResource); })
@@ -90,7 +88,7 @@ class FileInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function castFromInputStreamReturnsInputStream()
+    public function castFromInputStreamReturnsInputStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class);
         assertThat(FileInputStream::castFrom($inputStream), isSameAs($inputStream));
@@ -100,7 +98,7 @@ class FileInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function castFromStringCreatesFileInputStream()
+    public function castFromStringCreatesFileInputStream(): void
     {
         assertThat(
                 FileInputStream::castFrom(vfsStream::url('home/test.txt')),
@@ -112,7 +110,7 @@ class FileInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function castFromAnythingElseThrowsInvalidArgumentException()
+    public function castFromAnythingElseThrowsInvalidArgumentException(): void
     {
         expect(function() { FileInputStream::castFrom(404); })
                 ->throws(\InvalidArgumentException::class);
@@ -122,7 +120,7 @@ class FileInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function reportsBytesLeft()
+    public function reportsBytesLeft(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         assertThat($fileInputStream->bytesLeft(), equals(3));
@@ -132,12 +130,11 @@ class FileInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function reportsBytesLeftWhenConstructedWithResource()
+    public function reportsBytesLeftWhenConstructedWithResource(): void
     {
         $file = fopen(vfsStream::url('home/test.txt'), 'rb');
         if (false === $file) {
             fail('Could not open vfsStream file');
-            return;
         }
 
         $fileInputStream = new FileInputStream($file);
@@ -148,7 +145,7 @@ class FileInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function reportsBytesLeftForGzCompressedFilesBasedOnFilesize()
+    public function reportsBytesLeftForGzCompressedFilesBasedOnFilesize(): void
     {
         $fileInputStream = new FileInputStream('compress.zlib://' . __DIR__ . '/../../resources/file.gz');
         assertThat($fileInputStream->bytesLeft(), equals(37));
@@ -158,7 +155,7 @@ class FileInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function reportsBytesLeftForBzCompressedFilesBasedOnFilesize()
+    public function reportsBytesLeftForBzCompressedFilesBasedOnFilesize(): void
     {
         $fileInputStream = new FileInputStream('compress.bzip2://' . __DIR__ . '/../../resources/file.bz2');
         assertThat($fileInputStream->bytesLeft(), equals(46));
@@ -167,7 +164,7 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function seek_SET()
+    public function seek_SET(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         assertThat($fileInputStream->tell(), equals(0));
@@ -182,7 +179,7 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function seek_CURRENT()
+    public function seek_CURRENT(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->seek(1, Seekable::CURRENT);
@@ -193,7 +190,7 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function seek_END()
+    public function seek_END(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->seek(-2, Seekable::END);
@@ -204,7 +201,7 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function seekOnClosedStreamFailsThrowsIllegalStateException()
+    public function seekOnClosedStreamFailsThrowsIllegalStateException(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->close();
@@ -215,7 +212,7 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      */
-    public function tellOnClosedStreamThrowsIllegalStateException()
+    public function tellOnClosedStreamThrowsIllegalStateException(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->close();
@@ -227,7 +224,7 @@ class FileInputStreamTest extends TestCase
      * @test
      * @since  8.0.0
      */
-    public function tellAfterExternalCloseThrowsStreamException()
+    public function tellAfterExternalCloseThrowsStreamException(): void
     {
         $fileInputStream = new class() extends FileInputStream
         {
