@@ -231,7 +231,9 @@ class FileInputStreamTest extends TestCase
             public function __construct()
             {
                 parent::__construct(vfsStream::url('home/test.txt'));
-                fclose($this->handle);
+                if (null !== $this->handle) {
+                    fclose($this->handle);
+                }
             }
 
             public function __destruct()

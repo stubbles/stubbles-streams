@@ -88,7 +88,9 @@ class StandardInputStreamTest extends TestCase
             public function __construct()
             {
                 parent::__construct();
-                fclose($this->handle);
+                if (null !== $this->handle) {
+                    fclose($this->handle);
+                }
             }
         };
         expect(function() use ($stdInputStream) { $stdInputStream->tell(); })
