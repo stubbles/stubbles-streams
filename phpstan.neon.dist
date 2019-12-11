@@ -7,7 +7,9 @@ parameters:
       - ./src
   ignoreErrors:
       # False positive
-      - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
+      -
+          message: '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::getName#'
+          path: src/test/php/file/FileStreamFactoryTest.php
       # phpstan thinks this can't be reached but only based on allowed types from doc comment
       -
           message: '#Unreachable statement - code above always terminates#'
