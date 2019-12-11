@@ -8,7 +8,6 @@ parameters:
   ignoreErrors:
       # False positive
       - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
-      - '#expects string\|stubbles\\streams\\InputStream, int given#'
       # phpstan thinks this can't be reached but only based on allowed types from doc comment
       -
           message: '#Unreachable statement - code above always terminates#'
@@ -17,6 +16,9 @@ parameters:
       -
           message: '#Trying to invoke string but it might not be a callable.#'
           path: src/main/php/ResourceInputStream.php
+      -
+          message: '#expects string\|stubbles\\streams\\InputStream, int given#'
+          path: src/test/php/file/FileInputStreamTest.php
       -
           message: '#method stubbles\\streams\\ResourceInputStreamTest::createResourceInputStream\(\) expects resource, string given#'
           path: src/test/php/ResourceInputStreamTest.php
