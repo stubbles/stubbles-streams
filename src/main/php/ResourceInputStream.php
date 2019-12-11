@@ -118,9 +118,14 @@ abstract class ResourceInputStream implements InputStream
      * returns true if the stream pointer is at EOF
      *
      * @return  bool
+     * @throws  \LogicException  when trying to check eof of already closed stream
      */
     public function eof(): bool
     {
+        if (null === $this->handle || !is_resource($this->handle)) {
+            throw new \LogicException('Can not check eof of closed input stream.');
+        }
+
         return feof($this->handle);
     }
 

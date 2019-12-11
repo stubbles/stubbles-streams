@@ -196,6 +196,19 @@ jjj')
 
     /**
      * @test
+     * @since  9.1.0
+     */
+    public function eofAfterCloseFails(): void
+    {
+        expect(function() {
+            $this->resourceInputStream->close();
+            $this->resourceInputStream->eof();
+        })
+            ->throws(\LogicException::class);
+    }
+
+    /**
+     * @test
      */
     public function readAfterCloseFromOutsite(): void
     {
