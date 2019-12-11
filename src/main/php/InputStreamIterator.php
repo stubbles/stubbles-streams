@@ -58,7 +58,7 @@ class InputStreamIterator implements \Iterator
      */
     public function current(): string
     {
-        return $this->currentLine;
+        return (string) $this->currentLine;
     }
 
     /**
