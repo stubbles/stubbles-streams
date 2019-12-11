@@ -194,10 +194,11 @@ class MemoryInputStreamTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function closeDoesNothing(): void
     {
-        assertNull($this->memoryInputStream->close());
+        $this->memoryInputStream->close();
     }
 
     /**

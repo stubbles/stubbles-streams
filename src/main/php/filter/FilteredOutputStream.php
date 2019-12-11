@@ -19,7 +19,7 @@ class FilteredOutputStream extends DecoratedOutputStream
     /**
      * predicate which decides on whether a line is acceptable
      *
-     * @type  stubbles\predicate\Predicate
+     * @var  callable
      */
     private $predicate;
 

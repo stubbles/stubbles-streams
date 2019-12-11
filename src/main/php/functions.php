@@ -15,7 +15,7 @@ namespace stubbles\streams {
      *
      * @api
      * @param   \stubbles\streams\InputStream|string  $input
-     * @return  \stubbles\sequence\Sequence
+     * @return  \stubbles\sequence\Sequence<string>
      * @since   5.2.0
      */
     function linesOf($input): Sequence
@@ -28,7 +28,7 @@ namespace stubbles\streams {
      *
      * @api
      * @param   \stubbles\streams\InputStream|string  $input
-     * @return  \stubbles\sequence\Sequence
+     * @return  \stubbles\sequence\Sequence<string>
      * @since   6.2.0
      */
     function nonEmptyLinesOf($input): Sequence

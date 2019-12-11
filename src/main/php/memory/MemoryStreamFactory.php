@@ -18,8 +18,8 @@ class MemoryStreamFactory implements StreamFactory
     /**
      * creates an input stream for given source
      *
-     * @param   mixed  $source   source to create input stream from
-     * @param   array  $options  list of options for the input stream
+     * @param   mixed                $source   source to create input stream from
+     * @param   array<string,mixed>  $options  list of options for the input stream
      * @return  \stubbles\streams\memory\MemoryInputStream
      */
     public function createInputStream($source, array $options = []): InputStream
@@ -30,8 +30,8 @@ class MemoryStreamFactory implements StreamFactory
     /**
      * creates an output stream for given target
      *
-     * @param   mixed  $target   target to create output stream for
-     * @param   array  $options  list of options for the output stream
+     * @param   mixed                $target   target to create output stream for
+     * @param   array<string,mixed>  $options  list of options for the output stream
      * @return  \stubbles\streams\memory\MemoryOutputStream
      */
     public function createOutputStream($target, array $options = []): OutputStream

@@ -18,7 +18,7 @@ class MemoryOutputStream implements OutputStream
     /**
      * written data
      *
-     * @type  string
+     * @var  string
      */
     private $buffer = '';
 
@@ -66,7 +66,7 @@ class MemoryOutputStream implements OutputStream
     /**
      * closes the stream
      */
-    public function close()
+    public function close(): void
     {
         // intentionally empty
     }

@@ -17,7 +17,7 @@ abstract class DecoratedInputStream implements InputStream
     /**
      * input stream to encode into internal encoding
      *
-     * @type  \stubbles\streams\InputStream
+     * @var  \stubbles\streams\InputStream
      */
     protected $inputStream;
 
@@ -76,7 +76,7 @@ abstract class DecoratedInputStream implements InputStream
     /**
      * closes the stream
      */
-    public function close()
+    public function close(): void
     {
         $this->inputStream->close();
     }

@@ -118,9 +118,10 @@ class MemoryOutputStreamTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function closeDoesNothing(): void
     {
-        assertNull($this->memoryOutputStream->close());
+        $this->memoryOutputStream->close();
     }
 }

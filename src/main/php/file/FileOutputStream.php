@@ -21,13 +21,13 @@ class FileOutputStream extends ResourceOutputStream
     /**
      * name of file
      *
-     * @type  string
+     * @var  string
      */
     protected $file;
     /**
      * opening mode
      *
-     * @type  string
+     * @var  string
      */
     protected $mode;
 

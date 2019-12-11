@@ -30,7 +30,7 @@ class StandardOutputStream extends ResourceOutputStream
     /**
      * closes the stream
      */
-    public function close()
+    public function close(): void
     {
         // intentionally empty
     }

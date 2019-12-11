@@ -23,7 +23,7 @@ class FileInputStream extends ResourceInputStream implements Seekable
     /**
      * name of the file
      *
-     * @type  string
+     * @var  string
      */
     protected $fileName;
 
@@ -130,7 +130,7 @@ class FileInputStream extends ResourceInputStream implements Seekable
      * @throws  \LogicException  when trying to seek on an already closed stream
      * @throws  StreamException  when seeking fails
      */
-    public function seek(int $offset, int $whence = Seekable::SET)
+    public function seek(int $offset, int $whence = Seekable::SET): void
     {
         if (null === $this->handle) {
             throw new \LogicException('Can not read from closed input stream.');

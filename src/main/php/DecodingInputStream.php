@@ -17,11 +17,11 @@ use function stubbles\streams\lastErrorMessage;
 class DecodingInputStream extends DecoratedInputStream
 {
     /**
-     * @type  string
+     * @var  string
      */
     private $charsetFrom;
     /**
-     * @type  string
+     * @var  string
      */
     private $charsetTo;
 

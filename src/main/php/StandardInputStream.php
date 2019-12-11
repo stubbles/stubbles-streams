@@ -35,7 +35,7 @@ class StandardInputStream extends ResourceInputStream implements Seekable
      * @throws  \LogicException  in case the stream was already closed
      * @throws  StreamException  when seeking fails
      */
-    public function seek(int $offset, int $whence = Seekable::SET)
+    public function seek(int $offset, int $whence = Seekable::SET): void
     {
         if (null === $this->handle) {
             throw new \LogicException('Can not seek on closed input stream.');

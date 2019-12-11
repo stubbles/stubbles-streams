@@ -15,13 +15,13 @@ class PrefixedStreamFactory implements StreamFactory
     /**
      * decorated stream factory
      *
-     * @type  \stubbles\streams\StreamFactory
+     * @var  \stubbles\streams\StreamFactory
      */
     protected $streamFactory;
     /**
      * prefix to add for source and target before calling decorated stream factory
      *
-     * @type  string
+     * @var  string
      */
     protected $prefix;
 
@@ -40,8 +40,8 @@ class PrefixedStreamFactory implements StreamFactory
     /**
      * creates an input stream for given source
      *
-     * @param   mixed  $source   source to create input stream from
-     * @param   array  $options  list of options for the input stream
+     * @param   mixed                $source   source to create input stream from
+     * @param   array<string,mixed>  $options  list of options for the input stream
      * @return  \stubbles\streams\InputStream
      */
     public function createInputStream($source, array $options = []): InputStream
@@ -52,8 +52,8 @@ class PrefixedStreamFactory implements StreamFactory
     /**
      * creates an output stream for given target
      *
-     * @param   mixed  $target   target to create output stream for
-     * @param   array  $options  list of options for the output stream
+     * @param   mixed                $target   target to create output stream for
+     * @param   array<string,mixed>  $options  list of options for the output stream
      * @return  \stubbles\streams\OutputStream
      */
     public function createOutputStream($target, array $options = []): OutputStream

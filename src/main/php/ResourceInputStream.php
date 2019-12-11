@@ -17,7 +17,7 @@ abstract class ResourceInputStream implements InputStream
     /**
      * the descriptor for the stream
      *
-     * @type  int
+     * @var  resource|null
      */
     protected $handle;
 
@@ -27,7 +27,7 @@ abstract class ResourceInputStream implements InputStream
      * @param   resource  $handle
      * @throws  \InvalidArgumentException
      */
-    protected function setHandle($handle)
+    protected function setHandle($handle): void
     {
         if (!is_resource($handle)) {
             throw new \InvalidArgumentException(
@@ -151,7 +151,7 @@ abstract class ResourceInputStream implements InputStream
     /**
      * closes the stream
      */
-    public function close()
+    public function close(): void
     {
         if (null !== $this->handle) {
             fclose($this->handle);

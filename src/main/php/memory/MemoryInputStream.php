@@ -19,13 +19,13 @@ class MemoryInputStream implements InputStream, Seekable
     /**
      * written data
      *
-     * @type  string
+     * @var  string
      */
     private $buffer   = '';
     /**
      * current position in buffer
      *
-     * @type  int
+     * @var  int
      */
     private $position = 0;
 
@@ -96,7 +96,7 @@ class MemoryInputStream implements InputStream, Seekable
     /**
      * closes the stream
      */
-    public function close()
+    public function close(): void
     {
         // intentionally empty
     }
@@ -108,7 +108,7 @@ class MemoryInputStream implements InputStream, Seekable
      * @param   int  $whence  one of Seekable::SET, Seekable::CURRENT or Seekable::END
      * @throws  \InvalidArgumentException
      */
-    public function seek(int $offset, int $whence = Seekable::SET)
+    public function seek(int $offset, int $whence = Seekable::SET): void
     {
         switch ($whence) {
             case Seekable::SET:

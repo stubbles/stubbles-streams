@@ -47,5 +47,5 @@ interface InputStream
     /**
      * closes the stream
      */
-    public function close();
+    public function close(): void;
 }

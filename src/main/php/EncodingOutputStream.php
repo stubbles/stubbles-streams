@@ -15,11 +15,11 @@ namespace stubbles\streams;
 class EncodingOutputStream extends DecoratedOutputStream
 {
     /**
-     * @type  string
+     * @var  string
      */
     private $charsetTo;
     /**
-     * @type  string
+     * @var  string
      */
     private $charsetFrom;
 

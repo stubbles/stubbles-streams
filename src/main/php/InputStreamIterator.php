@@ -12,29 +12,30 @@ namespace stubbles\streams;
  *
  * @api
  * @since  5.2.0
+ * @implements  \Iterator<int,string>
  */
 class InputStreamIterator implements \Iterator
 {
     /**
      * input stream to iterate on
      *
-     * @type  \stubbles\streams\InputStream
+     * @var  \stubbles\streams\InputStream
      */
     private $inputStream;
     /**
      * current line
      *
-     * @type  string
+     * @var  string|null
      */
     private $currentLine;
     /**
      * current line number
      *
-     * @type  int
+     * @var  int
      */
     private $lineNumber = 0;
     /**
-     * @type  bool
+     * @var  bool
      */
     private $valid      = true;
 
@@ -73,7 +74,7 @@ class InputStreamIterator implements \Iterator
     /**
      * moves forward to next line
      */
-    public function next()
+    public function next(): void
     {
         $this->valid       = !$this->inputStream->eof();
         $this->currentLine = $this->inputStream->readLine();
@@ -83,7 +84,7 @@ class InputStreamIterator implements \Iterator
     /**
      * rewinds to first line
      */
-    public function rewind()
+    public function rewind(): void
     {
         if (!($this->inputStream instanceof Seekable)) {
             return;

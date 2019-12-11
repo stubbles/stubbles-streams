@@ -19,7 +19,7 @@ class FilteredInputStream extends DecoratedInputStream
     /**
      * predicate which decides on whether a line is acceptable
      *
-     * @type  callable
+     * @var  callable
      */
     private $predicate;
 

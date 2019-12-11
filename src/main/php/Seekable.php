@@ -34,7 +34,7 @@ interface Seekable
      * @param   int  $whence  optional  one of Seekable::SET, Seekable::CURRENT or Seekable::END
      * @throws  \LogicException  in case the stream was already closed
      */
-    public function seek(int $offset, int $whence = Seekable::SET);
+    public function seek(int $offset, int $whence = Seekable::SET): void;
 
     /**
      * return current position

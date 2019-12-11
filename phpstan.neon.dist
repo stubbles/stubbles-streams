@@ -9,6 +9,11 @@ parameters:
       # False positive
       - '#Call to an undefined method stubbles\\reflect\\annotation\\Annotation::get#'
       - '#expects string\|stubbles\\streams\\InputStream, int given#'
+      # phpstan thinks this can't be reached but only based on allowed types from doc comment
+      -
+          message: '#Unreachable statement - code above always terminates#'
+          path: src/main/php/file/FileInputStream.php
+      # Explicit tests for invalid arguments
       -
           message: '#Trying to invoke string but it might not be a callable.#'
           path: src/main/php/ResourceInputStream.php
