@@ -25,6 +25,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: "Windows: list resource files"
+      if: runner.os == 'Windows'
+      run: dir src\test\resources
+
     - name: Set up PHP ${{ matrix.php-versions }}
       uses: shivammathur/setup-php@v2
       with:
