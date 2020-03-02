@@ -67,14 +67,14 @@ namespace stubbles\streams {
      */
     function copy(InputStream $from): Copier
     {
-        return new class($from) extends Copier { };
+        return new Copier($from);
     }
 
     /**
      * @internal
      * @since   8.1.0
      */
-    abstract class Copier
+    final class Copier
     {
         private $source;
 
