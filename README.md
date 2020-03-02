@@ -7,7 +7,7 @@ Input- and OutputStreams.
 Build status
 ------------
 
-[![Build Status](https://secure.travis-ci.org/stubbles/stubbles-streams.png)](http://travis-ci.org/stubbles/stubbles-streams) [![Coverage Status](https://coveralls.io/repos/github/stubbles/stubbles-streams/badge.svg?branch=master)](https://coveralls.io/github/stubbles/stubbles-streams?branch=master)
+![Tests](https://github.com/stubbles/stubbles-streams/workflows/Tests/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/stubbles/stubbles-streams/badge.svg?branch=master)](https://coveralls.io/github/stubbles/stubbles-streams?branch=master)
 
 [![Latest Stable Version](https://poser.pugx.org/stubbles/streams/version.png)](https://packagist.org/packages/stubbles/streams) [![Latest Unstable Version](https://poser.pugx.org/stubbles/streams/v/unstable.png)](//packagist.org/packages/stubbles/streams)
 
