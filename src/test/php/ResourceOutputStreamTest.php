@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
@@ -100,7 +102,7 @@ class ResourceOutputStreamTest extends TestCase
         expect(function() {
                 $this->resourceOutputStream->writeLine('foobarbaz');
         })
-        ->throws(\LogicException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -112,7 +114,7 @@ class ResourceOutputStreamTest extends TestCase
         expect(function() {
                 $this->resourceOutputStream->write('foobarbaz');
         })
-        ->throws(StreamException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -124,7 +126,7 @@ class ResourceOutputStreamTest extends TestCase
         expect(function() {
                 $this->resourceOutputStream->writeLine('foobarbaz');
         })
-        ->throws(StreamException::class);
+            ->throws(LogicException::class);
     }
 
     /**

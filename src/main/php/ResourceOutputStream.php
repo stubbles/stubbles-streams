@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use LogicException;
+
 /**
  * Class for resource based output streams.
  *
@@ -43,13 +46,13 @@ abstract class ResourceOutputStream implements OutputStream
      *
      * @param   string  $bytes
      * @return  int     amount of written bytes
-     * @throws  \LogicException
+     * @throws  LogicException
      * @throws  \stubbles\streams\StreamException
      */
     public function write(string $bytes): int
     {
-        if (null === $this->handle) {
-            throw new \LogicException('Can not write to closed output stream.');
+        if (!is_resource($this->handle)) {
+            throw new LogicException('Can not write to closed output stream.');
         }
 
         $length = @fwrite($this->handle, $bytes);

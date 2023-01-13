@@ -5,6 +5,7 @@
 ### BC breaks
 
 * raised minimum required PHP version to 8.0
+* `stubbles\streams\ResourceInputStream::read()`, `stubbles\streams\ResourceInputStream::readLine()` and `stubbles\streams\ResourceOutputStream::write()` now throw a `\LogicException` when the underlying resource was closed instead of a `stubbles\streams\StreamException`
 
 ## 9.1.0 (2019-12-11)
 

@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use LogicException;
+
 /**
  * Class for resource based input streams.
  *
@@ -43,7 +46,7 @@ abstract class ResourceInputStream implements InputStream
      *
      * @param   int  $length  max amount of bytes to read
      * @return  string
-     * @throws  \LogicException
+     * @throws  LogicException
      * @throws  \stubbles\streams\StreamException
      */
     public function read(int $length = 8192): string
@@ -56,7 +59,7 @@ abstract class ResourceInputStream implements InputStream
      *
      * @param   int  $length  max amount of bytes to read
      * @return  string
-     * @throws  \LogicException
+     * @throws  LogicException
      * @throws  \stubbles\streams\StreamException
      */
     public function readLine(int $length = 8192): string
@@ -70,13 +73,13 @@ abstract class ResourceInputStream implements InputStream
      * @param   callable  $read    function to use for reading from handle
      * @param   int       $length  max amount of bytes to read
      * @return  string
-     * @throws  \LogicException
+     * @throws  LogicException
      * @throws  \stubbles\streams\StreamException
      */
     private function doRead(callable $read, int $length): string
     {
-        if (null === $this->handle) {
-            throw new \LogicException('Can not read from closed input stream.');
+        if (!is_resource($this->handle)) {
+            throw new LogicException('Can not read from closed input stream.');
         }
 
         $data = @$read($this->handle, $length);
@@ -84,7 +87,7 @@ abstract class ResourceInputStream implements InputStream
             $error = lastErrorMessage('unknown error');
             if (!@feof($this->handle)) {
                 throw new StreamException(
-                        'Can not read from input stream: ' . $error
+                    'Can not read from input stream: ' . $error
                 );
             }
 
@@ -98,12 +101,12 @@ abstract class ResourceInputStream implements InputStream
      * returns the amount of bytes left to be read
      *
      * @return  int
-     * @throws  \LogicException
+     * @throws  LogicException
      */
     public function bytesLeft(): int
     {
         if (null === $this->handle || !is_resource($this->handle)) {
-            throw new \LogicException('Can not read from closed input stream.');
+            throw new LogicException('Can not read from closed input stream.');
         }
 
         $bytesRead = ftell($this->handle);
@@ -118,12 +121,12 @@ abstract class ResourceInputStream implements InputStream
      * returns true if the stream pointer is at EOF
      *
      * @return  bool
-     * @throws  \LogicException  when trying to check eof of already closed stream
+     * @throws  LogicException  when trying to check eof of already closed stream
      */
     public function eof(): bool
     {
         if (null === $this->handle || !is_resource($this->handle)) {
-            throw new \LogicException('Can not check eof of closed input stream.');
+            throw new LogicException('Can not check eof of closed input stream.');
         }
 
         return feof($this->handle);

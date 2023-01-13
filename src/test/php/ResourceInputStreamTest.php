@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
@@ -167,7 +169,7 @@ jjj')
                 $this->resourceInputStream->close();
                 $this->resourceInputStream->read();
         })
-        ->throws(\LogicException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -179,7 +181,7 @@ jjj')
                 $this->resourceInputStream->close();
                 $this->resourceInputStream->readLine();
         })
-        ->throws(\LogicException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -191,7 +193,7 @@ jjj')
                 $this->resourceInputStream->close();
                 $this->resourceInputStream->bytesLeft();
         })
-        ->throws(\LogicException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -204,7 +206,7 @@ jjj')
             $this->resourceInputStream->close();
             $this->resourceInputStream->eof();
         })
-            ->throws(\LogicException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -216,7 +218,7 @@ jjj')
                 fclose($this->handle);
                 $this->resourceInputStream->read();
         })
-        ->throws(StreamException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -228,7 +230,7 @@ jjj')
                 fclose($this->handle);
                 $this->resourceInputStream->readLine();
         })
-        ->throws(StreamException::class);
+            ->throws(LogicException::class);
     }
 
     /**
