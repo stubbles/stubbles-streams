@@ -16,33 +16,20 @@ use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\filter\FilteredInputStream.
  *
- * @group  streams
- * @group  streams_filter
+ * @group streams
+ * @group streams_filter
  */
 class FilteredInputStreamTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  \stubbles\streams\filter\FilteredInputStream
-     */
-    private $filteredInputStream;
-    /**
-     * mocked input stream
-     *
-     * @var  \stubbles\streams\memory\MemoryInputStream
-     */
-    private $inputStream;
+    private FilteredInputStream $filteredInputStream;
+    private MemoryInputStream $inputStream;
 
     protected function setUp(): void
     {
         $this->inputStream = new MemoryInputStream("foo\nbar");
         $this->filteredInputStream = new FilteredInputStream(
-                $this->inputStream,
-                function($value)
-                {
-                    return 'bar' === $value;
-                }
+            $this->inputStream,
+            fn($value) => 'bar' === $value
         );
     }
 
@@ -56,7 +43,7 @@ class FilteredInputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function readReturnsChunkIfChunkWithSpecifiedSizeSatisfiesFilter(): void
     {

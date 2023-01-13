@@ -16,38 +16,25 @@ use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\filter\FilteredOutputStream.
  *
- * @group  streams
- * @group  streams_filter
+ * @group streams
+ * @group streams_filter
  */
 class FilteredOutputStreamTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  \stubbles\streams\filter\FilteredOutputStream
-     */
-    private $filteredOutputStream;
-    /**
-     * decorated input stream
-     *
-     * @var  \stubbles\streams\memory\MemoryOutputStream
-     */
-    private $memory;
+    private FilteredOutputStream $filteredOutputStream;
+    private MemoryOutputStream $memory;
 
     protected function setUp(): void
     {
         $this->memory = new MemoryOutputStream();
         $this->filteredOutputStream = new FilteredOutputStream(
-                $this->memory,
-                function($value)
-                {
-                    return 'foo' === $value;
-                }
+            $this->memory,
+            fn($value) => 'foo' === $value
         );
     }
 
     /**
-     * @return  array<scalar[]>
+     * @return array<scalar[]>
      */
     public function writeData(): array
     {
@@ -90,9 +77,10 @@ class FilteredOutputStreamTest extends TestCase
         if (0 < $expected) {
             $expected++;
         }
+
         assertThat(
-                $this->filteredOutputStream->writeLine($write),
-                equals($expected)
+            $this->filteredOutputStream->writeLine($write),
+            equals($expected)
         );
     }
 
@@ -116,7 +104,7 @@ class FilteredOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  3.2.0
+     * @since 3.2.0
      */
     public function writeLinesProcessesOnlyLinesSatisfyingFilter(): void
     {
@@ -126,13 +114,13 @@ class FilteredOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function writeLinesReturnsOnlyAmountOfUnfilteredBytedWritten(): void
     {
         assertThat(
-                $this->filteredOutputStream->writeLines(['foo', 'bar']),
-                equals(4)
+            $this->filteredOutputStream->writeLines(['foo', 'bar']),
+            equals(4)
         );
     }
 }

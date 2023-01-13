@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace stubbles\streams\file;
 
 use bovigo\callmap\NewInstance;
+use InvalidArgumentException;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
@@ -25,7 +26,7 @@ use function bovigo\assert\predicate\isSameAs;
 /**
  * Test for stubbles\streams\file\FileInputStream.
  *
- * @group  streams
+ * @group streams
  */
 class FileInputStreamTest extends TestCase
 {
@@ -49,12 +50,12 @@ class FileInputStreamTest extends TestCase
      */
     public function constructWithStringFailsAndThrowsIOException(): void
     {
-        expect(function() { new FileInputStream('doesNotExist', 'r'); })
-                ->throws(StreamException::class)
-                ->withMessage(
-                        'Can not open file doesNotExist with mode r: Failed to'
-                        . ' open stream: No such file or directory'
-                );
+        expect(fn() => new FileInputStream('doesNotExist', 'r'))
+            ->throws(StreamException::class)
+            ->withMessage(
+                'Can not open file doesNotExist with mode r: Failed to'
+                . ' open stream: No such file or directory'
+            );
     }
 
     /**
@@ -73,7 +74,7 @@ class FileInputStreamTest extends TestCase
 
     /**
      * @test
-     * @requires  extension  gd
+     * @requires extension gd
      */
     public function constructWithIllegalResource(): void
     {
@@ -82,13 +83,13 @@ class FileInputStreamTest extends TestCase
             fail('Could not create illegal resource');
         }
 
-        expect(function() use($illegalResource) { new FileInputStream($illegalResource); })
-                ->throws(\InvalidArgumentException::class);
+        expect(fn() => new FileInputStream($illegalResource))
+            ->throws(InvalidArgumentException::class);
     }
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function castFromInputStreamReturnsInputStream(): void
     {
@@ -98,29 +99,19 @@ class FileInputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function castFromStringCreatesFileInputStream(): void
     {
         assertThat(
-                FileInputStream::castFrom(vfsStream::url('home/test.txt')),
-                isInstanceOf(FileInputStream::class)
+            FileInputStream::castFrom(vfsStream::url('home/test.txt')),
+            isInstanceOf(FileInputStream::class)
         );
     }
 
     /**
      * @test
-     * @since  8.0.0
-     */
-    public function castFromAnythingElseThrowsInvalidArgumentException(): void
-    {
-        expect(function() { FileInputStream::castFrom(404); })
-                ->throws(\InvalidArgumentException::class);
-    }
-
-    /**
-     * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function reportsBytesLeft(): void
     {
@@ -130,7 +121,7 @@ class FileInputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function reportsBytesLeftWhenConstructedWithResource(): void
     {
@@ -145,22 +136,26 @@ class FileInputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function reportsBytesLeftForGzCompressedFilesBasedOnFilesize(): void
     {
-        $fileInputStream = new FileInputStream('compress.zlib://' . __DIR__ . '/../../resources/file.gz');
+        $fileInputStream = new FileInputStream(
+            'compress.zlib://' . __DIR__ . '/../../resources/file.gz'
+        );
         assertThat($fileInputStream->bytesLeft(), equals(37));
     }
 
     /**
      * @test
-     * @since  8.0.0
-     * @requires  extension  bz2
+     * @since 8.0.0
+     * @requires extension bz2
      */
     public function reportsBytesLeftForBzCompressedFilesBasedOnFilesize(): void
     {
-        $fileInputStream = new FileInputStream('compress.bzip2://' . __DIR__ . '/../../resources/file.bz2');
+        $fileInputStream = new FileInputStream(
+            'compress.bzip2://' . __DIR__ . '/../../resources/file.bz2'
+        );
         assertThat($fileInputStream->bytesLeft(), equals(46));
     }
 
@@ -208,7 +203,7 @@ class FileInputStreamTest extends TestCase
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->close();
-        expect(function() use ($fileInputStream) { $fileInputStream->seek(3); })
+        expect(fn() => $fileInputStream->seek(3))
             ->throws(LogicException::class);
     }
 
@@ -219,13 +214,13 @@ class FileInputStreamTest extends TestCase
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->close();
-        expect(function() use ($fileInputStream) { $fileInputStream->tell(); })
+        expect(fn() => $fileInputStream->tell())
             ->throws(LogicException::class);
     }
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function tellAfterExternalCloseThrowsStreamException(): void
     {
@@ -244,7 +239,7 @@ class FileInputStreamTest extends TestCase
                 // intentionally empty, overwrite call to close()
             }
         };
-        expect(function() use ($fileInputStream) { $fileInputStream->tell(); })
+        expect(fn() => $fileInputStream->tell())
             ->throws(LogicException::class);
     }
 }

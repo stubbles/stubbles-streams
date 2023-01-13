@@ -14,28 +14,12 @@ namespace stubbles\streams;
  */
 abstract class DecoratedOutputStream implements OutputStream
 {
-    /**
-     * input stream to encode into internal encoding
-     *
-     * @var  \stubbles\streams\OutputStream
-     */
-    protected $outputStream;
-
-    /**
-     * constructor
-     *
-     * @param  \stubbles\streams\OutputStream  $outputStream
-     */
-    public function __construct(OutputStream $outputStream)
-    {
-        $this->outputStream = $outputStream;
-    }
+    public function __construct(protected OutputStream $outputStream) { }
 
     /**
      * writes given bytes
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
+     * @return int amount of written bytes
      */
     public function write(string $bytes): int
     {
@@ -45,8 +29,7 @@ abstract class DecoratedOutputStream implements OutputStream
     /**
      * writes given bytes and appends a line break
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes excluding line break
+     * @return int amount of written bytes excluding line break
      */
     public function writeLine(string $bytes): int
     {
@@ -56,9 +39,9 @@ abstract class DecoratedOutputStream implements OutputStream
     /**
      * writes given bytes and appends a line break after each one
      *
-     * @param   string[]  $bytes
-     * @return  int       amount of written bytes
-     * @since   3.2.0
+     * @param  string[] $bytes
+     * @return int      amount of written bytes
+     * @since  3.2.0
      */
     public function writeLines(array $bytes): int
     {

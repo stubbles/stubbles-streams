@@ -16,18 +16,10 @@ use stubbles\streams\OutputStream;
  */
 class FilteredOutputStream extends DecoratedOutputStream
 {
-    /**
-     * predicate which decides on whether a line is acceptable
-     *
-     * @var  callable
-     */
     private $predicate;
 
     /**
-     * constructor
-     *
-     * @param   \stubbles\streams\OutputStream  $outputStream  stream to apply filter onto
-     * @param   callable                        $predicate     predicate to check if something should be passed
+     * @param callable $predicate predicate to check if something should be passed
      */
     public function __construct(OutputStream $outputStream, callable $predicate)
     {
@@ -38,8 +30,7 @@ class FilteredOutputStream extends DecoratedOutputStream
     /**
      * writes given bytes
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
+     * @return int amount of written bytes
      */
     public function write(string $bytes): int
     {
@@ -54,8 +45,7 @@ class FilteredOutputStream extends DecoratedOutputStream
     /**
      * writes given bytes and appends a line break
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
+     * @return int amount of written bytes
      */
     public function writeLine(string $bytes): int
     {
@@ -70,9 +60,9 @@ class FilteredOutputStream extends DecoratedOutputStream
     /**
      * writes given bytes and appends a line break after each one
      *
-     * @param   string[]  $bytes
-     * @return  int       amount of written bytes
-     * @since   3.2.0
+     * @param  string[] $bytes
+     * @return int      amount of written bytes
+     * @since  3.2.0
      */
     public function writeLines(array $bytes): int
     {

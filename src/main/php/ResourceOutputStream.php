@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 
+use InvalidArgumentException;
 use LogicException;
 
 /**
@@ -27,14 +28,14 @@ abstract class ResourceOutputStream implements OutputStream
     /**
      * sets the resource to be used
      *
-     * @param   resource  $handle
-     * @throws  \InvalidArgumentException
+     * @param  resource $handle
+     * @throws InvalidArgumentException
      */
     protected function setHandle($handle): void
     {
         if (!is_resource($handle)) {
-            throw new \InvalidArgumentException(
-                    'Handle needs to be a stream resource.'
+            throw new InvalidArgumentException(
+                'Handle needs to be a stream resource.'
             );
         }
 
@@ -44,10 +45,9 @@ abstract class ResourceOutputStream implements OutputStream
     /**
      * writes given bytes
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
-     * @throws  LogicException
-     * @throws  \stubbles\streams\StreamException
+     * @return int    amount of written bytes
+     * @throws LogicException
+     * @throws StreamException
      */
     public function write(string $bytes): int
     {
@@ -58,8 +58,7 @@ abstract class ResourceOutputStream implements OutputStream
         $length = @fwrite($this->handle, $bytes);
         if (false === $length) {
             throw new StreamException(
-                    'Can not write to output stream:'
-                    . lastErrorMessage('unknown error')
+                'Can not write to output stream:' . lastErrorMessage('unknown error')
             );
         }
 
@@ -69,8 +68,7 @@ abstract class ResourceOutputStream implements OutputStream
     /**
      * writes given bytes and appends a line break
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
+     * @return int amount of written bytes
      */
     public function writeLine(string $bytes): int
     {
@@ -80,9 +78,9 @@ abstract class ResourceOutputStream implements OutputStream
     /**
      * writes given bytes and appends a line break after each one
      *
-     * @param   string[]  $bytes
-     * @return  int       amount of written bytes
-     * @since   3.2.0
+     * @param  string[] $bytes
+     * @return int      amount of written bytes
+     * @since  3.2.0
      */
     public function writeLines(array $bytes): int
     {

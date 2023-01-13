@@ -7,7 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamFile;
 use stubbles\sequence\Sequence;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\{MemoryInputStream, MemoryOutputStream};
@@ -23,22 +25,19 @@ use function bovigo\assert\{
 /**
  * Tests for stubbles\streams\*().
  *
- * @since  5.2.0
- * @group  streams
+ * @since 5.2.0
+ * @group streams
  */
 class FunctionsTest extends TestCase
 {
-    /**
-     * @var  \org\bovigo\vfs\vfsStreamFile
-     */
-    private $file;
+    private vfsStreamFile $file;
 
     protected function setUp(): void
     {
         $root       = vfsStream::setup();
         $this->file = vfsStream::newFile('test.txt')
-                ->withContent("\nfoo\n\n")
-                ->at($root);
+            ->withContent("\nfoo\n\n")
+            ->at($root);
     }
 
     /**
@@ -51,20 +50,20 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @since  6.2.0
+     * @since 6.2.0
      */
     public function nonEmptyLinesOfReturnsNonEmptyLinesOnly(): void
     {
         assertThat(
-                nonEmptyLinesOf($this->file->url()),
-                isNotEmpty()->and(each(equals('foo')))
+            nonEmptyLinesOf($this->file->url()),
+            isNotEmpty()->and(each(equals('foo')))
         );
     }
 
     /**
      * @test
-     * @group  issue_1
-     * @since  8.1.0
+     * @group issue_1
+     * @since 8.1.0
      */
     public function copyFromEmptyInputStreamResultsInNoBytesCopied(): void
     {
@@ -75,8 +74,8 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @group  issue_1
-     * @since  8.1.0
+     * @group issue_1
+     * @since 8.1.0
      */
     public function copyFromEmptyInputStreamResultsInNothingReceivedOnOutputStream(): void
     {
@@ -88,8 +87,8 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @group  issue_1
-     * @since  8.1.0
+     * @group issue_1
+     * @since 8.1.0
      */
     public function copyFromInputStreamResultsInAllBytesCopied(): void
     {
@@ -100,8 +99,8 @@ class FunctionsTest extends TestCase
 
     /**
      * @test
-     * @group  issue_1
-     * @since  8.1.0
+     * @group issue_1
+     * @since 8.1.0
      */
     public function copyFromInputStreamWritesExactCopyToOutputStream(): void
     {

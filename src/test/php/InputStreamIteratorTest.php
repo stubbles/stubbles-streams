@@ -18,8 +18,8 @@ use function bovigo\callmap\onConsecutiveCalls;
 /**
  * Test for stubbles\streams\InputStreamIterator.
  *
- * @group  streams
- * @since  5.2.0
+ * @group streams
+ * @since 5.2.0
  */
 class InputStreamIteratorTest extends TestCase
 {

@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace stubbles\streams\file;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\StreamException;
 
@@ -22,35 +23,15 @@ use function stubbles\reflect\annotationsOfConstructor;
 /**
  * Test for stubbles\streams\file\FileStreamFactory.
  *
- * @group  streams
- * @group  streams_file
+ * @group streams
+ * @group streams_file
  */
 class FileStreamFactoryTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  FileStreamFactory
-     */
-    private $fileStreamFactory;
-    /**
-     * a file url used in the tests
-     *
-     * @var  string
-     */
-    private $fileUrl;
-    /**
-     * a file url used in the tests
-     *
-     * @var  string
-     */
-    private $fileUrl2;
-    /**
-     * root directory
-     *
-     * @var  \org\bovigo\vfs\vfsStreamDirectory
-     */
-    private $root;
+    private FileStreamFactory $fileStreamFactory;
+    private string $fileUrl;
+    private string $fileUrl2;
+    private vfsStreamDirectory $root;
 
     protected function setUp(): void
     {
@@ -69,8 +50,8 @@ class FileStreamFactoryTest extends TestCase
         $annotations = annotationsOfConstructor($this->fileStreamFactory);
         assertTrue($annotations->contain('Property'));
         assertThat(
-                $annotations->named('Property')[0]->getName(),
-                equals('stubbles.filemode')
+            $annotations->named('Property')[0]->getName(),
+            equals('stubbles.filemode')
         );
     }
 
@@ -80,8 +61,8 @@ class FileStreamFactoryTest extends TestCase
     public function createInputStreamWithOptions(): void
     {
         $fileInputStream = $this->fileStreamFactory->createInputStream(
-                vfsStream::url('home/in.txt'),
-                ['filemode' => 'rb']
+            vfsStream::url('home/in.txt'),
+            ['filemode' => 'rb']
         );
         assertThat($fileInputStream->readLine(), equals('foo'));
     }
@@ -92,7 +73,7 @@ class FileStreamFactoryTest extends TestCase
     public function createInputStreamWithoutOptions(): void
     {
         $fileInputStream = $this->fileStreamFactory->createInputStream(
-                vfsStream::url('home/in.txt')
+            vfsStream::url('home/in.txt')
         );
         assertThat($fileInputStream->readLine(), equals('foo'));
     }
@@ -103,8 +84,8 @@ class FileStreamFactoryTest extends TestCase
     public function createOutputStreamWithFilemodeOption(): void
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
-                $this->fileUrl,
-                ['filemode' => 'wb']
+            $this->fileUrl,
+            ['filemode' => 'wb']
         );
         $fileOutputStream->write('foo');
         assertThat(file_get_contents($this->fileUrl), equals('foo'));
@@ -116,10 +97,11 @@ class FileStreamFactoryTest extends TestCase
     public function createOutputStreamWithFilemodeOptionAndDirectoryOptionSetToTrue(): void
     {
         $fileOutputStream = $this->fileStreamFactory->createOutputStream(
-                $this->fileUrl2,
-                ['filemode'             => 'wb',
-                 'createDirIfNotExists' => true
-                ]
+            $this->fileUrl2,
+            [
+                'filemode'             => 'wb',
+                'createDirIfNotExists' => true
+            ]
         );
         $fileOutputStream->write('foo');
         assertThat(file_get_contents($this->fileUrl2), equals('foo'));
@@ -131,10 +113,8 @@ class FileStreamFactoryTest extends TestCase
     public function createOutputStreamWithDirectoryOptionNotSetThrowsExceptionIfDirectoryDoesNotExist(): void
     {
         assertFalse(file_exists($this->fileUrl2));
-        expect(function() {
-                $this->fileStreamFactory->createOutputStream($this->fileUrl2);
-        })
-        ->throws(StreamException::class);
+        expect(fn() => $this->fileStreamFactory->createOutputStream($this->fileUrl2))
+            ->throws(StreamException::class);
     }
 
     /**
@@ -142,13 +122,13 @@ class FileStreamFactoryTest extends TestCase
      */
     public function createOutputStreamWithDirectoryOptionSetToFalseThrowsExceptionIfDirectoryDoesNotExist(): void
     {
-        expect(function() {
-                $this->fileStreamFactory->createOutputStream(
-                        $this->fileUrl2,
-                        ['createDirIfNotExists' => false]
-                );
-        })
-        ->throws(StreamException::class);
+        expect(fn() =>
+            $this->fileStreamFactory->createOutputStream(
+                $this->fileUrl2,
+                ['createDirIfNotExists' => false]
+            )
+        )
+            ->throws(StreamException::class);
     }
 
     /**
@@ -156,9 +136,9 @@ class FileStreamFactoryTest extends TestCase
      */
     public function createOutputStreamWithDirectoryOptionSetToTrueCreatesDirectoryWithDefaultPermissions(): void
     {
-        $fileOutputStream = $this->fileStreamFactory->createOutputStream(
-                $this->fileUrl2,
-                ['createDirIfNotExists' => true]
+        $this->fileStreamFactory->createOutputStream(
+            $this->fileUrl2,
+            ['createDirIfNotExists' => true]
         );
         assertThat($this->root->getChild('test')->getPermissions(), equals(0700));
     }
@@ -168,11 +148,12 @@ class FileStreamFactoryTest extends TestCase
      */
     public function createOutputStreamWithDirectoryOptionSetToTrueCreatesDirectoryWithOptionsPermissions(): void
     {
-        $fileOutputStream = $this->fileStreamFactory->createOutputStream(
-                $this->fileUrl2,
-                ['createDirIfNotExists' => true,
-                 'dirPermissions'       => 0666
-                ]
+        $this->fileStreamFactory->createOutputStream(
+            $this->fileUrl2,
+            [
+                'createDirIfNotExists' => true,
+                'dirPermissions'       => 0666
+            ]
         );
         assertThat($this->root->getChild('test')->getPermissions(), equals(0666));
     }
@@ -182,9 +163,9 @@ class FileStreamFactoryTest extends TestCase
      */
     public function createOutputStreamWithDelayedOption(): void
     {
-        $fileOutputStream = $this->fileStreamFactory->createOutputStream(
-                $this->fileUrl,
-                ['delayed' => true]
+        $this->fileStreamFactory->createOutputStream(
+            $this->fileUrl,
+            ['delayed' => true]
         );
         assertFalse(file_exists($this->fileUrl));
     }
@@ -194,9 +175,7 @@ class FileStreamFactoryTest extends TestCase
      */
     public function createOutputStreamWithoutOptions(): void
     {
-        $fileOutputStream = $this->fileStreamFactory->createOutputStream(
-                $this->fileUrl
-        );
+        $this->fileStreamFactory->createOutputStream($this->fileUrl);
         assertTrue(file_exists($this->fileUrl));
     }
 }

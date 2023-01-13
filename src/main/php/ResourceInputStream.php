@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 
+use InvalidArgumentException;
 use LogicException;
 
 /**
@@ -20,21 +21,21 @@ abstract class ResourceInputStream implements InputStream
     /**
      * the descriptor for the stream
      *
-     * @var  resource|null
+     * @var resource|null
      */
     protected $handle;
 
     /**
      * sets the resource to be used
      *
-     * @param   resource  $handle
-     * @throws  \InvalidArgumentException
+     * @param  resource $handle
+     * @throws InvalidArgumentException
      */
     protected function setHandle($handle): void
     {
         if (!is_resource($handle)) {
-            throw new \InvalidArgumentException(
-                    'Handle needs to be a stream resource.'
+            throw new InvalidArgumentException(
+                'Handle needs to be a stream resource.'
             );
         }
 
@@ -44,10 +45,9 @@ abstract class ResourceInputStream implements InputStream
     /**
      * reads given amount of bytes
      *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
-     * @throws  LogicException
-     * @throws  \stubbles\streams\StreamException
+     * @param  int $length max amount of bytes to read
+     * @throws LogicException when trying to check eof of already closed stream
+     * @throws StreamException
      */
     public function read(int $length = 8192): string
     {
@@ -57,10 +57,9 @@ abstract class ResourceInputStream implements InputStream
     /**
      * reads given amount of bytes or until next line break and removes line break
      *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
-     * @throws  LogicException
-     * @throws  \stubbles\streams\StreamException
+     * @param  int $length max amount of bytes to read
+     * @throws LogicException when trying to check eof of already closed stream
+     * @throws StreamException
      */
     public function readLine(int $length = 8192): string
     {
@@ -70,11 +69,10 @@ abstract class ResourceInputStream implements InputStream
     /**
      * do actual read
      *
-     * @param   callable  $read    function to use for reading from handle
-     * @param   int       $length  max amount of bytes to read
-     * @return  string
-     * @throws  LogicException
-     * @throws  \stubbles\streams\StreamException
+     * @param  callable $read   function to use for reading from handle
+     * @param  int      $length max amount of bytes to read
+     * @throws LogicException when trying to check eof of already closed stream
+     * @throws StreamException
      */
     private function doRead(callable $read, int $length): string
     {
@@ -100,12 +98,11 @@ abstract class ResourceInputStream implements InputStream
     /**
      * returns the amount of bytes left to be read
      *
-     * @return  int
-     * @throws  LogicException
+     * @throws LogicException when trying to check eof of already closed stream
      */
     public function bytesLeft(): int
     {
-        if (null === $this->handle || !is_resource($this->handle)) {
+        if (!is_resource($this->handle)) {
             throw new LogicException('Can not read from closed input stream.');
         }
 
@@ -120,8 +117,7 @@ abstract class ResourceInputStream implements InputStream
     /**
      * returns true if the stream pointer is at EOF
      *
-     * @return  bool
-     * @throws  LogicException  when trying to check eof of already closed stream
+     * @throws LogicException when trying to check eof of already closed stream
      */
     public function eof(): bool
     {
@@ -138,14 +134,13 @@ abstract class ResourceInputStream implements InputStream
      * Not all stream wrappers support (f)stat - the extending class then
      * needs to take care to deliver the correct resource length then.
      *
-     * @return  int
-     * @throws  \LogicException  when trying to get resource length of already closed stream
-     * @throws  StreamException  when retrieving stat data fails
+     * @throws LogicException when trying to get resource length of already closed stream
+     * @throws StreamException when retrieving stat data fails
      */
     protected function getResourceLength(): int
     {
-        if (null === $this->handle || !is_resource($this->handle)) {
-            throw new \LogicException('Can not read from closed input stream.');
+        if (!is_resource($this->handle)) {
+            throw new LogicException('Can not read from closed input stream.');
         }
 
         $fileData = fstat($this->handle);

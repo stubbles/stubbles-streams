@@ -7,64 +7,36 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use Iterator;
 /**
  * Iterator for input streams.
  *
  * @api
  * @since  5.2.0
- * @implements  \Iterator<int,string>
+ * @implements Iterator<int,string>
  */
-class InputStreamIterator implements \Iterator
+class InputStreamIterator implements Iterator
 {
-    /**
-     * input stream to iterate on
-     *
-     * @var  \stubbles\streams\InputStream
-     */
-    private $inputStream;
-    /**
-     * current line
-     *
-     * @var  string|null
-     */
-    private $currentLine;
-    /**
-     * current line number
-     *
-     * @var  int
-     */
-    private $lineNumber = 0;
-    /**
-     * @var  bool
-     */
-    private $valid      = true;
+    private string $currentLine = '';
+    private int $lineNumber = 0;
+    private bool $valid = true;
 
-    /**
-     * constructor
-     *
-     * @param   \stubbles\streams\InputStream  $inputStream
-     * @throws  \InvalidArgumentException  in case input stream is not seekable
-     */
-    public function __construct(InputStream $inputStream)
+    public function __construct(private InputStream $inputStream)
     {
-        $this->inputStream = $inputStream;
         $this->next();
     }
 
     /**
      * returns the current line
-     *
-     * @return  string
      */
     public function current(): string
     {
-        return (string) $this->currentLine;
+        return $this->currentLine;
     }
 
     /**
      * returns current line number
-     *
-     * @return  int
      */
     public function key(): int
     {
@@ -92,14 +64,12 @@ class InputStreamIterator implements \Iterator
 
         $this->inputStream->seek(0, Seekable::SET);
         $this->lineNumber  = 0;
-        $this->currentLine = null;
+        $this->currentLine = '';
         $this->next();
     }
 
     /**
      * checks if current element is valid
-     *
-     * @return  bool
      */
     public function valid(): bool
     {

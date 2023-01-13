@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace stubbles\streams\file;
 
+use InvalidArgumentException;
 use LogicException;
 use stubbles\streams\InputStream;
 use stubbles\streams\ResourceInputStream;
@@ -22,20 +23,13 @@ use function stubbles\streams\lastErrorMessage;
  */
 class FileInputStream extends ResourceInputStream implements Seekable
 {
-    /**
-     * name of the file
-     *
-     * @var  string
-     */
-    protected $fileName;
+    protected string $fileName;
 
     /**
-     * constructor
-     *
-     * @param   string|resource  $file
-     * @param   string           $mode  opening mode if $file is a filename
-     * @throws  \stubbles\streams\StreamException
-     * @throws  \InvalidArgumentException
+     * @param  string|resource $file
+     * @param  string          $mode opening mode if $file is a filename
+     * @throws StreamException
+     * @throws InvalidArgumentException
      */
     public function __construct($file, string $mode = 'rb')
     {
@@ -43,28 +37,25 @@ class FileInputStream extends ResourceInputStream implements Seekable
             $fp = @fopen($file, $mode);
             if (false === $fp) {
                 throw new StreamException(
-                        'Can not open file ' . $file . ' with mode ' . $mode. ': '
-                        .
-                        str_replace('fopen(' . $file . '): ', '', lastErrorMessage())
+                    'Can not open file ' . $file . ' with mode ' . $mode. ': '
+                    . str_replace('fopen(' . $file . '): ', '', lastErrorMessage())
                 );
             }
 
             $this->fileName = $file;
         } elseif (is_resource($file) && get_resource_type($file) === 'stream') {
             $fp = $file;
+            $this->fileName = '<resource>';
         } else {
-            throw new \InvalidArgumentException(
-                    'File must either be a filename'
-                    . ' or an already opened file/stream resource.'
+            throw new InvalidArgumentException(
+                'File must either be a filename'
+                . ' or an already opened file/stream resource.'
             );
         }
 
         $this->setHandle($fp);
     }
 
-    /**
-     * destructor
-     */
     public function __destruct()
     {
         $this->close();
@@ -73,31 +64,21 @@ class FileInputStream extends ResourceInputStream implements Seekable
     /**
      * casts given value to an input stream
      *
-     * @param   \stubbles\streams\InputStream|string  $value
-     * @return  \stubbles\streams\InputStream
-     * @throws  \InvalidArgumentException
-     * @since   5.2.0
+     * @since 5.2.0
      */
-    public static function castFrom($value): InputStream
+    public static function castFrom(InputStream|string $value): InputStream
     {
         if ($value instanceof InputStream) {
             return $value;
         }
 
-        if (is_string($value)) {
-            return new self($value);
-        }
-
-        throw new \InvalidArgumentException(
-                'Given value is neither an instance of' . InputStream::class
-                . ' nor a string denoting a file'
-        );
+        return new self($value);
     }
 
     /**
      * helper method to retrieve the length of the resource
      *
-     * @return  int
+     * @throws StreamException
      */
     protected function getResourceLength(): int
     {
@@ -127,10 +108,8 @@ class FileInputStream extends ResourceInputStream implements Seekable
     /**
      * seek to given offset
      *
-     * @param   int  $offset
-     * @param   int  $whence  one of Seekable::SET, Seekable::CURRENT or Seekable::END
-     * @throws  LogicException  when trying to seek on an already closed stream
-     * @throws  StreamException  when seeking fails
+     * @throws LogicException  when trying to seek on an already closed stream
+     * @throws StreamException when seeking fails
      */
     public function seek(int $offset, int $whence = Seekable::SET): void
     {
@@ -146,9 +125,8 @@ class FileInputStream extends ResourceInputStream implements Seekable
     /**
      * return current position
      *
-     * @return  int
-     * @throws  LogicException
-     * @throws  \stubbles\streams\StreamException
+     * @throws LogicException
+     * @throws StreamException
      */
     public function tell(): int
     {
@@ -159,8 +137,8 @@ class FileInputStream extends ResourceInputStream implements Seekable
         $position = @ftell($this->handle);
         if (false === $position) {
             throw new StreamException(
-                    'Can not read current position in file: '
-                    . lastErrorMessage('unknown error')
+                'Can not read current position in file: '
+                . lastErrorMessage('unknown error')
             );
         }
 

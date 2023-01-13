@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\memory;
+
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\Seekable;
 
@@ -26,12 +28,7 @@ use function bovigo\assert\{
  */
 class MemoryInputStreamTest extends TestCase
 {
-    /**
-     * the file url used in the tests
-     *
-     * @var  MemoryInputStream
-     */
-    private $memoryInputStream;
+    private MemoryInputStream $memoryInputStream;
 
     protected function setUp(): void
     {
@@ -172,7 +169,7 @@ class MemoryInputStreamTest extends TestCase
     }
 
     /**
-     * @since  2.1.2
+     * @since 2.1.2
      * @test
      */
     public function readLineWithBothLineBreaks(): void
@@ -182,7 +179,7 @@ class MemoryInputStreamTest extends TestCase
     }
 
     /**
-     * @since  2.1.2
+     * @since 2.1.2
      * @test
      */
     public function readLineWithBothLineBreaksNextLine(): void
@@ -212,8 +209,6 @@ class MemoryInputStreamTest extends TestCase
     }
 
     /**
-     * seek() sets position of of buffer
-     *
      * @test
      */
     public function seekCanSetPositionFromCurrentPosition(): void
@@ -239,7 +234,7 @@ class MemoryInputStreamTest extends TestCase
      */
     public function seekThrowsIllegalArgumentExceptionForInvalidWhence(): void
     {
-        expect(function() { $this->memoryInputStream->seek(6, 66); })
-                ->throws(\InvalidArgumentException::class);
+        expect(fn() => $this->memoryInputStream->seek(6, 66))
+            ->throws(InvalidArgumentException::class);
     }
 }

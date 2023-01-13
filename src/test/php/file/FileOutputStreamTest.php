@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\file;
+
+use InvalidArgumentException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\StreamException;
@@ -22,17 +24,12 @@ use function bovigo\assert\{
 /**
  * Test for stubbles\streams\file\FileOutputStream.
  *
- * @group  streams
- * @group  streams_file
+ * @group streams
+ * @group streams_file
  */
 class FileOutputStreamTest extends TestCase
 {
-    /**
-     * the file url used in the tests
-     *
-     * @var  string
-     */
-    private $fileUrl;
+    private string $fileUrl;
 
     protected function setUp(): void
     {
@@ -84,13 +81,13 @@ class FileOutputStreamTest extends TestCase
     public function constructWithStringFailsAndThrowsIOException(): void
     {
         vfsStream::newFile('test.txt', 0000)->at(vfsStream::setup());
-        expect(function() { new FileOutputStream($this->fileUrl, 'r'); })
-                ->throws(StreamException::class)
-                ->withMessage(
-                        'Can not open file vfs://home/test.txt with mode r:'
-                        . ' Failed to open stream: "org\bovigo\vfs\vfsStreamWrapper::stream_open"'
-                        . ' call failed'
-                );
+        expect(fn() => new FileOutputStream($this->fileUrl, 'r'))
+            ->throws(StreamException::class)
+            ->withMessage(
+                'Can not open file vfs://home/test.txt with mode r:'
+                . ' Failed to open stream: "org\bovigo\vfs\vfsStreamWrapper::stream_open"'
+                . ' call failed'
+            );
     }
 
     /**
@@ -110,7 +107,7 @@ class FileOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @requires  extension  gd
+     * @requires extension gd
      */
     public function constructWithIllegalResource(): void
     {
@@ -119,7 +116,7 @@ class FileOutputStreamTest extends TestCase
             fail('Could not create illegal resource');
         }
 
-        expect(function() use($illegalResource) { new FileOutputStream($illegalResource); })
-                ->throws(\InvalidArgumentException::class);
+        expect(fn() => new FileOutputStream($illegalResource))
+            ->throws(InvalidArgumentException::class);
     }
 }

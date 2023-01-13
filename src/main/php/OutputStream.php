@@ -17,25 +17,23 @@ interface OutputStream
     /**
      * writes given bytes
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
+     * @return int amount of written bytes
      */
     public function write(string $bytes): int;
 
     /**
      * writes given bytes and appends a line break
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
+     * @return int amount of written bytes
      */
     public function writeLine(string $bytes): int;
 
     /**
      * writes given bytes and appends a line break after each one
      *
-     * @param   string[]  $bytes
-     * @return  int       amount of written bytes
-     * @since   3.2.0
+     * @param  string[] $bytes
+     * @return int      amount of written bytes
+     * @since  3.2.0
      */
     public function writeLines(array $bytes): int;
 

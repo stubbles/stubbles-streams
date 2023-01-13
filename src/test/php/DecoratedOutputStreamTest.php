@@ -22,18 +22,8 @@ use function bovigo\callmap\verify;
  */
 class DecoratedOutputStreamTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  \stubbles\streams\DecoratedOutputStream
-     */
-    private $decoratedOutputStream;
-    /**
-     * mocked input stream
-     *
-     * @var  \stubbles\streams\memory\MemoryOutputStream
-     */
-    private $memory;
+    private DecoratedOutputStream $decoratedOutputStream;
+    private MemoryOutputStream $memory;
 
     protected function setUp(): void
     {
@@ -61,8 +51,8 @@ class DecoratedOutputStreamTest extends TestCase
     public function writeReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
-                $this->decoratedOutputStream->write('foo'),
-                equals(3)
+            $this->decoratedOutputStream->write('foo'),
+            equals(3)
         );
     }
 
@@ -83,14 +73,14 @@ class DecoratedOutputStreamTest extends TestCase
     public function writeLineReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
-                $this->decoratedOutputStream->writeLine('foo'),
-                equals(4)
+            $this->decoratedOutputStream->writeLine('foo'),
+            equals(4)
         );
     }
 
     /**
      * @test
-     * @since  3.2.0
+     * @since 3.2.0
      */
     public function writeLinesCallsDecoratedStream(): void
     {
@@ -100,13 +90,13 @@ class DecoratedOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  3.2.0
+     * @since 3.2.0
      */
     public function writeLinesReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
-                $this->decoratedOutputStream->writeLines(['foo', 'bar']),
-                equals(8)
+            $this->decoratedOutputStream->writeLines(['foo', 'bar']),
+            equals(8)
         );
     }
 
@@ -116,9 +106,7 @@ class DecoratedOutputStreamTest extends TestCase
     public function closeClosesDecoratedStream(): void
     {
         $outputStream = NewInstance::of(OutputStream::class);
-        $decoratedOutputStream = $this->createDecoratedOutputStream(
-                $outputStream
-        );
+        $decoratedOutputStream = $this->createDecoratedOutputStream($outputStream);
         $decoratedOutputStream->close();
         assertTrue(verify($outputStream, 'close')->wasCalledOnce());
     }

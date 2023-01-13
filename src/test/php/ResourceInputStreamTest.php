@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 
+use InvalidArgumentException;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
@@ -24,30 +25,21 @@ use function bovigo\assert\{
 /**
  * Test for stubbles\streams\ResourceInputStream.
  *
- * @group  streams
+ * @group streams
  */
 class ResourceInputStreamTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  ResourceInputStream
-     */
-    private $resourceInputStream;
-    /**
-     * the handle
-     *
-     * @var  resource
-     */
+    private ResourceInputStream $resourceInputStream;
+    /**  @var resource */
     private $handle;
 
     protected function setUp(): void
     {
         $root = vfsStream::setup();
         vfsStream::newFile('test_read.txt')
-                 ->withContent('foobarbaz
+            ->withContent('foobarbaz
 jjj')
-                 ->at($root);
+            ->at($root);
         $handle = fopen(vfsStream::url('root/test_read.txt'), 'r');
         if (false === $handle) {
             fail('Could not open vfsStream url');
@@ -58,15 +50,14 @@ jjj')
     }
 
     /**
-     * @param   resource  $resource
-     * @return  ResourceInputStream
+     * @param resource $resource
      */
     private function createResourceInputStream($resource): ResourceInputStream
     {
         return new class($resource) extends ResourceInputStream
         {
             /**
-             * @param   resource  $handle
+             * @param resource $handle
              */
             public function __construct($handle)
             {
@@ -80,8 +71,8 @@ jjj')
      */
     public function invalidHandleThrowsIllegalArgumentException(): void
     {
-        expect(function() { $this->createResourceInputStream('invalid'); })
-                ->throws(\InvalidArgumentException::class);
+        expect(fn() => $this->createResourceInputStream('invalid'))
+            ->throws(InvalidArgumentException::class);
     }
 
     /**
@@ -198,7 +189,7 @@ jjj')
 
     /**
      * @test
-     * @since  9.1.0
+     * @since 9.1.0
      */
     public function eofAfterCloseFails(): void
     {
@@ -242,6 +233,6 @@ jjj')
                 fclose($this->handle);
                 $this->resourceInputStream->bytesLeft();
         })
-        ->throws(\LogicException::class);
+            ->throws(\LogicException::class);
     }
 }

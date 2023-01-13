@@ -10,23 +10,17 @@ namespace stubbles\streams\memory;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
-use function bovigo\assert\assertNull;
 use function bovigo\assert\assertEmptyString;
 use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\memory\MemoryOutputStream.
  *
- * @group  streams
- * @group  streams_memory
+ * @group streams
+ * @group streams_memory
  */
 class MemoryOutputStreamTest extends TestCase
 {
-    /**
-     * the file url used in the tests
-     *
-     * @var  MemoryOutputStream
-     */
-    private $memoryOutputStream;
+    private MemoryOutputStream $memoryOutputStream;
 
     protected function setUp(): void
     {
@@ -43,7 +37,7 @@ class MemoryOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function conversionToStringOnEmptyBufferReturnsEmptyString(): void
     {
@@ -52,7 +46,7 @@ class MemoryOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  4.0.0
+     * @since 4.0.0
      */
     public function conversionToStringOnWrittenBufferReturnsBufferContents(): void
     {
@@ -96,19 +90,19 @@ class MemoryOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  3.2.0
+     * @since 3.2.0
      */
     public function writeLinesReturnsAmountOfBytesWritten(): void
     {
         assertThat(
-                $this->memoryOutputStream->writeLines(['hello', 'world']),
-                equals(12)
+            $this->memoryOutputStream->writeLines(['hello', 'world']),
+            equals(12)
         );
     }
 
     /**
      * @test
-     * @since  3.2.0
+     * @since 3.2.0
      */
     public function writeLinesWritesBytesIntoBuffer(): void
     {

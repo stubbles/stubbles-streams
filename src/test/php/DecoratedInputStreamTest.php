@@ -19,22 +19,12 @@ use function bovigo\callmap\verify;
 /**
  * Test for stubbles\streams\DecoratedInputStream.
  *
- * @group  streams
+ * @group streams
  */
 class DecoratedInputStreamTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  \stubbles\streams\DecoratedInputStream
-     */
-    private $decoratedInputStream;
-    /**
-     * mocked input stream
-     *
-     * @var  \stubbles\streams\memory\MemoryInputStream
-     */
-    private $memory;
+    private DecoratedInputStream $decoratedInputStream;
+    private MemoryInputStream $memory;
 
     protected function setUp(): void
     {

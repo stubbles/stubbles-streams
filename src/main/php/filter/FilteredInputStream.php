@@ -16,18 +16,10 @@ use stubbles\streams\InputStream;
  */
 class FilteredInputStream extends DecoratedInputStream
 {
-    /**
-     * predicate which decides on whether a line is acceptable
-     *
-     * @var  callable
-     */
     private $predicate;
 
     /**
-     * constructor
-     *
-     * @param   \stubbles\streams\InputStream  $inputStream  input stream to filter
-     * @param   callable                       $predicate    predicate to check if something should be passed
+     * @param callable $predicate predicate to check if something should be passed
      */
     public function __construct(InputStream $inputStream, callable $predicate)
     {
@@ -37,9 +29,6 @@ class FilteredInputStream extends DecoratedInputStream
 
     /**
      * reads given amount of bytes
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
      */
     public function read(int $length = 8192): string
     {
@@ -56,9 +45,6 @@ class FilteredInputStream extends DecoratedInputStream
 
     /**
      * reads given amount of bytes or until next line break
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
      */
     public function readLine(int $length = 8192): string
     {

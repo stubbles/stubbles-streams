@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\memory;
+
+use InvalidArgumentException;
 use stubbles\streams\InputStream;
 use stubbles\streams\Seekable;
 /**
@@ -17,33 +19,19 @@ use stubbles\streams\Seekable;
 class MemoryInputStream implements InputStream, Seekable
 {
     /**
-     * written data
-     *
-     * @var  string
-     */
-    private $buffer   = '';
-    /**
      * current position in buffer
-     *
-     * @var  int
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * constructor
      *
      * @param  string  $buffer
      */
-    public function __construct(string $buffer)
-    {
-        $this->buffer = $buffer;
-    }
+    public function __construct(private string $buffer) { }
 
     /**
      * reads given amount of bytes
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
      */
     public function read(int $length = 8192): string
     {
@@ -54,9 +42,6 @@ class MemoryInputStream implements InputStream, Seekable
 
     /**
      * reads given amount of bytes or until next line break
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
      */
     public function readLine(int $length = 8192): string
     {
@@ -75,8 +60,6 @@ class MemoryInputStream implements InputStream, Seekable
 
     /**
      * returns the amount of byted left to be read
-     *
-     * @return  int
      */
     public function bytesLeft(): int
     {
@@ -85,8 +68,6 @@ class MemoryInputStream implements InputStream, Seekable
 
     /**
      * returns true if the stream pointer is at EOF
-     *
-     * @return  bool
      */
     public function eof(): bool
     {
@@ -104,9 +85,9 @@ class MemoryInputStream implements InputStream, Seekable
     /**
      * seek to given offset
      *
-     * @param   int  $offset  new position or amount of bytes to seek
-     * @param   int  $whence  one of Seekable::SET, Seekable::CURRENT or Seekable::END
-     * @throws  \InvalidArgumentException
+     * @param  int $offset new position or amount of bytes to seek
+     * @param  int $whence one of Seekable::SET, Seekable::CURRENT or Seekable::END
+     * @throws InvalidArgumentException
      */
     public function seek(int $offset, int $whence = Seekable::SET): void
     {
@@ -124,17 +105,15 @@ class MemoryInputStream implements InputStream, Seekable
                 break;
 
             default:
-                throw new \InvalidArgumentException(
-                        'Wrong value for $whence, must be one of Seekable::SET,'
-                        . ' Seekable::CURRENT or Seekable::END.'
+                throw new InvalidArgumentException(
+                    'Wrong value for $whence, must be one of Seekable::SET,'
+                    . ' Seekable::CURRENT or Seekable::END.'
                 );
         }
     }
 
     /**
      * return current position
-     *
-     * @return  int
      */
     public function tell(): int
     {

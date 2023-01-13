@@ -13,38 +13,19 @@ namespace stubbles\streams;
 class PrefixedStreamFactory implements StreamFactory
 {
     /**
-     * decorated stream factory
-     *
-     * @var  \stubbles\streams\StreamFactory
+     * @param StreamFactory $streamFactory stream factory to decorate
+     * @param string        $prefix prefix to add for source and target before calling decorated stream factory
      */
-    protected $streamFactory;
-    /**
-     * prefix to add for source and target before calling decorated stream factory
-     *
-     * @var  string
-     */
-    protected $prefix;
-
-    /**
-     * constructor
-     *
-     * @param  \stubbles\streams\StreamFactory  $streamFactory
-     * @param  string                           $prefix
-     */
-    public function __construct(StreamFactory $streamFactory, string $prefix)
-    {
-        $this->streamFactory = $streamFactory;
-        $this->prefix        = $prefix;
-    }
+    public function __construct(private StreamFactory $streamFactory, private string $prefix) { }
 
     /**
      * creates an input stream for given source
      *
-     * @param   mixed                $source   source to create input stream from
-     * @param   array<string,mixed>  $options  list of options for the input stream
-     * @return  \stubbles\streams\InputStream
+     * @param  mixed               $source  source to create input stream from
+     * @param  array<string,mixed> $options list of options for the input stream
+     * @return InputStream
      */
-    public function createInputStream($source, array $options = []): InputStream
+    public function createInputStream(mixed $source, array $options = []): InputStream
     {
         return $this->streamFactory->createInputStream($this->prefix . $source, $options);
     }
@@ -52,11 +33,11 @@ class PrefixedStreamFactory implements StreamFactory
     /**
      * creates an output stream for given target
      *
-     * @param   mixed                $target   target to create output stream for
-     * @param   array<string,mixed>  $options  list of options for the output stream
-     * @return  \stubbles\streams\OutputStream
+     * @param  mixed               $target  target to create output stream for
+     * @param  array<string,mixed> $options list of options for the output stream
+     * @return OutputStream
      */
-    public function createOutputStream($target, array $options = []): OutputStream
+    public function createOutputStream(mixed $target, array $options = []): OutputStream
     {
         return $this->streamFactory->createOutputStream($this->prefix . $target, $options);
     }

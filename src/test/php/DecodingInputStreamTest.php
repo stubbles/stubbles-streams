@@ -20,30 +20,20 @@ use function bovigo\callmap\verify;
 /**
  * Test for stubbles\streams\DecodingInputStream.
  *
- * @group  streams
- * @requires  extension iconv
+ * @group streams
+ * @requires extension iconv
  */
 class DecodingInputStreamTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  \stubbles\streams\DecodingInputStream
-     */
-    private $decodingInputStream;
-    /**
-     * mocked input stream
-     *
-     * @var  \stubbles\streams\memory\MemoryInputStream
-     */
-    private $memory;
+    private DecodingInputStream $decodingInputStream;
+    private MemoryInputStream $memory;
 
     protected function setUp(): void
     {
         $this->memory = new MemoryInputStream(mb_convert_encoding("hällö\n", 'iso-8859-1'));
         $this->decodingInputStream = new DecodingInputStream(
-                $this->memory,
-                'iso-8859-1'
+            $this->memory,
+            'iso-8859-1'
         );
     }
 
@@ -104,14 +94,13 @@ class DecodingInputStreamTest extends TestCase
      */
     public function readThrowsExceptionInIllegalCharacter(): void
     {
-      $decodingInputStream = new DecodingInputStream(
-          new MemoryInputStream("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"),
-          'CP850',
-          'ISO-8859-1'
-      );
-      expect(function() use($decodingInputStream) {
-          $decodingInputStream->read();
-      })->throws(StreamException::class);
+        $decodingInputStream = new DecodingInputStream(
+            new MemoryInputStream("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"),
+            'CP850',
+            'ISO-8859-1'
+        );
+        expect(fn() => $decodingInputStream->read())
+            ->throws(StreamException::class);
     }
 
     /**
@@ -120,13 +109,12 @@ class DecodingInputStreamTest extends TestCase
      */
     public function readLineThrowsExceptionInIllegalCharacter(): void
     {
-      $decodingInputStream = new DecodingInputStream(
-          new MemoryInputStream("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"),
-          'CP850',
-          'ISO-8859-1'
-      );
-      expect(function() use($decodingInputStream) {
-         $decodingInputStream->readLine();
-      })->throws(StreamException::class);
+        $decodingInputStream = new DecodingInputStream(
+            new MemoryInputStream("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"),
+            'CP850',
+            'ISO-8859-1'
+        );
+        expect(fn() => $decodingInputStream->readLine())
+            ->throws(StreamException::class);
     }
 }

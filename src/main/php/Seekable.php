@@ -17,30 +17,29 @@ interface Seekable
     /**
      * set position equal to offset  bytes
      */
-    const SET     = SEEK_SET;
+    public const SET     = SEEK_SET;
     /**
      * set position to current location plus offset
      */
-    const CURRENT = SEEK_CUR;
+    public const CURRENT = SEEK_CUR;
     /**
      * set position to end-of-file plus offset
      */
-    const END     = SEEK_END;
+    public const END     = SEEK_END;
 
     /**
      * seek to given offset
      *
-     * @param   int  $offset  offset to seek to
-     * @param   int  $whence  optional  one of Seekable::SET, Seekable::CURRENT or Seekable::END
-     * @throws  \LogicException  in case the stream was already closed
+     * @param  int $offset offset to seek to
+     * @param  int $whence optional  one of Seekable::SET, Seekable::CURRENT or Seekable::END
+     * @throws \LogicException in case the stream was already closed
      */
     public function seek(int $offset, int $whence = Seekable::SET): void;
 
     /**
      * return current position
      *
-     * @return  int
-     * @throws  \LogicException  in case the stream was already closed
+     * @throws \LogicException in case the stream was already closed
      */
     public function tell(): int;
 }

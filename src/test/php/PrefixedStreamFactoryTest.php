@@ -16,18 +16,13 @@ use function bovigo\callmap\verify;
 /**
  * Test for stubbles\streams\PrefixedStreamFactory.
  *
- * @group  streams
+ * @group streams
  */
 class PrefixedStreamFactoryTest extends TestCase
 {
+    private PrefixedStreamFactory $prefixedStreamFactory;
     /**
-     * instance to test
-     *
-     * @var  PrefixedStreamFactory
-     */
-    private $prefixedStreamFactory;
-    /**
-     * @var  StreamFactory&\bovigo\callmap\ClassProxy
+     * @var StreamFactory&\bovigo\callmap\ClassProxy
      */
     private $streamFactory;
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace stubbles\streams;
 
 use LogicException;
+use RuntimeException;
 
 /**
  * Input stream for reading from php://input.
@@ -17,14 +18,11 @@ use LogicException;
  */
 class StandardInputStream extends ResourceInputStream implements Seekable
 {
-    /**
-     * constructor
-     */
     public function __construct()
     {
         $fp = fopen('php://input', 'rb');
         if (false === $fp) {
-            throw new \RuntimeException('Could not open input stream');
+            throw new RuntimeException('Could not open input stream');
         }
 
         $this->setHandle($fp);
@@ -33,10 +31,10 @@ class StandardInputStream extends ResourceInputStream implements Seekable
     /**
      * seek to given offset
      *
-     * @param   int  $offset  offset to seek to
-     * @param   int  $whence  optional  one of Seekable::SET, Seekable::CURRENT or Seekable::END
-     * @throws  LogicException  in case the stream was already closed
-     * @throws  StreamException  when seeking fails
+     * @param  int $offset offset to seek to
+     * @param  int $whence optional one of Seekable::SET, Seekable::CURRENT or Seekable::END
+     * @throws LogicException in case the stream was already closed
+     * @throws StreamException when seeking fails
      */
     public function seek(int $offset, int $whence = Seekable::SET): void
     {
@@ -52,9 +50,8 @@ class StandardInputStream extends ResourceInputStream implements Seekable
     /**
      * return current position
      *
-     * @return  int
-     * @throws  LogicException  in case the stream was already closed
-     * @throws  \stubbles\streams\StreamException
+     * @throws LogicException in case the stream was already closed
+     * @throws StreamException
      */
     public function tell(): int
     {

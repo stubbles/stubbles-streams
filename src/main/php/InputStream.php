@@ -16,31 +16,21 @@ interface InputStream
 {
     /**
      * reads given amount of bytes
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
      */
     public function read(int $length = 8192): string;
 
     /**
      * reads given amount of bytes or until next line break
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
      */
     public function readLine(int $length = 8192): string;
 
     /**
      * returns the amount of byted left to be read
-     *
-     * @return  int
      */
     public function bytesLeft(): int;
 
     /**
      * returns true if the stream pointer is at EOF
-     *
-     * @return  bool
      */
     public function eof(): bool;
 

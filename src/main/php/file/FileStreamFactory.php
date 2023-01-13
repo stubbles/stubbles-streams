@@ -16,31 +16,18 @@ use stubbles\streams\StreamFactory;
 class FileStreamFactory implements StreamFactory
 {
     /**
-     * default file mode if directory for output stream should be created
-     *
-     * @var  int
-     */
-    protected $fileMode;
-
-    /**
-     * constructor
-     *
      * @param  int  $fileMode  default file mode if directory for output stream should be created
      * @Property('stubbles.filemode')
      */
-    public function __construct(int $fileMode = 0700)
-    {
-        $this->fileMode = $fileMode;
-    }
+    public function __construct(private int $fileMode = 0700) { }
 
     /**
      * creates an input stream for given source
      *
-     * @param   mixed                $source   source to create input stream from
-     * @param   array<string,mixed>  $options  list of options for the input stream
-     * @return  \stubbles\streams\file\FileInputStream
+     * @param mixed               $source  source to create input stream from
+     * @param array<string,mixed> $options list of options for the input stream
      */
-    public function createInputStream($source, array $options = []): InputStream
+    public function createInputStream(mixed $source, array $options = []): FileInputStream
     {
         if (isset($options['filemode'])) {
             return new FileInputStream($source, $options['filemode']);
@@ -52,11 +39,10 @@ class FileStreamFactory implements StreamFactory
     /**
      * creates an output stream for given target
      *
-     * @param   mixed                $target   target to create output stream for
-     * @param   array<string,mixed>  $options  list of options for the output stream
-     * @return  \stubbles\streams\file\FileOutputStream
+     * @param mixed               $target  target to create output stream for
+     * @param array<string,mixed> $options list of options for the output stream
      */
-    public function createOutputStream($target, array $options = []): OutputStream
+    public function createOutputStream(mixed $target, array $options = []): FileOutputStream
     {
         if (isset($options['createDirIfNotExists']) && true === $options['createDirIfNotExists']) {
             $dir = dirname($target);

@@ -7,18 +7,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use Exception;
+use Throwable;
 /**
  * Thrown when reading or writing on a stream fails.
  */
-class StreamException extends \Exception
+class StreamException extends Exception
 {
-    /**
-     * constructor
-     *
-     * @param  string      $message
-     * @param  \Throwable  $previous
-     */
-    public function __construct(string $message, \Throwable $previous = null)
+    public function __construct(string $message, Throwable $previous = null)
     {
         parent::__construct($message, 0, $previous);
     }

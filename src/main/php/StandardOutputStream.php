@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use RuntimeException;
+
 /**
  * Output stream for writing to php://output.
  *
@@ -14,14 +17,11 @@ namespace stubbles\streams;
  */
 class StandardOutputStream extends ResourceOutputStream
 {
-    /**
-     * constructor
-     */
     public function __construct()
     {
         $fp = fopen('php://output', 'wb');
         if (false === $fp) {
-            throw new \RuntimeException('Could not open input stream');
+            throw new RuntimeException('Could not open input stream');
         }
 
         $this->setHandle($fp);

@@ -19,30 +19,20 @@ use function bovigo\callmap\verify;
 /**
  * Test for stubbles\streams\EncodingOutputStream.
  *
- * @group  streams
- * @requires  extension iconv
+ * @group streams
+ * @requires extension iconv
  */
 class EncodingOutputStreamTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  \stubbles\streams\EncodingOutputStream
-     */
-    private $encodingOutputStream;
-    /**
-     * mocked input stream
-     *
-     * @var  \stubbles\streams\memory\MemoryOutputStream
-     */
-    private $memory;
+    private EncodingOutputStream $encodingOutputStream;
+    private MemoryOutputStream $memory;
 
     protected function setUp(): void
     {
         $this->memory = new MemoryOutputStream();
         $this->encodingOutputStream = new EncodingOutputStream(
-                $this->memory,
-                'iso-8859-1'
+            $this->memory,
+            'iso-8859-1'
         );
     }
 
@@ -74,15 +64,18 @@ class EncodingOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  3.2.0
+     * @since 3.2.0
      */
     public function writeLinesEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat(
-                $this->encodingOutputStream->writeLines(['hällö', 'wörld']),
-                equals(12)
+            $this->encodingOutputStream->writeLines(['hällö', 'wörld']),
+            equals(12)
         );
-        assertThat($this->memory->buffer(), equals(mb_convert_encoding("hällö\nwörld\n", 'iso-8859-1')));
+        assertThat(
+            $this->memory->buffer(),
+            equals(mb_convert_encoding("hällö\nwörld\n", 'iso-8859-1'))
+        );
     }
 
     /**
@@ -92,8 +85,8 @@ class EncodingOutputStreamTest extends TestCase
     {
         $outputStream = NewInstance::of(OutputStream::class);
         $encodingOutputStream = new EncodingOutputStream(
-                $outputStream,
-                'iso-8859-1'
+            $outputStream,
+            'iso-8859-1'
         );
         $encodingOutputStream->close();
         assertTrue(verify($outputStream, 'close')->wasCalledOnce());
@@ -107,10 +100,9 @@ class EncodingOutputStreamTest extends TestCase
     {
         $out = new MemoryOutputStream();
         $encodingOutputStream = new EncodingOutputStream($out, 'ISO-8859-1', 'CP850');
-        expect(function() use($encodingOutputStream) {
-            $encodingOutputStream->write("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL");
-        })->throws(StreamException::class)
-          ->after($out->buffer(), equals(''));
+        expect(fn() => $encodingOutputStream->write("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"))
+            ->throws(StreamException::class)
+            ->after($out->buffer(), equals(''));
     }
 
     /**
@@ -121,9 +113,8 @@ class EncodingOutputStreamTest extends TestCase
     {
         $out = new MemoryOutputStream();
         $encodingOutputStream = new EncodingOutputStream($out, 'ISO-8859-1', 'CP850');
-        expect(function() use($encodingOutputStream) {
-          $encodingOutputStream->writeLine("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL");
-        })->throws(StreamException::class)
-          ->after($out->buffer(), equals(''));
+        expect(fn() => $encodingOutputStream->writeLine("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"))
+            ->throws(StreamException::class)
+            ->after($out->buffer(), equals(''));
     }
 }

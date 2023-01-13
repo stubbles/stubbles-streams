@@ -8,8 +8,10 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 
+use InvalidArgumentException;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -19,32 +21,18 @@ use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\ResourceOutputStream.
  *
- * @group  streams
+ * @group streams
  */
 class ResourceOutputStreamTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  ResourceOutputStream
-     */
-    private $resourceOutputStream;
-    /**
-     * the handle
-     *
-     * @var  resource
-     */
+    private ResourceOutputStream $resourceOutputStream;
+    /** @var resource */
     private $handle;
-    /**
-     * root directory
-     *
-     * @var  \org\bovigo\vfs\vfsStreamDirectory
-     */
-    private $root;
+    private vfsStreamDirectory $root;
 
     protected function setUp(): void
     {
-        $this->root                 = vfsStream::setup();
+        $this->root = vfsStream::setup();
         $handle = fopen(vfsStream::url('root/test_write.txt'), 'w');
         if (false === $handle) {
             fail('Could not open vfsStream url');
@@ -55,15 +43,14 @@ class ResourceOutputStreamTest extends TestCase
     }
 
     /**
-     * @param   resource  $resource
-     * @return  ResourceOutputStream
+     * @param resource $resource
      */
     private function createResourceOutputStream($resource): ResourceOutputStream
     {
         return new class($resource) extends ResourceOutputStream
         {
             /**
-             * @param  resource  $handle
+             * @param resource $handle
              */
             public function __construct($handle)
             {
@@ -77,8 +64,8 @@ class ResourceOutputStreamTest extends TestCase
      */
     public function invalidHandleThrowsIllegalArgumentException(): void
     {
-        expect(function() { $this->createResourceOutputStream('invalid'); })
-                ->throws(\InvalidArgumentException::class);
+        expect(fn() => $this->createResourceOutputStream('invalid'))
+            ->throws(InvalidArgumentException::class);
     }
 
     /**
@@ -87,10 +74,8 @@ class ResourceOutputStreamTest extends TestCase
     public function writeToClosedStreamThrowsIllegalStateException(): void
     {
         $this->resourceOutputStream->close();
-        expect(function() {
-                $this->resourceOutputStream->write('foobarbaz');
-        })
-        ->throws(\LogicException::class);
+        expect(fn() => $this->resourceOutputStream->write('foobarbaz'))
+            ->throws(LogicException::class);
     }
 
     /**
@@ -99,9 +84,7 @@ class ResourceOutputStreamTest extends TestCase
     public function writeLineToClosedStreamThrowsIllegalStateException(): void
     {
         $this->resourceOutputStream->close();
-        expect(function() {
-                $this->resourceOutputStream->writeLine('foobarbaz');
-        })
+        expect(fn() => $this->resourceOutputStream->writeLine('foobarbaz'))
             ->throws(LogicException::class);
     }
 
@@ -111,9 +94,7 @@ class ResourceOutputStreamTest extends TestCase
     public function writeToExternalClosedStreamThrowsIOException(): void
     {
         fclose($this->handle);
-        expect(function() {
-                $this->resourceOutputStream->write('foobarbaz');
-        })
+        expect(fn() => $this->resourceOutputStream->write('foobarbaz'))
             ->throws(LogicException::class);
     }
 
@@ -123,9 +104,7 @@ class ResourceOutputStreamTest extends TestCase
     public function writeLineToExternalClosedStreamThrowsIOException(): void
     {
         fclose($this->handle);
-        expect(function() {
-                $this->resourceOutputStream->writeLine('foobarbaz');
-        })
+        expect(fn() => $this->resourceOutputStream->writeLine('foobarbaz'))
             ->throws(LogicException::class);
     }
 
@@ -163,7 +142,7 @@ class ResourceOutputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  3.2.0
+     * @since 3.2.0
      */
     public function writeLinesPassesBytesWithLinebreakIntoStream(): void
     {
@@ -175,8 +154,8 @@ class ResourceOutputStreamTest extends TestCase
 
         $resourceOutputStream = $this->createResourceOutputStream($res);
         assertThat(
-                $resourceOutputStream->writeLines(['foo', 'bar', 'baz']),
-                equals(15)
+            $resourceOutputStream->writeLines(['foo', 'bar', 'baz']),
+            equals(15)
         );
         assertThat($file->getContent(), equals("foo\r\nbar\r\nbaz\r\n"));
     }

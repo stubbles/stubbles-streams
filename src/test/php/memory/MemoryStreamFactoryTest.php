@@ -20,12 +20,7 @@ use function bovigo\assert\predicate\isInstanceOf;
  */
 class MemoryStreamFactoryTest extends TestCase
 {
-    /**
-     * instance to test
-     *
-     * @var  MemoryStreamFactory
-     */
-    private $memoryStreamFactory;
+    private MemoryStreamFactory $memoryStreamFactory;
 
     protected function setUp(): void
     {
@@ -56,8 +51,8 @@ class MemoryStreamFactoryTest extends TestCase
     public function createOutputStream(): void
     {
         assertThat(
-                $this->memoryStreamFactory->createOutputStream('buffer'),
-                isInstanceOf(MemoryOutputStream::class)
+            $this->memoryStreamFactory->createOutputStream('buffer'),
+            isInstanceOf(MemoryOutputStream::class)
         );
     }
 }

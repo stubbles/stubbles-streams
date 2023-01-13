@@ -15,18 +15,12 @@ use stubbles\streams\OutputStream;
  */
 class MemoryOutputStream implements OutputStream
 {
-    /**
-     * written data
-     *
-     * @var  string
-     */
-    private $buffer = '';
+    private string $buffer = '';
 
     /**
      * writes given bytes
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
+     * @return int  amount of written bytes
      */
     public function write(string $bytes): int
     {
@@ -37,8 +31,7 @@ class MemoryOutputStream implements OutputStream
     /**
      * writes given bytes and appends a line break
      *
-     * @param   string  $bytes
-     * @return  int     amount of written bytes
+     * @return int amount of written bytes
      */
     public function writeLine(string $bytes): int
     {
@@ -48,9 +41,9 @@ class MemoryOutputStream implements OutputStream
     /**
      * writes given bytes and appends a line break after each one
      *
-     * @param   string[]  $bytes
-     * @return  int       amount of written bytes
-     * @since   3.2.0
+     * @param  string[] $bytes
+     * @return int      amount of written bytes
+     * @since  3.2.0
      */
     public function writeLines(array $bytes): int
     {
@@ -73,8 +66,6 @@ class MemoryOutputStream implements OutputStream
 
     /**
      * returns written contents
-     *
-     * @return  string
      */
     public function buffer(): string
     {
@@ -84,8 +75,7 @@ class MemoryOutputStream implements OutputStream
     /**
      * returns written contents
      *
-     * @return  string
-     * @since   4.0.0
+     * @since 4.0.0
      */
     public function __toString(): string
     {

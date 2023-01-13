@@ -17,15 +17,12 @@ use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\StandardInputStream.
  *
- * @group  streams
- * @since  5.4.0
+ * @group streams
+ * @since 5.4.0
  */
 class StandardInputStreamTest extends TestCase
 {
-    /**
-     * @var  \stubbles\streams\StandardInputStream
-     */
-    private $standardInputStream;
+    private StandardInputStream $standardInputStream;
 
     protected function setUp(): void
     {
@@ -34,7 +31,7 @@ class StandardInputStreamTest extends TestCase
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function startsAtPositionZero(): void
     {
@@ -47,8 +44,8 @@ class StandardInputStreamTest extends TestCase
     public function seekAfterCloseThrowsLogicException(): void
     {
         $this->standardInputStream->close();
-        expect(function() { $this->standardInputStream->seek(0); })
-                ->throws(LogicException::class);
+        expect(fn() => $this->standardInputStream->seek(0))
+            ->throws(LogicException::class);
     }
 
     /**
@@ -56,8 +53,8 @@ class StandardInputStreamTest extends TestCase
      */
     public function canSeekToStartOfStream(): void
     {
-        expect(function() { $this->standardInputStream->seek(0); })
-                ->doesNotThrow();
+        expect(fn() => $this->standardInputStream->seek(0))
+            ->doesNotThrow();
     }
 
     /**
@@ -65,7 +62,7 @@ class StandardInputStreamTest extends TestCase
      */
     public function seekingToPositionAfterEndThrowsStreamException(): void
     {
-        expect(function() { $this->standardInputStream->seek(100); })
+        expect(fn() => $this->standardInputStream->seek(100))
             ->throws(StreamException::class);
     }
 
@@ -75,13 +72,13 @@ class StandardInputStreamTest extends TestCase
     public function tellAfterCloseThrowsLogicException(): void
     {
         $this->standardInputStream->close();
-        expect(function() { $this->standardInputStream->tell(); })
-                ->throws(LogicException::class);
+        expect(fn() => $this->standardInputStream->tell())
+            ->throws(LogicException::class);
     }
 
     /**
      * @test
-     * @since  8.0.0
+     * @since 8.0.0
      */
     public function tellAfterExternalCloseThrowsStreamException(): void
     {
@@ -95,7 +92,7 @@ class StandardInputStreamTest extends TestCase
                 }
             }
         };
-        expect(function() use ($stdInputStream) { $stdInputStream->tell(); })
-                ->throws(LogicException::class);
+        expect(fn() => $stdInputStream->tell())
+            ->throws(LogicException::class);
     }
 }

@@ -14,11 +14,10 @@ namespace stubbles\streams {
      * returns a sequence of lines from given input source
      *
      * @api
-     * @param   \stubbles\streams\InputStream|string  $input
-     * @return  \stubbles\sequence\Sequence<string>
-     * @since   5.2.0
+     * @return Sequence<string>
+     * @since  5.2.0
      */
-    function linesOf($input): Sequence
+    function linesOf(InputStream|string $input): Sequence
     {
         return Sequence::of(new InputStreamIterator(FileInputStream::castFrom($input)));
     }
@@ -27,21 +26,18 @@ namespace stubbles\streams {
      * returns a sequence of non empty lines from given input source
      *
      * @api
-     * @param   \stubbles\streams\InputStream|string  $input
-     * @return  \stubbles\sequence\Sequence<string>
-     * @since   6.2.0
+     * @return Sequence<string>
+     * @since  6.2.0
      */
-    function nonEmptyLinesOf($input): Sequence
+    function nonEmptyLinesOf(InputStream|string $input): Sequence
     {
-        return linesOf($input)->filter(function($line) { return !empty($line); });
+        return linesOf($input)->filter(fn($line) => !empty($line));
     }
 
     /**
      * returns error message from last error that occurred
      *
      * @internal
-     * @param   string  $default  optional  message to return in case no last error available
-     * @return  string
      */
     function lastErrorMessage(string $default = ''): string
     {
@@ -61,9 +57,7 @@ namespace stubbles\streams {
      * end of the stream. In case a non-seekable input stream is copied it can
      * not return to its initial offset.
      *
-     * @param   InputStream   $from
-     * @return  Copier
-     * @since   8.1.0
+     * @since 8.1.0
      */
     function copy(InputStream $from): Copier
     {
@@ -72,22 +66,16 @@ namespace stubbles\streams {
 
     /**
      * @internal
-     * @since   8.1.0
+     * @since 8.1.0
      */
     final class Copier
     {
-        private $source;
-
-        public function __construct(InputStream $source)
-        {
-            $this->source = $source;
-        }
+        public function __construct(private InputStream $source) { }
 
         /**
          * copies into given output stream
          *
-         * @param   OutputStream  $target
-         * @return  int  amount of bytes copied
+         * @return int amount of bytes copied
          */
          public function to(OutputStream $target): int
          {

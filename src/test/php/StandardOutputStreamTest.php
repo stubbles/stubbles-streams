@@ -14,8 +14,8 @@ use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\StandardOutputStream.
  *
- * @group  streams
- * @since  5.4.0
+ * @group streams
+ * @since 5.4.0
  */
 class StandardOutputStreamTest extends TestCase
 {

@@ -14,28 +14,10 @@ namespace stubbles\streams;
  */
 abstract class DecoratedInputStream implements InputStream
 {
-    /**
-     * input stream to encode into internal encoding
-     *
-     * @var  \stubbles\streams\InputStream
-     */
-    protected $inputStream;
-
-    /**
-     * constructor
-     *
-     * @param  \stubbles\streams\InputStream  $inputStream
-     */
-    public function __construct(InputStream $inputStream)
-    {
-        $this->inputStream = $inputStream;
-    }
+    public function __construct(protected InputStream $inputStream) { }
 
     /**
      * reads given amount of bytes
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
      */
     public function read(int $length = 8192): string
     {
@@ -44,9 +26,6 @@ abstract class DecoratedInputStream implements InputStream
 
     /**
      * reads given amount of bytes or until next line break
-     *
-     * @param   int  $length  max amount of bytes to read
-     * @return  string
      */
     public function readLine(int $length = 8192): string
     {
@@ -55,8 +34,6 @@ abstract class DecoratedInputStream implements InputStream
 
     /**
      * returns the amount of byted left to be read
-     *
-     * @return  int
      */
     public function bytesLeft(): int
     {
@@ -65,8 +42,6 @@ abstract class DecoratedInputStream implements InputStream
 
     /**
      * returns true if the stream pointer is at EOF
-     *
-     * @return  bool
      */
     public function eof(): bool
     {
