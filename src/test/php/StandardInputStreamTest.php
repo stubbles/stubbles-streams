@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use LogicException;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -46,7 +48,7 @@ class StandardInputStreamTest extends TestCase
     {
         $this->standardInputStream->close();
         expect(function() { $this->standardInputStream->seek(0); })
-                ->throws(\LogicException::class);
+                ->throws(LogicException::class);
     }
 
     /**
@@ -74,7 +76,7 @@ class StandardInputStreamTest extends TestCase
     {
         $this->standardInputStream->close();
         expect(function() { $this->standardInputStream->tell(); })
-                ->throws(\LogicException::class);
+                ->throws(LogicException::class);
     }
 
     /**
@@ -94,6 +96,6 @@ class StandardInputStreamTest extends TestCase
             }
         };
         expect(function() use ($stdInputStream) { $stdInputStream->tell(); })
-                ->throws(StreamException::class);
+                ->throws(LogicException::class);
     }
 }
