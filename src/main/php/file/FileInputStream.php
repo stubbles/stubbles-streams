@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\file;
+
+use LogicException;
 use stubbles\streams\InputStream;
 use stubbles\streams\ResourceInputStream;
 use stubbles\streams\Seekable;
@@ -127,13 +129,13 @@ class FileInputStream extends ResourceInputStream implements Seekable
      *
      * @param   int  $offset
      * @param   int  $whence  one of Seekable::SET, Seekable::CURRENT or Seekable::END
-     * @throws  \LogicException  when trying to seek on an already closed stream
+     * @throws  LogicException  when trying to seek on an already closed stream
      * @throws  StreamException  when seeking fails
      */
     public function seek(int $offset, int $whence = Seekable::SET): void
     {
-        if (null === $this->handle) {
-            throw new \LogicException('Can not read from closed input stream.');
+        if (!is_resource($this->handle)) {
+            throw new LogicException('Can not read from closed input stream.');
         }
 
         if (-1 === fseek($this->handle, $offset, $whence)) {
@@ -145,13 +147,13 @@ class FileInputStream extends ResourceInputStream implements Seekable
      * return current position
      *
      * @return  int
-     * @throws  \LogicException
+     * @throws  LogicException
      * @throws  \stubbles\streams\StreamException
      */
     public function tell(): int
     {
-        if (null === $this->handle) {
-            throw new \LogicException('Can not read from closed input stream.');
+        if (!is_resource($this->handle)) {
+            throw new LogicException('Can not read from closed input stream.');
         }
 
         $position = @ftell($this->handle);

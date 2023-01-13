@@ -7,7 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\file;
+
 use bovigo\callmap\NewInstance;
+use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\InputStream;
@@ -206,7 +208,7 @@ class FileInputStreamTest extends TestCase
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->close();
         expect(function() use ($fileInputStream) { $fileInputStream->seek(3); })
-                ->throws(\LogicException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -217,7 +219,7 @@ class FileInputStreamTest extends TestCase
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         $fileInputStream->close();
         expect(function() use ($fileInputStream) { $fileInputStream->tell(); })
-                ->throws(\LogicException::class);
+            ->throws(LogicException::class);
     }
 
     /**
@@ -242,6 +244,6 @@ class FileInputStreamTest extends TestCase
             }
         };
         expect(function() use ($fileInputStream) { $fileInputStream->tell(); })
-                ->throws(StreamException::class);
+            ->throws(LogicException::class);
     }
 }
