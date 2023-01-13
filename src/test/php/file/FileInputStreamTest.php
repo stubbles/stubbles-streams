@@ -52,7 +52,7 @@ class FileInputStreamTest extends TestCase
         expect(function() { new FileInputStream('doesNotExist', 'r'); })
                 ->throws(StreamException::class)
                 ->withMessage(
-                        'Can not open file doesNotExist with mode r: failed to'
+                        'Can not open file doesNotExist with mode r: Failed to'
                         . ' open stream: No such file or directory'
                 );
     }

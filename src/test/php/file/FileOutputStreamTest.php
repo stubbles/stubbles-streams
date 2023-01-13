@@ -88,7 +88,7 @@ class FileOutputStreamTest extends TestCase
                 ->throws(StreamException::class)
                 ->withMessage(
                         'Can not open file vfs://home/test.txt with mode r:'
-                        . ' failed to open stream: "org\bovigo\vfs\vfsStreamWrapper::stream_open"'
+                        . ' Failed to open stream: "org\bovigo\vfs\vfsStreamWrapper::stream_open"'
                         . ' call failed'
                 );
     }
