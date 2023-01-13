@@ -60,7 +60,7 @@ class EncodingOutputStreamTest extends TestCase
     public function writeEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat($this->encodingOutputStream->write('hällö'), equals(5));
-        assertThat($this->memory->buffer(), equals(utf8_decode('hällö')));
+        assertThat($this->memory->buffer(), equals(mb_convert_encoding('hällö', 'iso-8859-1')));
     }
 
     /**
@@ -69,7 +69,7 @@ class EncodingOutputStreamTest extends TestCase
     public function writeLineEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat($this->encodingOutputStream->writeLine('hällö'), equals(6));
-        assertThat($this->memory->buffer(), equals(utf8_decode("hällö\n")));
+        assertThat($this->memory->buffer(), equals(mb_convert_encoding("hällö\n", 'iso-8859-1')));
     }
 
     /**
@@ -82,7 +82,7 @@ class EncodingOutputStreamTest extends TestCase
                 $this->encodingOutputStream->writeLines(['hällö', 'wörld']),
                 equals(12)
         );
-        assertThat($this->memory->buffer(), equals(utf8_decode("hällö\nwörld\n")));
+        assertThat($this->memory->buffer(), equals(mb_convert_encoding("hällö\nwörld\n", 'iso-8859-1')));
     }
 
     /**

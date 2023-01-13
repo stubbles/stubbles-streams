@@ -40,7 +40,7 @@ class DecodingInputStreamTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->memory = new MemoryInputStream(utf8_decode("hällö\n"));
+        $this->memory = new MemoryInputStream(mb_convert_encoding("hällö\n", 'iso-8859-1'));
         $this->decodingInputStream = new DecodingInputStream(
                 $this->memory,
                 'iso-8859-1'
