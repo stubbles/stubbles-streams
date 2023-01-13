@@ -156,6 +156,7 @@ class FileInputStreamTest extends TestCase
     /**
      * @test
      * @since  8.0.0
+     * @requires  extension  bz2
      */
     public function reportsBytesLeftForBzCompressedFilesBasedOnFilesize(): void
     {
