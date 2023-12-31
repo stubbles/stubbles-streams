@@ -12,6 +12,9 @@ use bovigo\callmap\NewInstance;
 use InvalidArgumentException;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\InputStream;
 use stubbles\streams\Seekable;
@@ -25,9 +28,9 @@ use function bovigo\assert\predicate\isInstanceOf;
 use function bovigo\assert\predicate\isSameAs;
 /**
  * Test for stubbles\streams\file\FileInputStream.
- *
- * @group streams
  */
+#[Group('streams')]
+#[Group('streams_file')]
 class FileInputStreamTest extends TestCase
 {
     protected function setUp(): void
@@ -36,18 +39,14 @@ class FileInputStreamTest extends TestCase
         vfsStream::newFile('test.txt')->at($root)->withContent('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithString(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
         assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithStringFailsAndThrowsIOException(): void
     {
         expect(fn() => new FileInputStream('doesNotExist', 'r'))
@@ -58,9 +57,7 @@ class FileInputStreamTest extends TestCase
             );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithResource(): void
     {
         $file = fopen(vfsStream::url('home/test.txt'), 'rb');
@@ -72,10 +69,8 @@ class FileInputStreamTest extends TestCase
         assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
-    /**
-     * @test
-     * @requires extension gd
-     */
+    #[Test]
+    #[RequiresPhpExtension('gd')]
     public function constructWithIllegalResource(): void
     {
         $illegalResource = imagecreate(2, 2);
@@ -88,9 +83,9 @@ class FileInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function castFromInputStreamReturnsInputStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class);
@@ -98,9 +93,9 @@ class FileInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function castFromStringCreatesFileInputStream(): void
     {
         assertThat(
@@ -110,9 +105,9 @@ class FileInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function reportsBytesLeft(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
@@ -120,9 +115,9 @@ class FileInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function reportsBytesLeftWhenConstructedWithResource(): void
     {
         $file = fopen(vfsStream::url('home/test.txt'), 'rb');
@@ -135,9 +130,9 @@ class FileInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function reportsBytesLeftForGzCompressedFilesBasedOnFilesize(): void
     {
         $fileInputStream = new FileInputStream(
@@ -147,10 +142,10 @@ class FileInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
-     * @requires extension bz2
      */
+    #[Test]
+    #[RequiresPhpExtension('bz2')]
     public function reportsBytesLeftForBzCompressedFilesBasedOnFilesize(): void
     {
         $fileInputStream = new FileInputStream(
@@ -159,9 +154,7 @@ class FileInputStreamTest extends TestCase
         assertThat($fileInputStream->bytesLeft(), equals(46));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function seek_SET(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
@@ -174,9 +167,7 @@ class FileInputStreamTest extends TestCase
         assertThat($fileInputStream->readLine(), equals('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function seek_CURRENT(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
@@ -185,9 +176,7 @@ class FileInputStreamTest extends TestCase
         assertThat($fileInputStream->readLine(), equals('oo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function seek_END(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
@@ -196,9 +185,7 @@ class FileInputStreamTest extends TestCase
         assertThat($fileInputStream->readLine(), equals('oo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function seekOnClosedStreamFailsThrowsIllegalStateException(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
@@ -207,9 +194,7 @@ class FileInputStreamTest extends TestCase
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tellOnClosedStreamThrowsIllegalStateException(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
@@ -219,9 +204,9 @@ class FileInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function tellAfterExternalCloseThrowsStreamException(): void
     {
         $fileInputStream = new class() extends FileInputStream

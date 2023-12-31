@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryOutputStream;
 
@@ -18,10 +21,9 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
  * Test for stubbles\streams\EncodingOutputStream.
- *
- * @group streams
- * @requires extension iconv
  */
+#[Group('streams')]
+#[RequiresPhpExtension('iconv')]
 class EncodingOutputStreamTest extends TestCase
 {
     private EncodingOutputStream $encodingOutputStream;
@@ -36,26 +38,20 @@ class EncodingOutputStreamTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function knowsGivenCharset(): void
     {
         assertThat($this->encodingOutputStream->charset(), equals('iso-8859-1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat($this->encodingOutputStream->write('hällö'), equals(5));
         assertThat($this->memory->buffer(), equals(mb_convert_encoding('hällö', 'iso-8859-1')));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeLineEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat($this->encodingOutputStream->writeLine('hällö'), equals(6));
@@ -63,9 +59,9 @@ class EncodingOutputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 3.2.0
      */
+    #[Test]
     public function writeLinesEncodesBytesBeforePassedToDecoratedStream(): void
     {
         assertThat(
@@ -78,9 +74,7 @@ class EncodingOutputStreamTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function closeClosesDecoratedOutputStream(): void
     {
         $outputStream = NewInstance::of(OutputStream::class);
@@ -93,9 +87,9 @@ class EncodingOutputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 9.0.0
      */
+    #[Test]
     public function writeThrowsExceptionInIllegalCharacter(): void
     {
         $out = new MemoryOutputStream();
@@ -106,9 +100,9 @@ class EncodingOutputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 9.0.0
      */
+    #[Test]
     public function writeLineThrowsExceptionInIllegalCharacter(): void
     {
         $out = new MemoryOutputStream();

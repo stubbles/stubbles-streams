@@ -10,6 +10,9 @@ namespace stubbles\streams\file;
 
 use InvalidArgumentException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\StreamException;
 
@@ -23,10 +26,9 @@ use function bovigo\assert\{
 };
 /**
  * Test for stubbles\streams\file\FileOutputStream.
- *
- * @group streams
- * @group streams_file
  */
+#[Group('streams')]
+#[Group('streams_file')]
 class FileOutputStreamTest extends TestCase
 {
     private string $fileUrl;
@@ -37,27 +39,21 @@ class FileOutputStreamTest extends TestCase
         $this->fileUrl = vfsStream::url('home/test.txt');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithStringCreatesFile(): void
     {
         new FileOutputStream($this->fileUrl);
         assertTrue(file_exists($this->fileUrl));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithStringDelayedDoesNotCreateFile(): void
     {
         new FileOutputStream($this->fileUrl, 'wb', true);
         assertFalse(file_exists($this->fileUrl));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithString(): void
     {
         $fileOutputStream = new FileOutputStream($this->fileUrl);
@@ -65,9 +61,7 @@ class FileOutputStreamTest extends TestCase
         assertThat(file_get_contents($this->fileUrl), equals('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithStringDelayedCreatesFileOnWrite(): void
     {
         $fileOutputStream = new FileOutputStream($this->fileUrl, 'wb', true);
@@ -75,9 +69,7 @@ class FileOutputStreamTest extends TestCase
         assertTrue(file_exists($this->fileUrl));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithStringFailsAndThrowsIOException(): void
     {
         vfsStream::newFile('test.txt', 0000)->at(vfsStream::setup());
@@ -90,9 +82,7 @@ class FileOutputStreamTest extends TestCase
             );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructWithResource(): void
     {
         $file = fopen($this->fileUrl, 'wb');
@@ -105,10 +95,8 @@ class FileOutputStreamTest extends TestCase
         assertThat(file_get_contents($this->fileUrl), equals('foo'));
     }
 
-    /**
-     * @test
-     * @requires extension gd
-     */
+    #[Test]
+    #[RequiresPhpExtension('gd')]
     public function constructWithIllegalResource(): void
     {
         $illegalResource = imagecreate(2, 2);

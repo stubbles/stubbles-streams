@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -14,14 +17,12 @@ use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\StandardOutputStream.
  *
- * @group streams
  * @since 5.4.0
  */
+#[Group('streams')]
 class StandardOutputStreamTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function writesToStandardOutputBuffer(): void
     {
         $out = new StandardOutputStream();

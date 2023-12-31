@@ -12,6 +12,8 @@ use InvalidArgumentException;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -20,9 +22,8 @@ use function bovigo\assert\fail;
 use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\ResourceOutputStream.
- *
- * @group streams
  */
+#[Group('streams')]
 class ResourceOutputStreamTest extends TestCase
 {
     private ResourceOutputStream $resourceOutputStream;
@@ -59,18 +60,14 @@ class ResourceOutputStreamTest extends TestCase
         };
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidHandleThrowsIllegalArgumentException(): void
     {
         expect(fn() => $this->createResourceOutputStream('invalid'))
             ->throws(InvalidArgumentException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeToClosedStreamThrowsIllegalStateException(): void
     {
         $this->resourceOutputStream->close();
@@ -78,9 +75,7 @@ class ResourceOutputStreamTest extends TestCase
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeLineToClosedStreamThrowsIllegalStateException(): void
     {
         $this->resourceOutputStream->close();
@@ -88,9 +83,7 @@ class ResourceOutputStreamTest extends TestCase
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeToExternalClosedStreamThrowsIOException(): void
     {
         fclose($this->handle);
@@ -98,9 +91,7 @@ class ResourceOutputStreamTest extends TestCase
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeLineToExternalClosedStreamThrowsIOException(): void
     {
         fclose($this->handle);
@@ -108,9 +99,7 @@ class ResourceOutputStreamTest extends TestCase
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writePassesBytesIntoStream(): void
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);
@@ -124,9 +113,7 @@ class ResourceOutputStreamTest extends TestCase
         assertThat($file->getContent(), equals('foobarbaz'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeLinePassesBytesWithLinebreakIntoStream(): void
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);
@@ -141,9 +128,9 @@ class ResourceOutputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 3.2.0
      */
+    #[Test]
     public function writeLinesPassesBytesWithLinebreakIntoStream(): void
     {
         $file = vfsStream::newFile('test.txt')->at($this->root);

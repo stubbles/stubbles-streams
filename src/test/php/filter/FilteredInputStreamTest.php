@@ -7,6 +7,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\filter;
+
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryInputStream;
 
@@ -15,10 +18,9 @@ use function bovigo\assert\assertEmptyString;
 use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\filter\FilteredInputStream.
- *
- * @group streams
- * @group streams_filter
  */
+#[Group('streams')]
+#[Group('streams_filter')]
 class FilteredInputStreamTest extends TestCase
 {
     private FilteredInputStream $filteredInputStream;
@@ -29,30 +31,26 @@ class FilteredInputStreamTest extends TestCase
         $this->inputStream = new MemoryInputStream("foo\nbar");
         $this->filteredInputStream = new FilteredInputStream(
             $this->inputStream,
-            fn($value) => 'bar' === $value
+            fn(string $value): bool => 'bar' === $value
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readReturnsEmptyStringIfChunkIsFiltered(): void
     {
         assertEmptyString($this->filteredInputStream->read());
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function readReturnsChunkIfChunkWithSpecifiedSizeSatisfiesFilter(): void
     {
         assertThat($this->filteredInputStream->read(4), equals('bar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readLineReturnsUnfilteredLinesOnly(): void
     {
         assertThat($this->filteredInputStream->readLine(), equals('bar'));

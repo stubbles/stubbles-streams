@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryInputStream;
 
@@ -19,10 +22,9 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
  * Test for stubbles\streams\DecodingInputStream.
- *
- * @group streams
- * @requires extension iconv
  */
+#[Group('streams')]
+#[RequiresPhpExtension('iconv')]
 class DecodingInputStreamTest extends TestCase
 {
     private DecodingInputStream $decodingInputStream;
@@ -37,49 +39,37 @@ class DecodingInputStreamTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function knowsGivenCharset(): void
     {
         assertThat($this->decodingInputStream->charset(), equals('iso-8859-1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readReturnsDecodedDataFromDecoratedStream(): void
     {
         assertThat($this->decodingInputStream->read(), equals("hällö\n"));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readLineReturnsDecodedLineFromDecoratedStream(): void
     {
         assertThat($this->decodingInputStream->readLine(), equals('hällö'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function bytesLeftReturnsBytesLeftFromDecoratedStream(): void
     {
         assertThat($this->decodingInputStream->bytesLeft(), equals(6));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eofReturnsEofFromDecoratedStream(): void
     {
         assertFalse($this->decodingInputStream->eof());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function closeClosesDecoratedStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class);
@@ -89,9 +79,9 @@ class DecodingInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 9.0.0
      */
+    #[Test]
     public function readThrowsExceptionInIllegalCharacter(): void
     {
         $decodingInputStream = new DecodingInputStream(
@@ -104,9 +94,9 @@ class DecodingInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 9.0.0
      */
+    #[Test]
     public function readLineThrowsExceptionInIllegalCharacter(): void
     {
         $decodingInputStream = new DecodingInputStream(

@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryOutputStream;
 
@@ -17,9 +19,8 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
  * Test for stubbles\streams\DecoratedOutputStream.
- *
- * @group streams
  */
+#[Group('streams')]
 class DecoratedOutputStreamTest extends TestCase
 {
     private DecoratedOutputStream $decoratedOutputStream;
@@ -36,18 +37,14 @@ class DecoratedOutputStreamTest extends TestCase
         return new class($outputStream) extends DecoratedOutputStream {};
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeCallsDecoratedStream(): void
     {
         $this->decoratedOutputStream->write('foo');
         assertThat($this->memory->buffer(), equals('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
@@ -57,9 +54,7 @@ class DecoratedOutputStreamTest extends TestCase
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeLineCallsDecoratedStream(): void
     {
         $this->decoratedOutputStream->writeLine('foo');
@@ -67,9 +62,7 @@ class DecoratedOutputStreamTest extends TestCase
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function writeLineReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
@@ -79,9 +72,9 @@ class DecoratedOutputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 3.2.0
      */
+    #[Test]
     public function writeLinesCallsDecoratedStream(): void
     {
         $this->decoratedOutputStream->writeLines(['foo', 'bar']);
@@ -89,9 +82,9 @@ class DecoratedOutputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 3.2.0
      */
+    #[Test]
     public function writeLinesReturnsAmountOfDataWrittenFromDecoratedStream(): void
     {
         assertThat(
@@ -100,9 +93,7 @@ class DecoratedOutputStreamTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function closeClosesDecoratedStream(): void
     {
         $outputStream = NewInstance::of(OutputStream::class);

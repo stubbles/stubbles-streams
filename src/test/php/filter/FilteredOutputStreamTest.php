@@ -7,6 +7,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\filter;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryOutputStream;
 
@@ -15,10 +19,9 @@ use function bovigo\assert\assertEmptyString;
 use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\filter\FilteredOutputStream.
- *
- * @group streams
- * @group streams_filter
  */
+#[Group('streams')]
+#[Group('streams_filter')]
 class FilteredOutputStreamTest extends TestCase
 {
     private FilteredOutputStream $filteredOutputStream;
@@ -41,37 +44,29 @@ class FilteredOutputStreamTest extends TestCase
         return [['foo', 3], ['bar', 0]];
     }
 
-    /**
-     * @test
-     * @dataProvider writeData
-     */
+    #[Test]
+    #[DataProvider('writeData')]
     public function returnsAmountOfDataBasedOnFilter(string $write, int $expected): void
     {
         assertThat($this->filteredOutputStream->write($write), equals($expected));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function dataPassingTheFilterShouldBeWritten(): void
     {
         $this->filteredOutputStream->write('foo');
         assertThat($this->memory->buffer(), equals('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function dataNotPassingTheFilterShouldNotBeWritten(): void
     {
         $this->filteredOutputStream->write('bar');
         assertEmptyString($this->memory->buffer());
     }
 
-    /**
-     * @test
-     * @dataProvider writeData
-     */
+    #[Test]
+    #[DataProvider('writeData')]
     public function returnsAmountOfDataBasedOnFilterPlusLineEnding(string $write, int $expected): void
     {
         if (0 < $expected) {
@@ -84,18 +79,14 @@ class FilteredOutputStreamTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function dataPassingTheFilterShouldBeWrittenAsLine(): void
     {
         $this->filteredOutputStream->writeLine('foo');
         assertThat($this->memory->buffer(), equals("foo\n"));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function dataNotPassingTheFilterShouldNotBeWrittenAsLine(): void
     {
         $this->filteredOutputStream->writeLine('bar');
@@ -103,9 +94,9 @@ class FilteredOutputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 3.2.0
      */
+    #[Test]
     public function writeLinesProcessesOnlyLinesSatisfyingFilter(): void
     {
         $this->filteredOutputStream->writeLines(['foo', 'bar']);
@@ -113,9 +104,9 @@ class FilteredOutputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function writeLinesReturnsOnlyAmountOfUnfilteredBytedWritten(): void
     {
         assertThat(

@@ -10,6 +10,8 @@ namespace stubbles\streams;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use stubbles\sequence\Sequence;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\{MemoryInputStream, MemoryOutputStream};
@@ -26,8 +28,8 @@ use function bovigo\assert\{
  * Tests for stubbles\streams\*().
  *
  * @since 5.2.0
- * @group streams
  */
+#[Group('streams')]
 class FunctionsTest extends TestCase
 {
     private vfsStreamFile $file;
@@ -40,18 +42,16 @@ class FunctionsTest extends TestCase
             ->at($root);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function linesOfReturnsSequence(): void
     {
         assertThat(linesOf($this->file->url()), isInstanceOf(Sequence::class));
     }
 
     /**
-     * @test
      * @since 6.2.0
      */
+    #[Test]
     public function nonEmptyLinesOfReturnsNonEmptyLinesOnly(): void
     {
         assertThat(
@@ -61,10 +61,10 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @test
-     * @group issue_1
      * @since 8.1.0
      */
+    #[Test]
+    #[Group('issue_1')]
     public function copyFromEmptyInputStreamResultsInNoBytesCopied(): void
     {
         $in  = new MemoryInputStream('');
@@ -73,10 +73,10 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @test
-     * @group issue_1
      * @since 8.1.0
      */
+    #[Test]
+    #[Group('issue_1')]
     public function copyFromEmptyInputStreamResultsInNothingReceivedOnOutputStream(): void
     {
         $in  = new MemoryInputStream('');
@@ -86,10 +86,10 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @test
-     * @group issue_1
      * @since 8.1.0
      */
+    #[Test]
+    #[Group('issue_1')]
     public function copyFromInputStreamResultsInAllBytesCopied(): void
     {
         $in  = new MemoryInputStream("foo\nbar\nbaz");
@@ -98,10 +98,10 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * @test
-     * @group issue_1
      * @since 8.1.0
      */
+    #[Test]
+    #[Group('issue_1')]
     public function copyFromInputStreamWritesExactCopyToOutputStream(): void
     {
         $in  = new MemoryInputStream("foo\nbar\nbaz");

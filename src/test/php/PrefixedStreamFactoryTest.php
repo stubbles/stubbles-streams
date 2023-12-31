@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -15,9 +17,8 @@ use function bovigo\assert\predicate\isSameAs;
 use function bovigo\callmap\verify;
 /**
  * Test for stubbles\streams\PrefixedStreamFactory.
- *
- * @group streams
  */
+#[Group('streams')]
 class PrefixedStreamFactoryTest extends TestCase
 {
     private PrefixedStreamFactory $prefixedStreamFactory;
@@ -35,9 +36,7 @@ class PrefixedStreamFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function inputStreamGetsPrefix(): void
     {
         $inputStream = NewInstance::of(InputStream::class);
@@ -55,9 +54,7 @@ class PrefixedStreamFactoryTest extends TestCase
                 ->received('prefix/foo', ['bar' => 'baz']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function outputStreamGetsPrefix(): void
     {
         $outputStream = NewInstance::of(OutputStream::class);

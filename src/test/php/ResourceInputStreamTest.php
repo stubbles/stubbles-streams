@@ -11,6 +11,8 @@ namespace stubbles\streams;
 use InvalidArgumentException;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\{
@@ -24,9 +26,8 @@ use function bovigo\assert\{
 };
 /**
  * Test for stubbles\streams\ResourceInputStream.
- *
- * @group streams
  */
+#[Group('streams')]
 class ResourceInputStreamTest extends TestCase
 {
     private ResourceInputStream $resourceInputStream;
@@ -66,94 +67,72 @@ jjj')
         };
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidHandleThrowsIllegalArgumentException(): void
     {
         expect(fn() => $this->createResourceInputStream('invalid'))
             ->throws(InvalidArgumentException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hasBytesLeftWhenOpenedAtStart(): void
     {
         assertThat($this->resourceInputStream->bytesLeft(), equals(13));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function isNotAtEofWhenOpenedAtStart(): void
     {
         assertFalse($this->resourceInputStream->eof());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hasNoBytesLeftWhenEverythingRead(): void
     {
         $this->resourceInputStream->read();
         assertThat($this->resourceInputStream->bytesLeft(), equals(0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function read(): void
     {
         assertThat($this->resourceInputStream->read(), equals("foobarbaz\njjj"));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readBytes(): void
     {
         assertThat($this->resourceInputStream->read(6), equals('foobar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hasBytesLeftWhenNotEverythingRead(): void
     {
         $this->resourceInputStream->read(6);
         assertThat($this->resourceInputStream->bytesLeft(), equals(7));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readLine(): void
     {
         assertThat($this->resourceInputStream->readLine(), equals('foobarbaz'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hasReachedEofWhenEverythingRead(): void
     {
         $this->resourceInputStream->read();
         assertTrue($this->resourceInputStream->eof());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readAfterEofReturnsEmptyString(): void
     {
         $this->resourceInputStream->read();
         assertEmptyString($this->resourceInputStream->read());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readAfterCloseFails(): void
     {
         expect(function() {
@@ -163,9 +142,7 @@ jjj')
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readLineAfterCloseFails(): void
     {
         expect(function() {
@@ -175,9 +152,7 @@ jjj')
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function bytesLeftAfterCloseFails(): void
     {
         expect(function() {
@@ -188,9 +163,9 @@ jjj')
     }
 
     /**
-     * @test
      * @since 9.1.0
      */
+    #[Test]
     public function eofAfterCloseFails(): void
     {
         expect(function() {
@@ -200,9 +175,7 @@ jjj')
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readAfterCloseFromOutsite(): void
     {
         expect(function() {
@@ -212,9 +185,7 @@ jjj')
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function readLineAfterCloseFromOutsite(): void
     {
         expect(function() {
@@ -224,9 +195,7 @@ jjj')
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function bytesLeftAfterCloseFromOutsite(): void
     {
         expect(function() {

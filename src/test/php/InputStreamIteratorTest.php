@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace stubbles\streams;
 use bovigo\callmap\NewInstance;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\memory\MemoryInputStream;
 
@@ -17,15 +19,12 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\onConsecutiveCalls;
 /**
  * Test for stubbles\streams\InputStreamIterator.
- *
- * @group streams
  * @since 5.2.0
  */
+#[Group('streams')]
 class InputStreamIteratorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function canIterateOverSeekableInputStream(): void
     {
         $content = [];
@@ -36,9 +35,7 @@ class InputStreamIteratorTest extends TestCase
         assertThat($content, equals([1 => 'foo', 2 => 'bar', 3 => 'baz']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canRewindSeekableInputStream(): void
     {
         $lines = linesOf(new MemoryInputStream("foo\nbar\nbaz\n"));
@@ -54,9 +51,7 @@ class InputStreamIteratorTest extends TestCase
         assertThat($content, equals([1 => 'foo', 2 => 'bar', 3 => 'baz']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canIterateOverNonSeekableInputStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class)->returns([
@@ -71,9 +66,7 @@ class InputStreamIteratorTest extends TestCase
         assertThat($content, equals([1 => 'foo', 2 => 'bar', 3 => 'baz']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canNotRewindNonSeekableInputStream(): void
     {
         $inputStream = NewInstance::of(InputStream::class)->returns([

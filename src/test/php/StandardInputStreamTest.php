@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace stubbles\streams;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresPhp;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -18,9 +20,9 @@ use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\streams\StandardInputStream.
  *
- * @group streams
  * @since 5.4.0
  */
+#[Group('streams')]
 class StandardInputStreamTest extends TestCase
 {
     private StandardInputStream $standardInputStream;
@@ -31,17 +33,15 @@ class StandardInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function startsAtPositionZero(): void
     {
         assertThat($this->standardInputStream->tell(), equals(0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function seekAfterCloseThrowsLogicException(): void
     {
         $this->standardInputStream->close();
@@ -49,18 +49,14 @@ class StandardInputStreamTest extends TestCase
             ->throws(LogicException::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canSeekToStartOfStream(): void
     {
         expect(fn() => $this->standardInputStream->seek(0))
             ->doesNotThrow();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tellAfterCloseThrowsLogicException(): void
     {
         $this->standardInputStream->close();
@@ -69,9 +65,9 @@ class StandardInputStreamTest extends TestCase
     }
 
     /**
-     * @test
      * @since 8.0.0
      */
+    #[Test]
     public function tellAfterExternalCloseThrowsStreamException(): void
     {
         $stdInputStream = new class() extends StandardInputStream
