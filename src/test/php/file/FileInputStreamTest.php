@@ -15,6 +15,7 @@ use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\InputStream;
 use stubbles\streams\Seekable;
@@ -47,6 +48,7 @@ class FileInputStreamTest extends TestCase
     }
 
     #[Test]
+    #[WithoutErrorHandler]
     public function constructWithStringFailsAndThrowsIOException(): void
     {
         expect(fn() => new FileInputStream('doesNotExist', 'r'))

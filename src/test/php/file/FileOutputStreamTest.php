@@ -13,6 +13,7 @@ use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\StreamException;
 
@@ -70,6 +71,7 @@ class FileOutputStreamTest extends TestCase
     }
 
     #[Test]
+    #[WithoutErrorHandler]
     public function constructWithStringFailsAndThrowsIOException(): void
     {
         vfsStream::newFile('test.txt', 0000)->at(vfsStream::setup());
