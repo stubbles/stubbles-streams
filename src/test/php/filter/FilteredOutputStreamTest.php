@@ -36,7 +36,7 @@ class FilteredOutputStreamTest extends TestCase
     /**
      * @return array<scalar[]>
      */
-    public function writeData(): array
+    public static function writeData(): array
     {
         return [['foo', 3], ['bar', 0]];
     }
