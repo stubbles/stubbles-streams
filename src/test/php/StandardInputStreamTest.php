@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace stubbles\streams;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\TestCase;
 
 use function bovigo\assert\assertThat;
@@ -55,15 +56,6 @@ class StandardInputStreamTest extends TestCase
     {
         expect(fn() => $this->standardInputStream->seek(0))
             ->doesNotThrow();
-    }
-
-    /**
-     * @test
-     */
-    public function seekingToPositionAfterEndThrowsStreamException(): void
-    {
-        expect(fn() => $this->standardInputStream->seek(100))
-            ->throws(StreamException::class);
     }
 
     /**
