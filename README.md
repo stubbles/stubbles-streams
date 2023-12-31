@@ -7,7 +7,7 @@ Input- and OutputStreams.
 Build status
 ------------
 
-![Tests](https://github.com/stubbles/stubbles-streams/workflows/Tests/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/stubbles/stubbles-streams/badge.svg?branch=master)](https://coveralls.io/github/stubbles/stubbles-streams?branch=master)
+![Tests](https://github.com/stubbles/stubbles-streams/workflows/Tests/badge.svg)
 
 [![Latest Stable Version](https://poser.pugx.org/stubbles/streams/version.png)](https://packagist.org/packages/stubbles/streams) [![Latest Unstable Version](https://poser.pugx.org/stubbles/streams/v/unstable.png)](//packagist.org/packages/stubbles/streams)
 
@@ -19,13 +19,13 @@ _stubbles/streams_ is distributed as [Composer](https://getcomposer.org/)
 package. To install it as a dependency of your package use the following
 command:
 
-    composer require "stubbles/streams": "^9.0"
+    composer require "stubbles/streams": "^10.0"
 
 
 Requirements
 ------------
 
-_stubbles/streams_ requires at least PHP 7.3.
+_stubbles/streams_ requires at least PHP 8.2.
 
 For using encoding and decoding decorated streams the PHP extension _iconv_ is
 required.
