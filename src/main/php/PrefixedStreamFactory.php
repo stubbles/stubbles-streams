@@ -23,7 +23,6 @@ class PrefixedStreamFactory implements StreamFactory
      *
      * @param  mixed               $source  source to create input stream from
      * @param  array<string,mixed> $options list of options for the input stream
-     * @return InputStream
      */
     public function createInputStream(mixed $source, array $options = []): InputStream
     {
@@ -35,7 +34,6 @@ class PrefixedStreamFactory implements StreamFactory
      *
      * @param  mixed               $target  target to create output stream for
      * @param  array<string,mixed> $options list of options for the output stream
-     * @return OutputStream
      */
     public function createOutputStream(mixed $target, array $options = []): OutputStream
     {

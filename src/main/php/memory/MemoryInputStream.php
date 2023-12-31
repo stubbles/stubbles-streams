@@ -23,11 +23,6 @@ class MemoryInputStream implements InputStream, Seekable
      */
     private int $position = 0;
 
-    /**
-     * constructor
-     *
-     * @param  string  $buffer
-     */
     public function __construct(private string $buffer) { }
 
     /**
@@ -71,7 +66,7 @@ class MemoryInputStream implements InputStream, Seekable
      */
     public function eof(): bool
     {
-        return (strlen($this->buffer) === $this->position);
+        return strlen($this->buffer) === $this->position;
     }
 
     /**

@@ -16,6 +16,7 @@ use stubbles\streams\OutputStream;
  */
 class FilteredOutputStream extends DecoratedOutputStream
 {
+    /** @var callable */
     private $predicate;
 
     /**

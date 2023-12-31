@@ -74,7 +74,7 @@ class FileOutputStream extends ResourceOutputStream
      */
     protected function isFileCreationDelayed(): bool
     {
-        return (null === $this->handle && '<resource>' != $this->fileName);
+        return null === $this->handle && '<resource>' != $this->fileName;
     }
 
     /**
