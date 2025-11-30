@@ -90,8 +90,13 @@ class EncodingOutputStreamTest extends TestCase
      * @since 9.0.0
      */
     #[Test]
+    #[Group('encoding_failure')]
     public function writeThrowsExceptionInIllegalCharacter(): void
     {
+        if (PHP_OS_FAMILY === 'Darwin') {
+            $this->markTestSkipped('Conversion on macOS yields an invalid resulting string and not an error.');
+        }
+
         $out = new MemoryOutputStream();
         $encodingOutputStream = new EncodingOutputStream($out, 'ISO-8859-1', 'CP850');
         expect(fn() => $encodingOutputStream->write("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"))
@@ -103,8 +108,13 @@ class EncodingOutputStreamTest extends TestCase
      * @since 9.0.0
      */
     #[Test]
+    #[Group('encoding_failure')]
     public function writeLineThrowsExceptionInIllegalCharacter(): void
     {
+        if (PHP_OS_FAMILY === 'Darwin') {
+            $this->markTestSkipped('Conversion on macOS yields an invalid resulting string and not an error.');
+        }
+
         $out = new MemoryOutputStream();
         $encodingOutputStream = new EncodingOutputStream($out, 'ISO-8859-1', 'CP850');
         expect(fn() => $encodingOutputStream->writeLine("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"))

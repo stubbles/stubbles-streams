@@ -82,8 +82,13 @@ class DecodingInputStreamTest extends TestCase
      * @since 9.0.0
      */
     #[Test]
+    #[Group('encoding_failure')]
     public function readThrowsExceptionInIllegalCharacter(): void
     {
+        if (PHP_OS_FAMILY === 'Darwin') {
+            $this->markTestSkipped('Conversion on macOS yields an invalid resulting string and not an error.');
+        }
+
         $decodingInputStream = new DecodingInputStream(
             new MemoryInputStream("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"),
             'CP850',
@@ -97,8 +102,13 @@ class DecodingInputStreamTest extends TestCase
      * @since 9.0.0
      */
     #[Test]
+    #[Group('encoding_failure')]
     public function readLineThrowsExceptionInIllegalCharacter(): void
     {
+        if (PHP_OS_FAMILY === 'Darwin') {
+            $this->markTestSkipped('Conversion on macOS yields an invalid resulting string and not an error.');
+        }
+
         $decodingInputStream = new DecodingInputStream(
             new MemoryInputStream("PATHOLOGIES MÉDICO-CHIRUR. ADUL. PL"),
             'CP850',
