@@ -17,15 +17,15 @@ interface Seekable
     /**
      * set position equal to offset  bytes
      */
-    public const SET     = SEEK_SET;
+    public const int SET = SEEK_SET;
     /**
      * set position to current location plus offset
      */
-    public const CURRENT = SEEK_CUR;
+    public const int CURRENT = SEEK_CUR;
     /**
      * set position to end-of-file plus offset
      */
-    public const END     = SEEK_END;
+    public const int END = SEEK_END;
 
     /**
      * seek to given offset
