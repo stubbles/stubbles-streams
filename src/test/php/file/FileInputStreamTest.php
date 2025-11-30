@@ -18,8 +18,8 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 use PHPUnit\Framework\TestCase;
 use stubbles\streams\InputStream;
-use stubbles\streams\Seekable;
 use stubbles\streams\StreamException;
+use stubbles\streams\Whence;
 
 use function bovigo\assert\assertThat;
 use function bovigo\assert\expect;
@@ -164,7 +164,7 @@ class FileInputStreamTest extends TestCase
         $fileInputStream->seek(2);
         assertThat($fileInputStream->tell(), equals(2));
         assertThat($fileInputStream->readLine(), equals('o'));
-        $fileInputStream->seek(0, Seekable::SET);
+        $fileInputStream->seek(0, Whence::SET);
         assertThat($fileInputStream->tell(), equals(0));
         assertThat($fileInputStream->readLine(), equals('foo'));
     }
@@ -173,7 +173,7 @@ class FileInputStreamTest extends TestCase
     public function seek_CURRENT(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
-        $fileInputStream->seek(1, Seekable::CURRENT);
+        $fileInputStream->seek(1, Whence::CURRENT);
         assertThat($fileInputStream->tell(), equals(1));
         assertThat($fileInputStream->readLine(), equals('oo'));
     }
@@ -182,7 +182,7 @@ class FileInputStreamTest extends TestCase
     public function seek_END(): void
     {
         $fileInputStream = new FileInputStream(vfsStream::url('home/test.txt'));
-        $fileInputStream->seek(-2, Seekable::END);
+        $fileInputStream->seek(-2, Whence::END);
         assertThat($fileInputStream->tell(), equals(1));
         assertThat($fileInputStream->readLine(), equals('oo'));
     }

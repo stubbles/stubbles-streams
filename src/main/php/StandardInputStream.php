@@ -31,18 +31,21 @@ class StandardInputStream extends ResourceInputStream implements Seekable
     /**
      * seek to given offset
      *
+     * Note: passing an int value for $whence is deprecated since 11.0.0.
+     * Use enum Whence instead.
+     *
      * @param  int $offset offset to seek to
-     * @param  int $whence optional one of Seekable::SET, Seekable::CURRENT or Seekable::END
+     * @param  int|Whence $whence optional one of Whence::SET, Whence::CURRENT or Whence::END
      * @throws LogicException in case the stream was already closed
      * @throws StreamException when seeking fails
      */
-    public function seek(int $offset, int $whence = Seekable::SET): void
+    public function seek(int $offset, int|Whence $whence = Whence::SET): void
     {
         if (!is_resource($this->handle)) {
             throw new LogicException('Can not seek on closed input stream.');
         }
 
-        if (-1 === fseek($this->handle, $offset, $whence)) {
+        if (-1 === fseek($this->handle, $offset, Whence::castFrom($whence)->value)) {
             throw new StreamException('Could not seek');
         }
     }

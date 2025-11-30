@@ -8,9 +8,10 @@ declare(strict_types=1);
  */
 namespace stubbles\streams\memory;
 
-use InvalidArgumentException;
 use stubbles\streams\InputStream;
 use stubbles\streams\Seekable;
+use stubbles\streams\Whence;
+
 /**
  * Class to stream data from memory.
  *
@@ -80,31 +81,19 @@ class MemoryInputStream implements InputStream, Seekable
     /**
      * seek to given offset
      *
+     * Note: passing an int value for $whence is deprecated since 11.0.0.
+     * Use enum Whence instead.
+     *
      * @param  int $offset new position or amount of bytes to seek
-     * @param  int $whence one of Seekable::SET, Seekable::CURRENT or Seekable::END
-     * @throws InvalidArgumentException
+     * @param  int|Whence $whence one of Whence::SET, Whence::CURRENT or Whence::END
      */
-    public function seek(int $offset, int $whence = Seekable::SET): void
+    public function seek(int $offset, int|Whence $whence = Whence::SET): void
     {
-        switch ($whence) {
-            case Seekable::SET:
-                $this->position = $offset;
-                break;
-
-            case Seekable::CURRENT:
-                $this->position += $offset;
-                break;
-
-            case Seekable::END:
-                $this->position = strlen($this->buffer) + $offset;
-                break;
-
-            default:
-                throw new InvalidArgumentException(
-                    'Wrong value for $whence, must be one of Seekable::SET,'
-                    . ' Seekable::CURRENT or Seekable::END.'
-                );
-        }
+        $this->position = match (Whence::castFrom($whence)) {
+            Whence::SET => $offset,
+            Whence::CURRENT => $this->position + $offset,
+            Whence::END => strlen($this->buffer) + $offset,
+        };
     }
 
     /**

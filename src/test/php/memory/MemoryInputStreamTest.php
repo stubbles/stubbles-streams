@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use stubbles\streams\Seekable;
+use stubbles\streams\Whence;
 
 use function bovigo\assert\{
     assertThat,
@@ -179,7 +179,7 @@ class MemoryInputStreamTest extends TestCase
     public function seekCanSetPositionFromCurrentPosition(): void
     {
         $this->memoryInputStream->read(4);
-        $this->memoryInputStream->seek(2, Seekable::CURRENT);
+        $this->memoryInputStream->seek(2, Whence::CURRENT);
         assertThat($this->memoryInputStream->tell(), equals(6));
         assertThat($this->memoryInputStream->bytesLeft(), equals(5));
     }
@@ -187,11 +187,14 @@ class MemoryInputStreamTest extends TestCase
     #[Test]
     public function seekCanSetPositionFromEnd(): void
     {
-        $this->memoryInputStream->seek(-5, Seekable::END);
+        $this->memoryInputStream->seek(-5, Whence::END);
         assertThat($this->memoryInputStream->tell(), equals(6));
         assertThat($this->memoryInputStream->bytesLeft(), equals(5));
     }
 
+    /**
+     * @deprecated since 11.0.0, will be removed with 12.0.0
+     */
     #[Test]
     public function seekThrowsIllegalArgumentExceptionForInvalidWhence(): void
     {

@@ -14,6 +14,7 @@ use stubbles\streams\InputStream;
 use stubbles\streams\ResourceInputStream;
 use stubbles\streams\Seekable;
 use stubbles\streams\StreamException;
+use stubbles\streams\Whence;
 
 use function stubbles\streams\lastErrorMessage;
 /**
@@ -108,16 +109,19 @@ class FileInputStream extends ResourceInputStream implements Seekable
     /**
      * seek to given offset
      *
+     * Note: passing an int value for $whence is deprecated since 11.0.0.
+     * Use enum Whence instead.
+     *
      * @throws LogicException  when trying to seek on an already closed stream
      * @throws StreamException when seeking fails
      */
-    public function seek(int $offset, int $whence = Seekable::SET): void
+    public function seek(int $offset, int|Whence $whence = Whence::SET): void
     {
         if (!is_resource($this->handle)) {
             throw new LogicException('Can not read from closed input stream.');
         }
 
-        if (-1 === fseek($this->handle, $offset, $whence)) {
+        if (-1 === fseek($this->handle, $offset, Whence::castFrom($whence)->value)) {
             throw new StreamException('Could not seek');
         }
     }

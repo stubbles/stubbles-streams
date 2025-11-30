@@ -71,8 +71,8 @@ Some streams are seekable which means you can go from one position in the stream
 to another. Input streams which are seekable implement the
 `stubbles\streams\Seekable` interface. It provides the following methods:
 
- * `seek($offset, $whence = Seekable::SET)` - sets internal stream pointer to
-   given position
+ * `seek(int $offset, Whence $whence = Whence::SET)` - sets internal stream pointer to
+   given position depending on $whence, which has three allowed values which can be found in enum `stubbles\streams\Whence`: `Whence::SET`, `Whence::CURRENT` and `Whence::END`.
  * `tell()` - returns the current position of the internal stream pointer
 
 

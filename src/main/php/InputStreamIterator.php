@@ -62,7 +62,7 @@ class InputStreamIterator implements Iterator
             return;
         }
 
-        $this->inputStream->seek(0, Seekable::SET);
+        $this->inputStream->seek(0, Whence::SET);
         $this->lineNumber  = 0;
         $this->currentLine = '';
         $this->next();

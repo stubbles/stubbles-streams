@@ -16,25 +16,34 @@ interface Seekable
 {
     /**
      * set position equal to offset  bytes
+     *
+     * @deprecated use Whence::SET instead, will be removed with 12.0
      */
-    public const int SET = SEEK_SET;
+    public const Whence SET = Whence::SET;
     /**
      * set position to current location plus offset
+     *
+     * @deprecated use Whence::CURRENT instead, will be removed with 12.0
      */
-    public const int CURRENT = SEEK_CUR;
+    public const Whence CURRENT = Whence::CURRENT;
     /**
      * set position to end-of-file plus offset
+     *
+     * @deprecated use Whence::END instead, will be removed with 12.0
      */
-    public const int END = SEEK_END;
+    public const Whence END = Whence::END;
 
     /**
      * seek to given offset
      *
+     * Note: passing an int value for $whence is deprecated since 11.0.0.
+     * Use enum Whence instead.
+     *
      * @param  int $offset offset to seek to
-     * @param  int $whence optional  one of Seekable::SET, Seekable::CURRENT or Seekable::END
+     * @param  int|Whence $whence optional  one of Whence::SET, Whence::CURRENT or Whence::END
      * @throws \LogicException in case the stream was already closed
      */
-    public function seek(int $offset, int $whence = Seekable::SET): void;
+    public function seek(int $offset, int|Whence $whence = Whence::SET): void;
 
     /**
      * return current position

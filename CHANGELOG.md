@@ -5,10 +5,12 @@
 ### BC breaks
 
 * raised minimum required PHP version to 8.3
+* Changed `stubbles\streams\Seekable::seek()` to accept the newly introduced enum `stubbles\streams\Whence`. Passing an int value directory is deprecated and support for passing an int will be removed with 12.0.0. Also, constants `stubbles\streams\Seekable::SET`, `stubbles\streams\Seekable::CURRENT` and `stubbles\streams\Seekable::END` now refer to the respective enum value of `stubbles\streams\Whence` and have been deprecated as well, with removal slated for 12.0.0. Instead of the constants, respective enum values should be used.
 
 ### Other changes
 
 * ensured compatibility with PHP 8.5
+* added enum `stubbles\streams\Whence` to be used as positioning advice for `stubbles\streams\Seekable::seek()`
 
 ## 10.0.0 (2023-12-31)
 
