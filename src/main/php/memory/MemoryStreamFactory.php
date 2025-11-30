@@ -7,8 +7,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\memory;
-use stubbles\streams\InputStream;
-use stubbles\streams\OutputStream;
 use stubbles\streams\StreamFactory;
 /**
  * Factory for memory streams.
