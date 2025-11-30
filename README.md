@@ -19,13 +19,13 @@ _stubbles/streams_ is distributed as [Composer](https://getcomposer.org/)
 package. To install it as a dependency of your package use the following
 command:
 
-    composer require "stubbles/streams": "^10.0"
+    composer require "stubbles/streams": "^11.0"
 
 
 Requirements
 ------------
 
-_stubbles/streams_ requires at least PHP 8.2.
+_stubbles/streams_ requires at least PHP 8.3.
 
 For using encoding and decoding decorated streams the PHP extension _iconv_ is
 required.
