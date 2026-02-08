@@ -7,6 +7,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 namespace stubbles\streams\file;
+
+use stubbles\ioc\attributes\Property;
 use stubbles\streams\StreamFactory;
 /**
  * Factory for file streams.
@@ -17,7 +19,7 @@ class FileStreamFactory implements StreamFactory
      * @param  int  $fileMode  default file mode if directory for output stream should be created
      * @Property('stubbles.filemode')
      */
-    public function __construct(private int $fileMode = 0700) { }
+    public function __construct(#[Property('stubbles.filemode')] private int $fileMode = 0700) { }
 
     /**
      * creates an input stream for given source

@@ -1,5 +1,9 @@
 # Changelog
 
+## 11.1.0 (2026-??-??)
+
+* Added `#[Property('stubbles.filemode')]` in `\stubbles\streams\file\FileStreamFactory`
+
 ## 11.0.0 (2025-11-30)
 
 ### BC breaks

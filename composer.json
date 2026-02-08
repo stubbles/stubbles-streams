@@ -14,7 +14,8 @@
         "bovigo/callmap": "^9.0",
         "stubbles/reflect": "^11.0",
         "stubbles/sequence": "^11.0",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "stubbles/ioc-attributes": "^1.0"
     },
     "suggest": {
         "stubbles/sequence": "Easer iteration of input streams with lines() function.",
@@ -33,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "11.0.x-dev"
+            "dev-main": "11.1.x-dev"
         }
     },
     "minimum-stability": "dev",
