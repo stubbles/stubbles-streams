@@ -2,7 +2,7 @@
 
 ## 11.1.0 (2026-??-??)
 
-* Added `#[Property('stubbles.filemode')]` in `\stubbles\streams\file\FileStreamFactory`
+* Added `#[Property('stubbles.filemode')]` in `\stubbles\streams\file\FileStreamFactory` in preparation to replace `@Property` annotation
 
 ## 11.0.0 (2025-11-30)
 
